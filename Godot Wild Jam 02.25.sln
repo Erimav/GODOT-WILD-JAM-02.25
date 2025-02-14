@@ -1,0 +1,19 @@
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Godot Wild Jam 02.25", "Godot Wild Jam 02.25.csproj", "{273473CC-16A4-4C8E-AC15-36C7EA95F8A3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+	Debug|Any CPU = Debug|Any CPU
+	ExportDebug|Any CPU = ExportDebug|Any CPU
+	ExportRelease|Any CPU = ExportRelease|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{273473CC-16A4-4C8E-AC15-36C7EA95F8A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{273473CC-16A4-4C8E-AC15-36C7EA95F8A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{273473CC-16A4-4C8E-AC15-36C7EA95F8A3}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
+		{273473CC-16A4-4C8E-AC15-36C7EA95F8A3}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
+		{273473CC-16A4-4C8E-AC15-36C7EA95F8A3}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{273473CC-16A4-4C8E-AC15-36C7EA95F8A3}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+	EndGlobalSection
+EndGlobal
