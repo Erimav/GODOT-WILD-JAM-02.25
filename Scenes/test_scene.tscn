@@ -5,4 +5,4 @@
 [node name="Node3D" type="Node3D"]
 
 [node name="barrel2" parent="." instance=ExtResource("1_k61mf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.778627, 5.96046e-08, 0.255397)
+transform = Transform3D(1.01852, 0, 0, 0, 1.02718, 0, 0, 0, 1.01852, -0.679376, 5.96046e-08, 0.255397)

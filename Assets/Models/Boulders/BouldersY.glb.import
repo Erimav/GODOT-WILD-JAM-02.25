@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://ogp4xvqhk40i"
-path="res://.godot/imported/barrel.glb-a2c051a73f16637796ebd781909c29ed.scn"
+uid="uid://cgdirvm8nbeq5"
+path="res://.godot/imported/BouldersY.glb-eca3363f543655c57543dcade13d57dd.scn"
 
 [deps]
 
-source_file="res://Assets/Models/barrel.glb"
-dest_files=["res://.godot/imported/barrel.glb-a2c051a73f16637796ebd781909c29ed.scn"]
+source_file="res://Assets/Models/Boulders/BouldersY.glb"
+dest_files=["res://.godot/imported/BouldersY.glb-eca3363f543655c57543dcade13d57dd.scn"]
 
 [params]
 
