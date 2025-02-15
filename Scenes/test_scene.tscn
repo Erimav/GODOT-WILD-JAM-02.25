@@ -1,8 +1,28 @@
-[gd_scene load_steps=2 format=3 uid="uid://jdtur220wnbw"]
+[gd_scene load_steps=6 format=3 uid="uid://jdtur220wnbw"]
 
-[ext_resource type="PackedScene" uid="uid://ogp4xvqhk40i" path="res://Assets/Models/barrel.glb" id="1_k61mf"]
+[ext_resource type="PackedScene" uid="uid://cr052egwxwfn2" path="res://Assets/Models/Boulders/Boulders1.glb" id="1_a7xqe"]
+[ext_resource type="PackedScene" uid="uid://ccoqhclktyu6r" path="res://Assets/Models/Boulders/Boulders2.glb" id="2_8i6do"]
+[ext_resource type="PackedScene" uid="uid://cgdirvm8nbeq5" path="res://Assets/Models/Boulders/BouldersY.glb" id="3_kehlb"]
+[ext_resource type="PackedScene" uid="uid://1y55uihgs6nn" path="res://Assets/Models/Boulders/Boulders3.glb" id="4_5rwio"]
+[ext_resource type="PackedScene" uid="uid://kcm3uw0vd3kr" path="res://Assets/Models/Tower proto.glb" id="5_npufj"]
 
 [node name="Node3D" type="Node3D"]
 
-[node name="barrel2" parent="." instance=ExtResource("1_k61mf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.778627, 5.96046e-08, 0.255397)
+[node name="Boulders1" parent="." instance=ExtResource("1_a7xqe")]
+
+[node name="Boulders2" parent="." instance=ExtResource("2_8i6do")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-1, -6.18172e-08, 6.18172e-08, 0, 0.707107, 0.707107, -8.74228e-08, 0.707107, -0.707107, 1.18934, 3.00131, -2.81717)
+light_indirect_energy = 1.097
+shadow_enabled = true
+
+[node name="BouldersY" parent="." instance=ExtResource("3_kehlb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+
+[node name="Boulders3" parent="." instance=ExtResource("4_5rwio")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+
+[node name="Tower proto" parent="." instance=ExtResource("5_npufj")]
+transform = Transform3D(0.462843, 0, 0, 0, 0.462843, 0, 0, 0, 0.462843, -1.56704, -0.0154443, 0.668857)
