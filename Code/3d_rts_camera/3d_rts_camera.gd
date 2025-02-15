@@ -50,14 +50,14 @@ func _process(delta):
 	var mouse_pos = get_viewport().get_mouse_position()
 	var viewport_size = get_viewport().size
 	
-	if mouse_pos.x < edge_scroll_margin:
-		movement.x -= 1
-	elif mouse_pos.x > viewport_size.x - edge_scroll_margin:
-		movement.x += 1
-	if mouse_pos.y < edge_scroll_margin:
-		movement.z -= 1
-	elif mouse_pos.y > viewport_size.y - edge_scroll_margin:
-		movement.z += 1
+	#if mouse_pos.x < edge_scroll_margin:
+	#	movement.x -= 1
+	#elif mouse_pos.x > viewport_size.x - edge_scroll_margin:
+	#	movement.x += 1
+	#if mouse_pos.y < edge_scroll_margin:
+	#	movement.z -= 1
+	#elif mouse_pos.y > viewport_size.y - edge_scroll_margin:
+	#	movement.z += 1
 	
 	# Move the orbit center
 	if movement.length() > 0:

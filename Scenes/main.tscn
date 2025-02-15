@@ -12,10 +12,13 @@
 script = ExtResource("1_7vg6v")
 eWidth = 10
 eHeight = 10
+eMimicNumber = 5
 eMapBlock = ExtResource("2_xbdig")
 eMapStartPosition = Vector3(0, 0.5, 0)
 eBlockColMargin = 1.5
 eBlockRowMargin = 1.5
+eEndX = 9
+eEndY = 5
 eGenerateMap = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
