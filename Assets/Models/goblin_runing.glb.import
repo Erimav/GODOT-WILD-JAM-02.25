@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://bxhfht8afee07"
-path="res://.godot/imported/goblin.glb-f1e7ec7aa7998c7996b877146c8718b7.scn"
+uid="uid://8adppsjw8273"
+path="res://.godot/imported/goblin_runing.glb-0cce7b9a8b4da994966141af78972b16.scn"
 
 [deps]
 
-source_file="res://Assets/Models/goblin.glb"
-dest_files=["res://.godot/imported/goblin.glb-f1e7ec7aa7998c7996b877146c8718b7.scn"]
+source_file="res://Assets/Models/goblin_runing.glb"
+dest_files=["res://.godot/imported/goblin_runing.glb-0cce7b9a8b4da994966141af78972b16.scn"]
 
 [params]
 
