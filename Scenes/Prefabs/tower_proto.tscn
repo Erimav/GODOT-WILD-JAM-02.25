@@ -1,8 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://c7gn5ajg4i6de"]
+[gd_scene load_steps=4 format=3 uid="uid://dkb62k31g4xmu"]
 
 [ext_resource type="PackedScene" uid="uid://kcm3uw0vd3kr" path="res://Assets/Models/Tower proto.glb" id="1_4akgd"]
 [ext_resource type="Script" path="res://Code/Combat/Tower.cs" id="2_tk8nr"]
-[ext_resource type="PackedScene" uid="uid://c3w06oqcm7cc5" path="res://Scenes/Prefabs/javelin.tscn" id="3_5t8fq"]
+[ext_resource type="PackedScene" uid="uid://b8oanxrprmm25" path="res://Scenes/Prefabs/javelin.tscn" id="3_5t8fq"]
 
 [node name="Tower proto" node_paths=PackedStringArray("eProjectileSpawnPoint") instance=ExtResource("1_4akgd")]
 script = ExtResource("2_tk8nr")

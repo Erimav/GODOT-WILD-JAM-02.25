@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://c3w06oqcm7cc5"]
+[gd_scene load_steps=3 format=3 uid="uid://b8oanxrprmm25"]
 
 [ext_resource type="PackedScene" uid="uid://nhlhvya26flw" path="res://Assets/Models/Javelin.glb" id="1_qfvun"]
 [ext_resource type="Script" path="res://Code/Combat/Projectile.cs" id="2_yr5md"]

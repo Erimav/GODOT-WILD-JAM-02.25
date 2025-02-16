@@ -4,10 +4,10 @@
 [ext_resource type="PackedScene" uid="uid://ccoqhclktyu6r" path="res://Assets/Models/Boulders/Boulders2.glb" id="2_8i6do"]
 [ext_resource type="PackedScene" uid="uid://cgdirvm8nbeq5" path="res://Assets/Models/Boulders/BouldersY.glb" id="3_kehlb"]
 [ext_resource type="PackedScene" uid="uid://1y55uihgs6nn" path="res://Assets/Models/Boulders/Boulders3.glb" id="4_5rwio"]
-[ext_resource type="PackedScene" uid="uid://c47qu68eojpmg" path="res://Scenes/Prefabs/goblin.tscn" id="6_wuwrr"]
+[ext_resource type="PackedScene" uid="uid://04x2hvwpe7k1" path="res://Scenes/Prefabs/goblin.tscn" id="6_wuwrr"]
 [ext_resource type="Script" path="res://Code/Combat/Target.cs" id="7_fv7d6"]
-[ext_resource type="PackedScene" uid="uid://x7r0keux0enm" path="res://Scenes/Prefabs/vfx_poof.tscn" id="7_j2l2m"]
-[ext_resource type="PackedScene" uid="uid://c7gn5ajg4i6de" path="res://Scenes/Prefabs/tower_proto.tscn" id="8_qxfgg"]
+[ext_resource type="PackedScene" uid="uid://beiqn7jfrmoh7" path="res://Scenes/Prefabs/vfx_poof.tscn" id="7_j2l2m"]
+[ext_resource type="PackedScene" uid="uid://dkb62k31g4xmu" path="res://Scenes/Prefabs/tower_proto.tscn" id="8_qxfgg"]
 
 [node name="Node3D" type="Node3D"]
 

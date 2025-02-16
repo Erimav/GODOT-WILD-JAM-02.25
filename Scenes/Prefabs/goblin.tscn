@@ -5,6 +5,7 @@
 
 [node name="goblin" instance=ExtResource("1_gu8cl")]
 script = ExtResource("2_u3yeh")
+mMaxHP = 5.0
 mMoveSpeed = 10.0
 
 [node name="Skeleton3D" parent="Armature" index="0"]
