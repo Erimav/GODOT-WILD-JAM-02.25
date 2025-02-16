@@ -5,56 +5,6 @@ using System.Linq;
 
 public partial class Map
 {
-	public class TileFill
-	{
-		public bool isTower = false;
-		public bool isClear = false;
-		public bool isMimic = false;
-
-		public bool IsOccupiedBySomething()
-		{
-			return isTower || isClear || isMimic;
-		}
-	}
-
-	public class TilePosition
-	{
-		public int mX;
-		public int mY;
-		public TilePosition(int x, int y)
-		{
-			mX = x;
-			mY = y;
-		}
-
-		public static TilePosition operator +(TilePosition left, TilePosition right)
-		{
-			return new TilePosition(left.mX + right.mX, left.mY + right.mY);
-		}
-
-		public static TilePosition operator -(TilePosition left, TilePosition right)
-		{
-			return new TilePosition(left.mX - right.mX, left.mY - right.mY);
-		}
-
-		public static bool operator ==(TilePosition left, TilePosition right)
-		{
-			if (left is null) { return right is null; }
-			if (right is null) { return left is null; }
-			return (left.mX == right.mX && left.mY == right.mY);
-		}
-
-		public static bool operator !=(TilePosition left, TilePosition right)
-		{
-			return !(left == right);
-		}
-
-		public override string ToString()
-		{
-			return "(x: " + mX + " | " + "y: " + mY + ")";
-		}
-	}
-
 	private List<List<TilePosition>> mMap;
 	private List<List<TileFill>> mMapFilled;
 	private int mWidth;
@@ -124,13 +74,21 @@ public partial class Map
 		GD.Print("Map Generated: " + MapToString());
 	}
 
-	public void TryEraseTile(int x, int y)
+	public TileFill GetTileFill(int x, int y)
 	{
+		return GetTileFill(new TilePosition(x, y));
 	}
 
-	public void TryEraseTile(TilePosition tilePosition)
+	// Can return null if tileposition is not on the map
+	public TileFill GetTileFill(TilePosition tilePosition)
 	{
+		if (!IsOnMap(tilePosition))
+		{
+			GD.Print("Get Tile Fill return default because: " + tilePosition + " is not on the map");
+			return null;
+		}
 
+		return mMapFilled[tilePosition.mY][tilePosition.mX];
 	}
 
 	public void AddMimics(int number)

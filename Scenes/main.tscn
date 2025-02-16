@@ -1,15 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://e0wp0h0rrm1u"]
+[gd_scene load_steps=6 format=3 uid="uid://e0wp0h0rrm1u"]
 
-[ext_resource type="Script" path="res://Code/MapObject.cs" id="1_7vg6v"]
+[ext_resource type="Script" path="res://Code/Map/MapObject.cs" id="1_ldni7"]
 [ext_resource type="PackedScene" uid="uid://c04p8dpts73sm" path="res://Scenes/Prefabs/block.tscn" id="2_xbdig"]
 [ext_resource type="PackedScene" uid="uid://cf7brgwaxlmud" path="res://Code/3d_rts_camera/rtscam.tscn" id="3_v4tk2"]
+[ext_resource type="Script" path="res://Code/PlayerController.cs" id="4_i2aqx"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_n5s15"]
 
 [node name="Main" type="Node3D"]
 
 [node name="Map" type="Node3D" parent="."]
-script = ExtResource("1_7vg6v")
+script = ExtResource("1_ldni7")
 eWidth = 10
 eHeight = 10
 eMimicNumber = 5
@@ -17,8 +18,6 @@ eMapBlock = ExtResource("2_xbdig")
 eMapStartPosition = Vector3(0, 0.5, 0)
 eBlockColMargin = 1.5
 eBlockRowMargin = 1.5
-eEndX = 9
-eEndY = 5
 eGenerateMap = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
@@ -34,3 +33,12 @@ omni_range = 30.0
 transform = Transform3D(1, 0, 0, 0, 0.783542, 0.621339, 0, -0.621339, 0.783542, 0, 4.50119, 3)
 edge_scroll_margin = 0.0
 edge_scroll_speed = 0.0
+
+[node name="Node" type="Node" parent="."]
+script = ExtResource("4_i2aqx")
+
+[connection signal="blockErased" from="Map" to="Node" method="onErase"]
+[connection signal="blockIsMimic" from="Map" to="Node" method="OnMimic"]
+[connection signal="blockIsTower" from="Map" to="Node" method="onTower"]
+[connection signal="isBlockPressed" from="Map" to="Node" method="TilePressed"]
+[connection signal="TryEraseTile" from="Node" to="Map" method="OnTryEraseTile"]

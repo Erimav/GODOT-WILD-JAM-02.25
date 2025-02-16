@@ -1,8 +1,21 @@
-[gd_scene load_steps=2 format=3 uid="uid://c04p8dpts73sm"]
+[gd_scene load_steps=4 format=3 uid="uid://c04p8dpts73sm"]
+
+[ext_resource type="Script" path="res://Code/Tile.cs" id="1_d3pn2"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_03v0g"]
 
-[node name="Block" type="Node3D"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_u28fb"]
+
+[node name="Tile" type="Node3D"]
+transform = Transform3D(1.03969, 0, 0, 0, 1.03969, 0, 0, 0, 1.03969, 0, 0, 0)
+script = ExtResource("1_d3pn2")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_03v0g")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_u28fb")
+
+[connection signal="input_event" from="Area3D" to="." method="OnInputEvent"]

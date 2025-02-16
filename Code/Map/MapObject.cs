@@ -5,6 +5,20 @@ using System.Collections.Generic;
 
 public partial class MapObject : Node
 {
+    // SIGNALS
+
+    [Signal]
+    public delegate void isBlockPressedEventHandler(Tile block, int xBlock, int yBlock);
+
+    [Signal]
+    public delegate void blockErasedEventHandler();
+    [Signal]
+    public delegate void blockIsMimicEventHandler();
+    [Signal]
+    public delegate void blockIsTowerEventHandler();
+
+    //EXPORTS
+
     [ExportCategory("MapParameters")]
     [Export]
     private int eWidth;
@@ -56,7 +70,7 @@ public partial class MapObject : Node
     }
 
     // PRIVATE
-    private List<List<Node3D>> mBlocks = new List<List<Node3D>>();
+    private List<List<Tile>> mBlocks = new List<List<Tile>>();
 
     private Map mMap = new Map();
 
@@ -66,7 +80,7 @@ public partial class MapObject : Node
 
     private void BuildShortestPath(int startX, int startY, int endX, int endY)
     {
-        List<Map.TilePosition> path = mMap.FindShortestPath(new Map.TilePosition(eStartX, eStartY), new Map.TilePosition(eEndX, eEndY));
+        List<TilePosition> path = mMap.FindShortestPath(new TilePosition(eStartX, eStartY), new TilePosition(eEndX, eEndY));
         for(int i = 0; i < path.Count; ++i)
         {
             GD.Print("Path position " + i + ": " + path[i]);
@@ -75,9 +89,9 @@ public partial class MapObject : Node
     }
     private void GenerateMap()
     {
-        foreach(List<Node3D> blocks in mBlocks)
+        foreach(List<Tile> blocks in mBlocks)
         {
-            foreach(Node3D node in blocks)
+            foreach(Tile node in blocks)
             {
                 node.QueueFree();
             }
@@ -90,20 +104,70 @@ public partial class MapObject : Node
         for (int i = 0; i < eHeight; ++i)
         {
             Vector3 colOffset = Vector3.Zero;
-            mBlocks.Add(new List<Node3D>());
+            mBlocks.Add(new List<Tile>());
             var row = mBlocks[mBlocks.Count - 1];
             for (int j = 0; j < eWidth; ++j)
             {
-                var block = (Node3D)eMapBlock.Instantiate();
+                var block = (Tile)eMapBlock.Instantiate();
                 AddChild(block);
+
                 block.Position = eMapStartPosition + rowOffset + colOffset;
+
                 GD.Print("Block Position: " + block.Position);
+
                 colOffset = new Vector3(colOffset.X, colOffset.Y, colOffset.Z + eBlockColMargin);
+
+                block.Connect("isBlockPressed", new Godot.Callable(this,"onBlockClicked"));
+
                 row.Add(block);
             }
             rowOffset = new Vector3(rowOffset.X + eBlockRowMargin, rowOffset.Y, rowOffset.Z);
         }
 
         mMap.AddMimics(eMimicNumber);
+    }
+
+    public void onBlockClicked(Tile block)
+    {
+        GD.Print("onBlockClicked");
+        if (mMap != null)
+        {
+            for(int i = 0; i < eHeight; ++i)
+            {
+                for(int j = 0; j < eWidth; ++j)
+                {
+                    if (block == mBlocks[i][j])
+                    {
+                        EmitSignal("isBlockPressed", mBlocks[i][j], j, i);
+                    }
+                }
+            }
+        }
+    }
+
+    public void OnTryEraseTile(int xTile, int yTile)
+    {
+        TilePosition tilePosition = new TilePosition(xTile, yTile);
+        TileFill tileFill = mMap.GetTileFill(tilePosition);
+        if (tileFill != null)
+        {
+            if (tileFill.isMimic)
+            {
+                EmitSignal("blockIsMimic");
+                return;
+            }
+            if (tileFill.isTower)
+            {
+                EmitSignal("blockIsTower");
+                return;
+            }
+            if (!tileFill.isClear)
+            {
+                tileFill.isClear = true;
+                mBlocks[tilePosition.mY][tilePosition.mX].Destroy();
+                EmitSignal("blockErased");
+                return;
+            }
+        }
     }
 }
