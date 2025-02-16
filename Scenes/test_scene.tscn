@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://jdtur220wnbw"]
+[gd_scene load_steps=8 format=3 uid="uid://jdtur220wnbw"]
 
 [ext_resource type="PackedScene" uid="uid://cr052egwxwfn2" path="res://Assets/Models/Boulders/Boulders1.glb" id="1_a7xqe"]
 [ext_resource type="PackedScene" uid="uid://ccoqhclktyu6r" path="res://Assets/Models/Boulders/Boulders2.glb" id="2_8i6do"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://1y55uihgs6nn" path="res://Assets/Models/Boulders/Boulders3.glb" id="4_5rwio"]
 [ext_resource type="PackedScene" uid="uid://kcm3uw0vd3kr" path="res://Assets/Models/Tower proto.glb" id="5_npufj"]
 [ext_resource type="PackedScene" uid="uid://c47qu68eojpmg" path="res://Scenes/Prefabs/goblin.tscn" id="6_wuwrr"]
+[ext_resource type="PackedScene" uid="uid://x7r0keux0enm" path="res://Scenes/Prefabs/vfx_poof.tscn" id="7_j2l2m"]
 
 [node name="Node3D" type="Node3D"]
 
@@ -33,3 +34,6 @@ transform = Transform3D(1, 0, 0, 0, 0.864345, 0.502899, 0, -0.502899, 0.864345, 
 
 [node name="goblin" parent="." instance=ExtResource("6_wuwrr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.918561, 0, -1.8966)
+
+[node name="vfx_Poof" parent="." instance=ExtResource("7_j2l2m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -2)
