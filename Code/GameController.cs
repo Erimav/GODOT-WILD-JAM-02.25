@@ -3,17 +3,28 @@ using System;
 
 public partial class GameController : Node
 {
-    [Export]
-    private MapObject mMapObject;
     public enum GameState
     {
         Prepare,
         Wave
     }
 
+    [ExportCategory("External Exports")]
+    [Export]
+    private MobController eMobController;
+
+    [Export]
+    private MapObject eMapObject;
+
+    [ExportCategory("Game Parameters")]
+    [Export]
+    private int eSpawnNumber;
+
     public bool CanSetToWave()
     {
-        var paths = mMapObject.FindAllPaths();
+        if (GameManager.GetInstance().GetGameState() == GameManager.GameState.Wave) 
+            return false;
+        var paths = eMapObject.FindAllPaths();
         if (paths.Count == 0)
             return false;
         return true;
@@ -36,6 +47,11 @@ public partial class GameController : Node
         return true;
     }
 
+    public void StartWave()
+    {
+        GD.Print("Game Controller: Start Wave");
+        eMobController.StartSpawn(eSpawnNumber);
+    }
 
 
 }
