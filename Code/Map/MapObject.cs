@@ -29,13 +29,13 @@ public partial class MapObject : Node
 
     [ExportCategory("MapBlockRender")]
     [Export]
-    private PackedScene eMapBlock;
+    private PackedScene eMapTile;
     [Export]
     private Vector3 eMapStartPosition;
     [Export]
-    private float eBlockColMargin;
+    private float eTileColMargin;
     [Export]
-    private float eBlockRowMargin;
+    private float eTileRowMargin;
     [Export]
     private Vector3 eBlockScale;
 
@@ -68,9 +68,25 @@ public partial class MapObject : Node
         }
         get { return false; }
     }
+    [Export]
+    private bool eMarkStartAndEnd
+    { 
+        set
+        {
+            GD.Print("eMartStartAndEnd is " + value);
+            for (int i = 0; i < eHeight; ++i)
+            {
+                mTiles[i][0].ChangeColor(0.0f, 1.0f, 0.0f);
+                mTiles[i][eHeight - 1].ChangeColor(0.0f, 0.0f, 1.0f);
+            }
+        }
+        get { return false; }
+    }
 
     // PRIVATE
-    private List<List<Tile>> mBlocks = new List<List<Tile>>();
+    private List<List<Tile>> mTiles = new List<List<Tile>>();
+
+    private Dictionary<TilePosition, List<TilePosition>> mPaths = new Dictionary<TilePosition, List<TilePosition>>();
 
     private Map mMap = new Map();
 
@@ -84,19 +100,19 @@ public partial class MapObject : Node
         for(int i = 0; i < path.Count; ++i)
         {
             GD.Print("Path position " + i + ": " + path[i]);
-            mBlocks[path[i].mY][path[i].mX].Scale = new Vector3(0.5f, 0.5f, 0.5f);
+            mTiles[path[i].mY][path[i].mX].Scale = new Vector3(0.5f, 0.5f, 0.5f);
         }
     }
     private void GenerateMap()
     {
-        foreach(List<Tile> blocks in mBlocks)
+        foreach(List<Tile> blocks in mTiles)
         {
             foreach(Tile node in blocks)
             {
                 node.QueueFree();
             }
         }
-        mBlocks.Clear();
+        mTiles.Clear();
 
         mMap.GenerateMap(eWidth, eHeight);
 
@@ -104,27 +120,28 @@ public partial class MapObject : Node
         for (int i = 0; i < eHeight; ++i)
         {
             Vector3 colOffset = Vector3.Zero;
-            mBlocks.Add(new List<Tile>());
-            var row = mBlocks[mBlocks.Count - 1];
+            mTiles.Add(new List<Tile>());
+            var row = mTiles[mTiles.Count - 1];
             for (int j = 0; j < eWidth; ++j)
             {
-                var block = (Tile)eMapBlock.Instantiate();
-                AddChild(block);
+                var tile = eMapTile.Instantiate<Tile>();
 
-                block.Position = eMapStartPosition + rowOffset + colOffset;
+                tile.Position = eMapStartPosition + rowOffset + colOffset;
 
-                GD.Print("Block Position: " + block.Position);
+                GD.Print("Block Position: " + tile.Position);
 
-                colOffset = new Vector3(colOffset.X, colOffset.Y, colOffset.Z + eBlockColMargin);
+                colOffset = new Vector3(colOffset.X, colOffset.Y, colOffset.Z + eTileColMargin);
 
-                block.Connect("isBlockPressed", new Godot.Callable(this,"onBlockClicked"));
+                tile.Connect("isBlockPressed", new Godot.Callable(this,"onBlockClicked"));
 
-                row.Add(block);
+                row.Add(tile);
+                AddChild(tile);
             }
-            rowOffset = new Vector3(rowOffset.X + eBlockRowMargin, rowOffset.Y, rowOffset.Z);
+            rowOffset = new Vector3(rowOffset.X + eTileRowMargin, rowOffset.Y, rowOffset.Z);
         }
 
         mMap.AddMimics(eMimicNumber);
+
     }
 
     public void onBlockClicked(Tile block)
@@ -136,9 +153,9 @@ public partial class MapObject : Node
             {
                 for(int j = 0; j < eWidth; ++j)
                 {
-                    if (block == mBlocks[i][j])
+                    if (block == mTiles[i][j])
                     {
-                        EmitSignal("isBlockPressed", mBlocks[i][j], j, i);
+                        EmitSignal("isBlockPressed", mTiles[i][j], j, i);
                     }
                 }
             }
@@ -164,10 +181,39 @@ public partial class MapObject : Node
             if (!tileFill.isClear)
             {
                 tileFill.isClear = true;
-                mBlocks[tilePosition.mY][tilePosition.mX].Destroy();
+                mTiles[tilePosition.mY][tilePosition.mX].Destroy();
                 EmitSignal("blockErased");
                 return;
             }
         }
+    }
+
+    public Dictionary<TilePosition, List<TilePosition>> FindAllPaths()
+    {
+        List<TilePosition> startPositions = mMap.GetPlayerOpenStartPositions();
+        List<TilePosition> endPositions = mMap.GetPlayerOpenEndPositions();
+
+        Dictionary<TilePosition, List<TilePosition>> paths = new Dictionary<TilePosition, List<TilePosition>>();
+
+        foreach (TilePosition startPosition in startPositions)
+        {
+            List<TilePosition> shortestPath = new List<TilePosition>();
+            int pathLength = int.MaxValue;
+            foreach (TilePosition endPosition in endPositions)
+            {
+                List<TilePosition> path = mMap.FindShortestPath(startPosition, endPosition);
+                if ( path.Count < pathLength)
+                {
+                    shortestPath = path;
+                    pathLength = path.Count;
+                }
+            }
+            if (shortestPath.Count > 0)
+            {
+                paths.Add(startPosition, shortestPath);
+            }
+        }
+
+        return paths;
     }
 }

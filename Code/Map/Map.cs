@@ -17,7 +17,7 @@ public partial class Map
 	{
 		return !(tilePosition.mX < 0 || tilePosition.mX >= mWidth || tilePosition.mY < 0 || tilePosition.mY >= mHeight);
 	}
-    private List<TilePosition> GetPlayerOpenEndPositions()
+    public List<TilePosition> GetPlayerOpenEndPositions()
     {
         List<TilePosition> openStartPositions = new List<TilePosition>();
         for (int i = 0; i < mHeight; ++i)
@@ -170,10 +170,10 @@ public partial class Map
 				{
 					continue;
 				}
-				/*if (!mMapFilled[neighbour.mY][neighbour.mX].isClear)
+				if (!mMapFilled[neighbour.mY][neighbour.mX].isClear)
 				{
 					continue;
-				}*/
+				}
 				
 				int newEstimate = tileEstimation[currentPosition.mY, currentPosition.mX] + 1;
 				if (tileEstimation[neighbour.mY,neighbour.mX] == -1 || tileEstimation[neighbour.mY, neighbour.mX] > newEstimate)
