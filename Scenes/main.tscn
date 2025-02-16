@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://e0wp0h0rrm1u"]
+[gd_scene load_steps=12 format=3 uid="uid://e0wp0h0rrm1u"]
 
 [ext_resource type="Script" path="res://Code/Map/MapObject.cs" id="1_ldni7"]
 [ext_resource type="PackedScene" uid="uid://c04p8dpts73sm" path="res://Scenes/Prefabs/tile.tscn" id="2_3i4cd"]
@@ -6,13 +6,27 @@
 [ext_resource type="Script" path="res://Code/PlayerController.cs" id="4_i2aqx"]
 [ext_resource type="PackedScene" uid="uid://clcoyo24wlrud" path="res://Scenes/UI/debug_ui.tscn" id="5_a5bb8"]
 [ext_resource type="Script" path="res://Code/GameController.cs" id="5_kpga7"]
+[ext_resource type="Script" path="res://Code/MobController.cs" id="6_poxsc"]
+[ext_resource type="PackedScene" uid="uid://cd6n5dhrorcw1" path="res://Scenes/UI/hud.tscn" id="7_bk4vi"]
+[ext_resource type="PackedScene" uid="uid://04x2hvwpe7k1" path="res://Scenes/Prefabs/goblin.tscn" id="7_wxps1"]
+
+[sub_resource type="Curve3D" id="Curve3D_y6g7l"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0),
+"tilts": PackedFloat32Array(0, 0, 0)
+}
+point_count = 3
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_n5s15"]
 
 [node name="Main" type="Node3D"]
 
-[node name="Map" type="Node3D" parent="."]
+[node name="Path3D" type="Path3D" parent="."]
+curve = SubResource("Curve3D_y6g7l")
+
+[node name="Map" type="Node3D" parent="." node_paths=PackedStringArray("ePath3D")]
 script = ExtResource("1_ldni7")
+ePath3D = NodePath("../Path3D")
 eWidth = 10
 eHeight = 10
 eMimicNumber = 5
@@ -21,6 +35,7 @@ eMapStartPosition = Vector3(0, 0.5, 0)
 eTileColMargin = 1.5
 eTileRowMargin = 1.5
 eGenerateMap = true
+eMarkStartAndEnd = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 0, 0, 0)
@@ -39,12 +54,36 @@ edge_scroll_speed = 0.0
 [node name="PlayerController" type="Node" parent="."]
 script = ExtResource("4_i2aqx")
 
-[node name="GameController" type="Node" parent="." node_paths=PackedStringArray("mMapObject")]
+[node name="GameController" type="Node" parent="." node_paths=PackedStringArray("eMobController", "eMapObject")]
 script = ExtResource("5_kpga7")
-mMapObject = NodePath("../Map")
+eMobController = NodePath("../MobController")
+eMapObject = NodePath("../Map")
+eSpawnNumber = 10
 
-[node name="DebugUI" parent="." node_paths=PackedStringArray("mGameController") instance=ExtResource("5_a5bb8")]
-mGameController = NodePath("../GameController")
+[node name="MobController" type="Node" parent="." node_paths=PackedStringArray("eTimer", "eMapObject")]
+script = ExtResource("6_poxsc")
+eTimer = NodePath("MobSpawn")
+eMapObject = NodePath("../Map")
+eGoblin = ExtResource("7_wxps1")
+
+[node name="MobSpawn" type="Timer" parent="MobController"]
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="HUD" parent="UI" node_paths=PackedStringArray("mGameController") instance=ExtResource("7_bk4vi")]
+layout_mode = 1
+mGameController = NodePath("../../GameController")
+
+[node name="DebugUI" parent="UI" node_paths=PackedStringArray("mGameController") instance=ExtResource("5_a5bb8")]
+layout_mode = 1
+mGameController = NodePath("../../GameController")
 
 [connection signal="blockErased" from="Map" to="PlayerController" method="onErase"]
 [connection signal="blockIsMimic" from="Map" to="PlayerController" method="OnMimic"]

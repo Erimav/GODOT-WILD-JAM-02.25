@@ -18,6 +18,9 @@ public partial class MapObject : Node
     public delegate void blockIsTowerEventHandler();
 
     //EXPORTS
+    [ExportCategory("External Exports")]
+    [Export]
+    private Path3D ePath3D;
 
     [ExportCategory("MapParameters")]
     [Export]
@@ -90,14 +93,13 @@ public partial class MapObject : Node
 
     private Map mMap = new Map();
 
-    public override void _Ready()
-    {
-    }
+
+    // PRIVATE METHODS
 
     private void BuildShortestPath(int startX, int startY, int endX, int endY)
     {
         List<TilePosition> path = mMap.FindShortestPath(new TilePosition(eStartX, eStartY), new TilePosition(eEndX, eEndY));
-        for(int i = 0; i < path.Count; ++i)
+        for (int i = 0; i < path.Count; ++i)
         {
             GD.Print("Path position " + i + ": " + path[i]);
             mTiles[path[i].mY][path[i].mX].Scale = new Vector3(0.5f, 0.5f, 0.5f);
@@ -105,9 +107,9 @@ public partial class MapObject : Node
     }
     private void GenerateMap()
     {
-        foreach(List<Tile> blocks in mTiles)
+        foreach (List<Tile> blocks in mTiles)
         {
-            foreach(Tile node in blocks)
+            foreach (Tile node in blocks)
             {
                 node.QueueFree();
             }
@@ -132,7 +134,7 @@ public partial class MapObject : Node
 
                 colOffset = new Vector3(colOffset.X, colOffset.Y, colOffset.Z + eTileColMargin);
 
-                tile.Connect("isBlockPressed", new Godot.Callable(this,"onBlockClicked"));
+                tile.Connect("isBlockPressed", new Godot.Callable(this, "onBlockClicked"));
 
                 row.Add(tile);
                 AddChild(tile);
@@ -141,6 +143,19 @@ public partial class MapObject : Node
         }
 
         mMap.AddMimics(eMimicNumber);
+
+    }
+
+    // PUBLIC METHODS
+    public override void _Ready()
+    {
+    }
+
+    public override void _Process(double delta)
+    {
+        List<TilePosition> path = TakeShortestPath();
+        SetupPath(path);
+        base._Process(delta);
 
     }
 
@@ -213,7 +228,50 @@ public partial class MapObject : Node
                 paths.Add(startPosition, shortestPath);
             }
         }
-
         return paths;
+    }
+
+    public void SetupPath(List<TilePosition> path)
+    {
+        ePath3D.Curve.ClearPoints();
+        foreach (TilePosition position in path)
+        {
+            Tile tile = mTiles[position.mY][position.mX];
+            ePath3D.Curve.AddPoint(tile.Position);
+        }
+    }
+
+    public List<TilePosition> TakeShortestPath()
+    {
+        var paths = FindAllPaths();
+        if (paths.Count == 0) return new List<TilePosition>();
+        else
+        {
+            List<TilePosition> shortestPath = new List<TilePosition>();
+            int shortestPathLength = int.MaxValue;
+            foreach (List<TilePosition> path in paths.Values)
+            {
+                if (path.Count < shortestPathLength)
+                {
+                    shortestPath = path;
+                    shortestPathLength = path.Count;
+                }
+            }
+            return shortestPath;
+        }
+    }
+
+    public void AddMobToMap(Mob mob)
+    {
+        PathFollow3D pathFollow3D = new PathFollow3D();
+        pathFollow3D.Loop = false;
+        ePath3D.AddChild(pathFollow3D);
+        mob.SetPath(pathFollow3D);
+        mob.Connect("OnMobFinishedPath", new Callable(this, "MobFinishPath"), (uint)ConnectFlags.OneShot);
+    }
+
+    public void MobFinishPath(Mob mob)
+    {
+        GD.Print("Mob Finished Path");
     }
 }
