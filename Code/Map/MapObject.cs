@@ -80,7 +80,7 @@ public partial class MapObject : Node
             for (int i = 0; i < eHeight; ++i)
             {
                 mTiles[i][0].ChangeColor(0.0f, 1.0f, 0.0f);
-                mTiles[i][eHeight - 1].ChangeColor(0.0f, 0.0f, 1.0f);
+                mTiles[i][eWidth - 1].ChangeColor(0.0f, 0.0f, 1.0f);
             }
         }
         get { return false; }
@@ -212,20 +212,26 @@ public partial class MapObject : Node
 
         foreach (TilePosition startPosition in startPositions)
         {
-            List<TilePosition> shortestPath = new List<TilePosition>();
-            int pathLength = int.MaxValue;
             foreach (TilePosition endPosition in endPositions)
             {
+                List<TilePosition> shortestPath = new List<TilePosition>();
+                int pathLength = int.MaxValue;
+                
                 List<TilePosition> path = mMap.FindShortestPath(startPosition, endPosition);
+                
                 if ( path.Count < pathLength)
                 {
                     shortestPath = path;
                     pathLength = path.Count;
                 }
-            }
-            if (shortestPath.Count > 0)
-            {
-                paths.Add(startPosition, shortestPath);
+
+                if (shortestPath.Count > 0)
+                {
+                    if (paths.ContainsKey(startPosition)) 
+                        paths[startPosition] = shortestPath;
+                    else 
+                        paths.Add(startPosition, shortestPath);
+                }
             }
         }
         return paths;
@@ -244,6 +250,8 @@ public partial class MapObject : Node
     public List<TilePosition> TakeShortestPath()
     {
         var paths = FindAllPaths();
+        GD.Print("MapObject: Num of Paths - " + paths.Count);
+        
         if (paths.Count == 0) return new List<TilePosition>();
         else
         {
@@ -267,11 +275,5 @@ public partial class MapObject : Node
         pathFollow3D.Loop = false;
         ePath3D.AddChild(pathFollow3D);
         mob.SetPath(pathFollow3D);
-        mob.Connect("OnMobFinishedPath", new Callable(this, "MobFinishPath"), (uint)ConnectFlags.OneShot);
-    }
-
-    public void MobFinishPath(Mob mob)
-    {
-        GD.Print("Mob Finished Path");
     }
 }

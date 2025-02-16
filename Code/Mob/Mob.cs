@@ -38,9 +38,13 @@ public partial class Mob : Node3D
 			if (mPath.ProgressRatio >= 1.0f)
 			{
 				EmitSignal("OnMobFinishedPath", this);
-				QueueFree();
 				mPath.QueueFree();
 			}
+		}
+		if (mCurHP <= 0.0f)
+		{
+			EmitSignal("OnMobDeadPath", this);
+			mPath.QueueFree();
 		}
 		base._Process(delta);
     }

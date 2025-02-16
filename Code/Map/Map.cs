@@ -151,6 +151,8 @@ public partial class Map
 		tilePositions.Push(startPosition);
 		tileEstimation[startPosition.mY, startPosition.mX] = 0;
 
+		bool pathFound = false;
+
 		while (tilePositions.Count > 0)
 		{
 			TilePosition currentPosition = tilePositions.Pop();
@@ -201,18 +203,23 @@ public partial class Map
 
 			if (tilePrevious[endPosition.mY, endPosition.mX] != null)
 			{
-				break;
+				pathFound = true;
+                break;
 			}
 		}
 
-		TilePosition pathPoint = endPosition;
-		while(pathPoint != startPosition)
+		if (pathFound)
 		{
-			path.Add(pathPoint);
-			pathPoint = tilePrevious[pathPoint.mY, pathPoint.mX];
+			TilePosition pathPoint = endPosition;
+			while(pathPoint != startPosition)
+			{
+				path.Add(pathPoint);
+				pathPoint = tilePrevious[pathPoint.mY, pathPoint.mX];
+			}
+			path.Add(startPosition);
+			path.Reverse();
 		}
-		path.Add(startPosition);
-		path.Reverse();
+
 		return path;
 	}
 

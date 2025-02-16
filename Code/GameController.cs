@@ -40,18 +40,23 @@ public partial class GameController : Node
         return false;
     }
 
-    public bool TryToSetPrepare()
+    public void SetPrepare()
     {
-
         GameManager.GetInstance().ChangeState(GameManager.GameState.Prepare);
-        return true;
     }
 
     public void StartWave()
     {
-        GD.Print("Game Controller: Start Wave");
-        eMobController.StartSpawn(eSpawnNumber);
+        if (TryToToSetWave())
+        {
+            GD.Print("Game Controller: Start Wave");
+            eMobController.StartSpawn(eSpawnNumber);
+            eMobController.Connect("NoMoreMobsOnWave", new Callable(this, "EndWave"), (uint)ConnectFlags.OneShot);
+        }
     }
 
-
+    public void EndWave()
+    {
+        SetPrepare();
+    }
 }
