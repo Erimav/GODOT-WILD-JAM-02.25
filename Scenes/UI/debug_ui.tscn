@@ -1,0 +1,29 @@
+[gd_scene load_steps=2 format=3 uid="uid://clcoyo24wlrud"]
+
+[ext_resource type="Script" path="res://Code/UI/DebugUi.cs" id="1_d1jyi"]
+
+[node name="DebugUI" type="Control" node_paths=PackedStringArray("mGameState", "mCanSetToWave")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 1
+script = ExtResource("1_d1jyi")
+mGameState = NodePath("VBoxContainer/GameState")
+mCanSetToWave = NodePath("VBoxContainer/CanSetTOWave")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="GameState" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Label"
+
+[node name="CanSetTOWave" type="Label" parent="VBoxContainer"]
+layout_mode = 2

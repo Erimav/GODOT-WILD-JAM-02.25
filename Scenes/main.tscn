@@ -1,9 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://e0wp0h0rrm1u"]
+[gd_scene load_steps=8 format=3 uid="uid://e0wp0h0rrm1u"]
 
 [ext_resource type="Script" path="res://Code/Map/MapObject.cs" id="1_ldni7"]
-[ext_resource type="PackedScene" uid="uid://c04p8dpts73sm" path="res://Scenes/Prefabs/block.tscn" id="2_xbdig"]
+[ext_resource type="PackedScene" uid="uid://c04p8dpts73sm" path="res://Scenes/Prefabs/tile.tscn" id="2_3i4cd"]
 [ext_resource type="PackedScene" uid="uid://cf7brgwaxlmud" path="res://Code/3d_rts_camera/rtscam.tscn" id="3_v4tk2"]
 [ext_resource type="Script" path="res://Code/PlayerController.cs" id="4_i2aqx"]
+[ext_resource type="PackedScene" uid="uid://clcoyo24wlrud" path="res://Scenes/UI/debug_ui.tscn" id="5_a5bb8"]
+[ext_resource type="Script" path="res://Code/GameController.cs" id="5_kpga7"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_n5s15"]
 
@@ -14,10 +16,10 @@ script = ExtResource("1_ldni7")
 eWidth = 10
 eHeight = 10
 eMimicNumber = 5
-eMapBlock = ExtResource("2_xbdig")
+eMapTile = ExtResource("2_3i4cd")
 eMapStartPosition = Vector3(0, 0.5, 0)
-eBlockColMargin = 1.5
-eBlockRowMargin = 1.5
+eTileColMargin = 1.5
+eTileRowMargin = 1.5
 eGenerateMap = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
@@ -34,11 +36,18 @@ transform = Transform3D(1, 0, 0, 0, 0.783542, 0.621339, 0, -0.621339, 0.783542, 
 edge_scroll_margin = 0.0
 edge_scroll_speed = 0.0
 
-[node name="Node" type="Node" parent="."]
+[node name="PlayerController" type="Node" parent="."]
 script = ExtResource("4_i2aqx")
 
-[connection signal="blockErased" from="Map" to="Node" method="onErase"]
-[connection signal="blockIsMimic" from="Map" to="Node" method="OnMimic"]
-[connection signal="blockIsTower" from="Map" to="Node" method="onTower"]
-[connection signal="isBlockPressed" from="Map" to="Node" method="TilePressed"]
-[connection signal="TryEraseTile" from="Node" to="Map" method="OnTryEraseTile"]
+[node name="GameController" type="Node" parent="." node_paths=PackedStringArray("mMapObject")]
+script = ExtResource("5_kpga7")
+mMapObject = NodePath("../Map")
+
+[node name="DebugUI" parent="." node_paths=PackedStringArray("mGameController") instance=ExtResource("5_a5bb8")]
+mGameController = NodePath("../GameController")
+
+[connection signal="blockErased" from="Map" to="PlayerController" method="onErase"]
+[connection signal="blockIsMimic" from="Map" to="PlayerController" method="OnMimic"]
+[connection signal="blockIsTower" from="Map" to="PlayerController" method="onTower"]
+[connection signal="isBlockPressed" from="Map" to="PlayerController" method="TilePressed"]
+[connection signal="TryEraseTile" from="PlayerController" to="Map" method="OnTryEraseTile"]
