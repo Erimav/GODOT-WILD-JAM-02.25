@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://cgdirvm8nbeq5" path="res://Assets/Models/Boulders/BouldersY.glb" id="3_kehlb"]
 [ext_resource type="PackedScene" uid="uid://1y55uihgs6nn" path="res://Assets/Models/Boulders/Boulders3.glb" id="4_5rwio"]
 [ext_resource type="PackedScene" uid="uid://kcm3uw0vd3kr" path="res://Assets/Models/Tower proto.glb" id="5_npufj"]
-[ext_resource type="PackedScene" uid="uid://dmk2bxgw4y67l" path="res://goblin_runing.tscn" id="6_qt7ec"]
+[ext_resource type="PackedScene" uid="uid://c47qu68eojpmg" path="res://Scenes/Prefabs/goblin.tscn" id="6_wuwrr"]
 
 [node name="Node3D" type="Node3D"]
 
@@ -31,5 +31,5 @@ transform = Transform3D(0.462843, 0, 0, 0, 0.462843, 0, 0, 0, 0.462843, -1.56704
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.864345, 0.502899, 0, -0.502899, 0.864345, -0.670438, 4.00507, 3.79734)
 
-[node name="goblin_runing" parent="." instance=ExtResource("6_qt7ec")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -2)
+[node name="goblin" parent="." instance=ExtResource("6_wuwrr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.918561, 0, -1.8966)
