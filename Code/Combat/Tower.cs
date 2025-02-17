@@ -9,12 +9,21 @@ public partial class Tower : Node3D
     private PackedScene eProjectilePrefab;
     [Export]
     private float eDistance;
+    [Export]
+    private float ePrice;
+
 
     private Timer mShootTimer;
     private Timer mReloadTimer;
 
     private Projectile mProjectileInChamber;
     private Target mTarget;
+
+
+    public float Price
+    {
+        get => ePrice;
+    }
 
     public Target Target
     {

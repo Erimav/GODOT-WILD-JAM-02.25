@@ -10,10 +10,18 @@ public partial class Map
 	private int mWidth;
 	private int mHeight;
 
-	// PRIVATE
+    // PRIVATE
 
-	// PUBLIC
-	public bool IsOnMap(TilePosition tilePosition)
+    private List<TilePosition> mOffsets = new List<TilePosition>()
+        {
+            new TilePosition(-1, 0),
+            new TilePosition(0, -1),
+            new TilePosition(1, 0),
+            new TilePosition(0, 1)
+        };
+
+    // PUBLIC
+    public bool IsOnMap(TilePosition tilePosition)
 	{
 		return !(tilePosition.mX < 0 || tilePosition.mX >= mWidth || tilePosition.mY < 0 || tilePosition.mY >= mHeight);
 	}
@@ -120,6 +128,62 @@ public partial class Map
 		return new List<List<TilePosition>>();
 	}
 
+	public List<TilePosition> GetShortestPath()
+	{
+        var paths = FindAllShortestPaths();
+        //GD.Print("MapObject: Num of Paths - " + paths.Count);
+
+        if (paths.Count == 0) return new List<TilePosition>();
+        else
+        {
+            List<TilePosition> shortestPath = new List<TilePosition>();
+            int shortestPathLength = int.MaxValue;
+            foreach (List<TilePosition> path in paths.Values)
+            {
+                if (path.Count < shortestPathLength)
+                {
+                    shortestPath = path;
+                    shortestPathLength = path.Count;
+                }
+            }
+            return shortestPath;
+        }
+    }
+
+	public Dictionary<TilePosition, List<TilePosition>> FindAllShortestPaths()
+	{
+        List<TilePosition> startPositions = GetPlayerOpenStartPositions();
+        List<TilePosition> endPositions = GetPlayerOpenEndPositions();
+
+        Dictionary<TilePosition, List<TilePosition>> paths = new Dictionary<TilePosition, List<TilePosition>>();
+
+        foreach (TilePosition startPosition in startPositions)
+        {
+            foreach (TilePosition endPosition in endPositions)
+            {
+                List<TilePosition> shortestPath = new List<TilePosition>();
+                int pathLength = int.MaxValue;
+
+                List<TilePosition> path = FindShortestPath(startPosition, endPosition);
+
+                if (path.Count < pathLength)
+                {
+                    shortestPath = path;
+                    pathLength = path.Count;
+                }
+
+                if (shortestPath.Count > 0)
+                {
+                    if (paths.ContainsKey(startPosition))
+                        paths[startPosition] = shortestPath;
+                    else
+                        paths.Add(startPosition, shortestPath);
+                }
+            }
+        }
+        return paths;
+    }
+
 	// THIS IS ASS SCARY FUNCTION AND I"M TOO SLEEPY TO UNDERSTAND WHAT HAPPENS HERE
 	public List<TilePosition> FindShortestPath(TilePosition startPosition, TilePosition endPosition)
 	{
@@ -128,13 +192,6 @@ public partial class Map
 			GD.Print("Find Shortes Path: TilePosition is not on map");
 			return new List<TilePosition>();
 		}
-		List<TilePosition> offsets = new List<TilePosition>() 
-		{
-			new TilePosition(-1, 0),
-			new TilePosition(0, -1),
-			new TilePosition(1, 0),
-			new TilePosition(0, 1)
-		};
 
 		List<TilePosition> path = new List<TilePosition>();
 
@@ -160,7 +217,7 @@ public partial class Map
 
 			List<TilePosition> neighbours = new List<TilePosition>();
 
-			foreach (TilePosition offset in offsets)
+			foreach (TilePosition offset in mOffsets)
 			{
 				TilePosition neighbour = currentPosition + offset;
 				if (neighbour.mX < 0 || neighbour.mX >= mWidth ||
@@ -223,9 +280,47 @@ public partial class Map
 		return path;
 	}
 
-	// PUBLIC DEBUG
+	public int[,] GetTileTowerPriorities(Tower tower)
+	{
+        int[,] tilePriorities = new int[mHeight, mWidth];
+		List<TilePosition> path = GetShortestPath();
+        foreach (var tile in path)
+        {
+            int x = tile.mX;
+            int y = tile.mY;
+            if (path.Find((tile) => {
+				return tile.mX == x && tile.mY == y;
+				}) != null)
+			{
+				// -1 means it's the shortest path
+				tilePriorities[y, x] = -1;
+			}
+		}
 
-	public string MapToString()
+		foreach (var tile in path)
+		{
+			int x = tile.mX;
+			int y = tile.mY;
+			// -1 means it's the shortest path
+			if (tilePriorities[y, x] == -1)
+			{
+				foreach(var offset in mOffsets)
+				{
+					TilePosition neighbour = tile + offset;
+                    if (neighbour.mX < 0 || neighbour.mX >= mWidth ||
+						neighbour.mY < 0 || neighbour.mY >= mHeight)
+                    {
+                        continue;
+                    }
+                }
+			}
+		}
+		return new int[mHeight, mWidth];
+	}
+
+    // PUBLIC DEBUG
+
+    public string MapToString()
 	{
 		string str = "";
 		foreach (List<TilePosition> list in mMap)

@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://cd0m8r5sfu1uu"]
+
+[ext_resource type="Script" path="res://Code/MobController.cs" id="1_6gkf8"]
+[ext_resource type="PackedScene" uid="uid://04x2hvwpe7k1" path="res://Scenes/Prefabs/goblin.tscn" id="2_d6kfp"]
+
+[node name="MobController" type="Node" node_paths=PackedStringArray("eTimer", "eMapObject")]
+script = ExtResource("1_6gkf8")
+eTimer = NodePath("MobSpawn")
+eMapObject = NodePath("")
+eGoblin = ExtResource("2_d6kfp")
+
+[node name="MobSpawn" type="Timer" parent="."]

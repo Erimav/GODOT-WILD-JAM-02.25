@@ -1,14 +1,15 @@
-[gd_scene load_steps=12 format=3 uid="uid://e0wp0h0rrm1u"]
+[gd_scene load_steps=13 format=3 uid="uid://e0wp0h0rrm1u"]
 
 [ext_resource type="Script" path="res://Code/Map/MapObject.cs" id="1_ldni7"]
-[ext_resource type="PackedScene" path="res://Scenes/Prefabs/tile.tscn" id="2_3i4cd"]
+[ext_resource type="PackedScene" uid="uid://c04p8dpts73sm" path="res://Scenes/Prefabs/tile.tscn" id="2_3i4cd"]
 [ext_resource type="PackedScene" uid="uid://cf7brgwaxlmud" path="res://Code/3d_rts_camera/rtscam.tscn" id="3_v4tk2"]
-[ext_resource type="Script" path="res://Code/PlayerController.cs" id="4_i2aqx"]
+[ext_resource type="PackedScene" uid="uid://xu8wg8g0j8iw" path="res://Scenes/Controllers/player_controller.tscn" id="4_777qx"]
+[ext_resource type="PackedScene" uid="uid://cmh0pr3rlh182" path="res://Scenes/Controllers/game_controller.tscn" id="5_8v0vu"]
 [ext_resource type="PackedScene" uid="uid://clcoyo24wlrud" path="res://Scenes/UI/debug_ui.tscn" id="5_a5bb8"]
-[ext_resource type="Script" path="res://Code/GameController.cs" id="5_kpga7"]
-[ext_resource type="Script" path="res://Code/MobController.cs" id="6_poxsc"]
+[ext_resource type="PackedScene" uid="uid://cd0m8r5sfu1uu" path="res://Scenes/Controllers/mob_controller.tscn" id="6_4odl5"]
 [ext_resource type="PackedScene" uid="uid://cd6n5dhrorcw1" path="res://Scenes/UI/hud.tscn" id="7_bk4vi"]
-[ext_resource type="PackedScene" uid="uid://04x2hvwpe7k1" path="res://Scenes/Prefabs/goblin.tscn" id="7_wxps1"]
+[ext_resource type="PackedScene" uid="uid://ccnjexk57xyr1" path="res://Scenes/Controllers/enemy_controller.tscn" id="7_dufwh"]
+[ext_resource type="PackedScene" uid="uid://dkb62k31g4xmu" path="res://Scenes/Prefabs/tower_proto.tscn" id="7_uk5tl"]
 
 [sub_resource type="Curve3D" id="Curve3D_y6g7l"]
 _data = {
@@ -24,8 +25,9 @@ point_count = 3
 [node name="Path3D" type="Path3D" parent="."]
 curve = SubResource("Curve3D_y6g7l")
 
-[node name="Map" type="Node3D" parent="."]
+[node name="Map" type="Node3D" parent="." node_paths=PackedStringArray("ePath3D")]
 script = ExtResource("1_ldni7")
+ePath3D = NodePath("../Path3D")
 eWidth = 10
 eHeight = 10
 eMimicNumber = 5
@@ -50,20 +52,6 @@ transform = Transform3D(1, 0, 0, 0, 0.783542, 0.621339, 0, -0.621339, 0.783542, 
 edge_scroll_margin = 0.0
 edge_scroll_speed = 0.0
 
-[node name="PlayerController" type="Node" parent="."]
-script = ExtResource("4_i2aqx")
-
-[node name="GameController" type="Node" parent="."]
-script = ExtResource("5_kpga7")
-
-[node name="MobController" type="Node" parent="." node_paths=PackedStringArray("eTimer", "eMapObject")]
-script = ExtResource("6_poxsc")
-eGoblin = ExtResource("7_wxps1")
-eTimer = NodePath("MobSpawn")
-eMapObject = NodePath("../Map")
-
-[node name="MobSpawn" type="Timer" parent="MobController"]
-
 [node name="UI" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
@@ -80,6 +68,19 @@ mGameController = NodePath("../../GameController")
 [node name="DebugUI" parent="UI" node_paths=PackedStringArray("mGameController") instance=ExtResource("5_a5bb8")]
 layout_mode = 1
 mGameController = NodePath("../../GameController")
+
+[node name="EnemyController" parent="." node_paths=PackedStringArray("eMapObject") instance=ExtResource("7_dufwh")]
+eMapObject = NodePath("../Map")
+eTowersPrefabs = Array[PackedScene]([ExtResource("7_uk5tl")])
+
+[node name="GameController" parent="." node_paths=PackedStringArray("eMobController", "eMapObject") instance=ExtResource("5_8v0vu")]
+eMobController = NodePath("../MobController")
+eMapObject = NodePath("../Map")
+
+[node name="MobController" parent="." node_paths=PackedStringArray("eMapObject") instance=ExtResource("6_4odl5")]
+eMapObject = NodePath("../Map")
+
+[node name="PlayerController" parent="." instance=ExtResource("4_777qx")]
 
 [connection signal="blockErased" from="Map" to="PlayerController" method="onErase"]
 [connection signal="blockIsMimic" from="Map" to="PlayerController" method="OnMimic"]

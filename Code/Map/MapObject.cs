@@ -196,7 +196,7 @@ public partial class MapObject : Node
             if (!tileFill.isClear)
             {
                 tileFill.isClear = true;
-                mTiles[tilePosition.mY][tilePosition.mX].Destroy();
+                mTiles[tilePosition.mY][tilePosition.mX].ClearTile();
                 EmitSignal("blockErased");
                 return;
             }
@@ -205,36 +205,7 @@ public partial class MapObject : Node
 
     public Dictionary<TilePosition, List<TilePosition>> FindAllPaths()
     {
-        List<TilePosition> startPositions = mMap.GetPlayerOpenStartPositions();
-        List<TilePosition> endPositions = mMap.GetPlayerOpenEndPositions();
-
-        Dictionary<TilePosition, List<TilePosition>> paths = new Dictionary<TilePosition, List<TilePosition>>();
-
-        foreach (TilePosition startPosition in startPositions)
-        {
-            foreach (TilePosition endPosition in endPositions)
-            {
-                List<TilePosition> shortestPath = new List<TilePosition>();
-                int pathLength = int.MaxValue;
-                
-                List<TilePosition> path = mMap.FindShortestPath(startPosition, endPosition);
-                
-                if ( path.Count < pathLength)
-                {
-                    shortestPath = path;
-                    pathLength = path.Count;
-                }
-
-                if (shortestPath.Count > 0)
-                {
-                    if (paths.ContainsKey(startPosition)) 
-                        paths[startPosition] = shortestPath;
-                    else 
-                        paths.Add(startPosition, shortestPath);
-                }
-            }
-        }
-        return paths;
+        return mMap.FindAllShortestPaths();
     }
 
     public void SetupPath(List<TilePosition> path)
@@ -246,11 +217,14 @@ public partial class MapObject : Node
             ePath3D.Curve.AddPoint(tile.Position);
         }
     }
-
+    public int[,] GetTileTowerPriorities(Tower tower)
+    {
+        return mMap.GetTileTowerPriorities(tower);
+    }
     public List<TilePosition> TakeShortestPath()
     {
         var paths = FindAllPaths();
-        GD.Print("MapObject: Num of Paths - " + paths.Count);
+        //GD.Print("MapObject: Num of Paths - " + paths.Count);
         
         if (paths.Count == 0) return new List<TilePosition>();
         else

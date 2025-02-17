@@ -9,6 +9,13 @@ public partial class GameController : Node
         Wave
     }
 
+    [Signal]
+    public delegate void GameStateSetToWaveEventHandler(int waveNumber);
+    
+    [Signal]
+    public delegate void GameStateSetToPrepareEventHandler(int waveNumber);
+
+
     [ExportCategory("External Exports")]
     [Export]
     private MobController eMobController;
@@ -20,6 +27,16 @@ public partial class GameController : Node
     [Export]
     private int eSpawnNumber;
 
+    // PRIVATE
+    private int mWaveNumber = 1;
+
+    // PUBLIC METHODS
+
+    public override void _Ready()
+    {
+        base._Ready();
+    }
+
     public bool CanSetToWave()
     {
         if (GameManager.GetInstance().GetGameState() == GameManager.GameState.Wave) 
@@ -27,6 +44,7 @@ public partial class GameController : Node
         var paths = eMapObject.FindAllPaths();
         if (paths.Count == 0)
             return false;
+
         return true;
     }
 
@@ -35,6 +53,7 @@ public partial class GameController : Node
         if (CanSetToWave())
         {
             GameManager.GetInstance().ChangeState(GameManager.GameState.Wave);
+            EmitSignal("GameStateSetToWave", mWaveNumber);
             return true;
         }
         return false;
@@ -43,6 +62,7 @@ public partial class GameController : Node
     public void SetPrepare()
     {
         GameManager.GetInstance().ChangeState(GameManager.GameState.Prepare);
+        EmitSignal("GameStateSetToPrepare", ++mWaveNumber);
     }
 
     public void StartWave()

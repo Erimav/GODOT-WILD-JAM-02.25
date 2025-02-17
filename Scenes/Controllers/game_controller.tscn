@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cmh0pr3rlh182"]
+
+[ext_resource type="Script" path="res://Code/GameController.cs" id="1_8wc3n"]
+
+[node name="GameController" type="Node" node_paths=PackedStringArray("eMobController", "eMapObject")]
+script = ExtResource("1_8wc3n")
+eMobController = NodePath("")
+eMapObject = NodePath("")
+eSpawnNumber = 10
