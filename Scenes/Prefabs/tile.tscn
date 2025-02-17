@@ -1,24 +1,20 @@
-[gd_scene load_steps=6 format=3 uid="uid://c04p8dpts73sm"]
+[gd_scene load_steps=8 format=3 uid="uid://c04p8dpts73sm"]
 
 [ext_resource type="Script" path="res://Code/Tile.cs" id="1_d3pn2"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8ro6p"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_03v0g"]
-material = SubResource("StandardMaterial3D_8ro6p")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mke3i"]
-resource_local_to_scene = true
+[ext_resource type="PackedScene" uid="uid://cr052egwxwfn2" path="res://Assets/Models/Boulders/Boulders1.glb" id="2_n3jha"]
+[ext_resource type="PackedScene" uid="uid://ccoqhclktyu6r" path="res://Assets/Models/Boulders/Boulders2.glb" id="3_2jpkq"]
+[ext_resource type="PackedScene" uid="uid://1y55uihgs6nn" path="res://Assets/Models/Boulders/Boulders3.glb" id="4_qe41w"]
+[ext_resource type="PackedScene" uid="uid://45cwtkwvi30f" path="res://Scenes/Prefabs/boulders/ClearTile.tscn" id="5_2ej3d"]
+[ext_resource type="PackedScene" uid="uid://beiqn7jfrmoh7" path="res://Scenes/Prefabs/vfx_poof.tscn" id="6_jpvpq"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_u28fb"]
 
 [node name="Tile" type="Node3D"]
 transform = Transform3D(1.03969, 0, 0, 0, 1.03969, 0, 0, 0, 1.03969, 0, 0, 0)
 script = ExtResource("1_d3pn2")
-
-[node name="TileMesh" type="MeshInstance3D" parent="."]
-mesh = SubResource("BoxMesh_03v0g")
-surface_material_override/0 = SubResource("StandardMaterial3D_mke3i")
+eBlockMeshVariants = Array[PackedScene]([ExtResource("2_n3jha"), ExtResource("3_2jpkq"), ExtResource("4_qe41w")])
+eClearTileMeshVariants = Array[PackedScene]([ExtResource("5_2ej3d")])
+eClearEffect = ExtResource("6_jpvpq")
 
 [node name="Area3D" type="Area3D" parent="."]
 

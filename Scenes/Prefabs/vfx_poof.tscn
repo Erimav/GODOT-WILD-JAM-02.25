@@ -1,4 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://beiqn7jfrmoh7"]
+[gd_scene load_steps=8 format=3 uid="uid://beiqn7jfrmoh7"]
+
+[ext_resource type="Script" path="res://Code/VFX.cs" id="1_ohkyh"]
 
 [sub_resource type="Curve" id="Curve_omkh4"]
 _data = [Vector2(0.00881057, 0.538462), 0.0, 2.15435, 0, 0, Vector2(0.286344, 0.824176), 0.641444, 0.641444, 0, 0, Vector2(0.859031, 0.989011), -0.243366, -0.243366, 0, 0, Vector2(0.964758, 0.582418), 0.0, 0.0, 0, 0]
@@ -27,7 +29,9 @@ scale_min = 0.25
 scale_max = 0.5
 scale_curve = SubResource("CurveTexture_rwpif")
 
-[node name="vfx_Poof" type="Node3D"]
+[node name="vfx_Poof" type="Node3D" node_paths=PackedStringArray("eParticles")]
+script = ExtResource("1_ohkyh")
+eParticles = [NodePath("GPUParticles3D"), NodePath("GPUParticles3D2")]
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.275703, 0)

@@ -13,7 +13,10 @@ public partial class PlayerController : Node
     public void TilePressed(Tile tile, int xTile, int yTile)
     {
         GD.Print("PlayerController: Tile Pressed. Try to Erase");
-        EmitSignal("TryEraseTile", xTile, yTile);
+        if (GameManager.GetInstance().GetGameState() == GameManager.GameState.Prepare)
+        {
+            EmitSignal("TryEraseTile", xTile, yTile);
+        }
     }
 
     public void OnMimic()

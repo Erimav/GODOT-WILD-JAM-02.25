@@ -196,7 +196,7 @@ public partial class MapObject : Node
             if (!tileFill.isClear)
             {
                 tileFill.isClear = true;
-                mTiles[tilePosition.mY][tilePosition.mX].Destroy();
+                mTiles[tilePosition.mY][tilePosition.mX].ClearTile();
                 EmitSignal("blockErased");
                 return;
             }
