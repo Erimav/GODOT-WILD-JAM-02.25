@@ -10,6 +10,13 @@ public partial class PlayerController : Node
     // SIGNALS
     [Signal]
     public delegate void TryEraseTileEventHandler(int xTile, int yTile);
+
+    // PUBLIC METHODS
+
+    public override void _Ready()
+    {
+        base._Ready();
+    }
     public void TilePressed(Tile tile, int xTile, int yTile)
     {
         GD.Print("PlayerController: Tile Pressed. Try to Erase");

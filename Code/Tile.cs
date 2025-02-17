@@ -42,6 +42,7 @@ public partial class Tile : Node3D
         AddChild(clearTile);
 		mTileContent = clearTile;
 		Node clrearEffect = eClearEffect.Instantiate();
+
 		AddChild(clrearEffect);
     }
 
