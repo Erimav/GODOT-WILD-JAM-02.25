@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://e0wp0h0rrm1u"]
 
 [ext_resource type="Script" path="res://Code/Map/MapObject.cs" id="1_ldni7"]
-[ext_resource type="PackedScene" uid="uid://c04p8dpts73sm" path="res://Scenes/Prefabs/tile.tscn" id="2_3i4cd"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/tile.tscn" id="2_3i4cd"]
 [ext_resource type="PackedScene" uid="uid://cf7brgwaxlmud" path="res://Code/3d_rts_camera/rtscam.tscn" id="3_v4tk2"]
 [ext_resource type="Script" path="res://Code/PlayerController.cs" id="4_i2aqx"]
 [ext_resource type="PackedScene" uid="uid://clcoyo24wlrud" path="res://Scenes/UI/debug_ui.tscn" id="5_a5bb8"]
@@ -24,9 +24,8 @@ point_count = 3
 [node name="Path3D" type="Path3D" parent="."]
 curve = SubResource("Curve3D_y6g7l")
 
-[node name="Map" type="Node3D" parent="." node_paths=PackedStringArray("ePath3D")]
+[node name="Map" type="Node3D" parent="."]
 script = ExtResource("1_ldni7")
-ePath3D = NodePath("../Path3D")
 eWidth = 10
 eHeight = 10
 eMimicNumber = 5
@@ -54,17 +53,14 @@ edge_scroll_speed = 0.0
 [node name="PlayerController" type="Node" parent="."]
 script = ExtResource("4_i2aqx")
 
-[node name="GameController" type="Node" parent="." node_paths=PackedStringArray("eMobController", "eMapObject")]
+[node name="GameController" type="Node" parent="."]
 script = ExtResource("5_kpga7")
-eMobController = NodePath("../MobController")
-eMapObject = NodePath("../Map")
-eSpawnNumber = 10
 
 [node name="MobController" type="Node" parent="." node_paths=PackedStringArray("eTimer", "eMapObject")]
 script = ExtResource("6_poxsc")
+eGoblin = ExtResource("7_wxps1")
 eTimer = NodePath("MobSpawn")
 eMapObject = NodePath("../Map")
-eGoblin = ExtResource("7_wxps1")
 
 [node name="MobSpawn" type="Timer" parent="MobController"]
 

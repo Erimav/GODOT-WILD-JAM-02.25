@@ -1,0 +1,212 @@
+[gd_scene load_steps=20 format=3 uid="uid://cp34lm64ukxgx"]
+
+[ext_resource type="Texture2D" uid="uid://bg3fyfda7c71g" path="res://Assets/Sprites/UI Scaled/tile_0016.png" id="1_6w8hc"]
+[ext_resource type="Texture2D" uid="uid://r2dcbxpgrqmh" path="res://Assets/Sprites/UI Scaled/tile_0021.png" id="2_3qbxk"]
+[ext_resource type="Texture2D" uid="uid://b3honqcx2il42" path="res://Assets/Sprites/UI Scaled/tile_0022.png" id="3_rhqlm"]
+[ext_resource type="Texture2D" uid="uid://cj1jt55so438" path="res://Assets/Sprites/UI Scaled/tile_0020.png" id="4_jnwma"]
+[ext_resource type="Texture2D" uid="uid://cqk7rxyj8a7vm" path="res://Assets/Sprites/UI Scaled/tile_0028.png" id="5_p2mi7"]
+[ext_resource type="FontFile" uid="uid://bwuieix6ipei" path="res://m5x7.ttf" id="6_6kuwx"]
+[ext_resource type="PackedScene" uid="uid://e16pxuvwuqnl" path="res://Scenes/UI/item_template.tscn" id="7_x3lj0"]
+[ext_resource type="Texture2D" uid="uid://32r5bu1xbeyb" path="res://Assets/Sprites/UI Scaled/tile_0018.png" id="8_n3tdj"]
+[ext_resource type="Texture2D" uid="uid://c5otnerdsq4kh" path="res://Assets/Sprites/UI/tile_0039.png" id="9_l6pe1"]
+[ext_resource type="Texture2D" uid="uid://qrlqy1i06gfk" path="res://Assets/Sprites/UI Scaled/close_button.png" id="10_at43k"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dlme4"]
+texture = ExtResource("1_6w8hc")
+texture_margin_left = 20.0
+texture_margin_top = 20.0
+texture_margin_right = 20.0
+texture_margin_bottom = 20.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7cj6c"]
+texture = ExtResource("2_3qbxk")
+texture_margin_left = 20.0
+texture_margin_top = 20.0
+texture_margin_right = 20.0
+texture_margin_bottom = 20.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_coc11"]
+texture = ExtResource("3_rhqlm")
+texture_margin_left = 20.0
+texture_margin_top = 20.0
+texture_margin_right = 20.0
+texture_margin_bottom = 20.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_iuxhn"]
+texture = ExtResource("4_jnwma")
+texture_margin_left = 20.0
+texture_margin_top = 20.0
+texture_margin_right = 20.0
+texture_margin_bottom = 20.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_o24ym"]
+texture = ExtResource("1_6w8hc")
+texture_margin_left = 20.0
+texture_margin_top = 20.0
+texture_margin_right = 20.0
+texture_margin_bottom = 20.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3n3ea"]
+texture = ExtResource("5_p2mi7")
+texture_margin_left = 20.0
+texture_margin_top = 20.0
+texture_margin_right = 20.0
+texture_margin_bottom = 20.0
+
+[sub_resource type="Theme" id="Theme_cpbh4"]
+default_font = ExtResource("6_6kuwx")
+default_font_size = 32
+Button/styles/disabled = SubResource("StyleBoxTexture_dlme4")
+Button/styles/hover = SubResource("StyleBoxTexture_7cj6c")
+Button/styles/normal = SubResource("StyleBoxTexture_coc11")
+Button/styles/pressed = SubResource("StyleBoxTexture_iuxhn")
+Panel/styles/panel = SubResource("StyleBoxTexture_o24ym")
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_3n3ea")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1meey"]
+texture = ExtResource("8_n3tdj")
+texture_margin_left = 20.0
+texture_margin_top = 20.0
+texture_margin_right = 20.0
+texture_margin_bottom = 20.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="Theme" id="Theme_rkbav"]
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_1meey")
+
+[node name="Shop" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_cpbh4")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -210.5
+offset_right = 440.0
+offset_bottom = 210.5
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 2
+offset_right = 440.0
+offset_bottom = 421.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = -1
+alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="Control/VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/VBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/VBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Items grid" type="GridContainer" parent="Control/VBoxContainer/PanelContainer/VBoxContainer/MarginContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 5
+
+[node name="ItemTemplate" parent="Control/VBoxContainer/PanelContainer/VBoxContainer/MarginContainer/Items grid" instance=ExtResource("7_x3lj0")]
+layout_mode = 2
+
+[node name="ItemTemplate2" parent="Control/VBoxContainer/PanelContainer/VBoxContainer/MarginContainer/Items grid" instance=ExtResource("7_x3lj0")]
+layout_mode = 2
+
+[node name="ItemTemplate3" parent="Control/VBoxContainer/PanelContainer/VBoxContainer/MarginContainer/Items grid" instance=ExtResource("7_x3lj0")]
+layout_mode = 2
+
+[node name="ItemTemplate4" parent="Control/VBoxContainer/PanelContainer/VBoxContainer/MarginContainer/Items grid" instance=ExtResource("7_x3lj0")]
+layout_mode = 2
+
+[node name="ItemTemplate5" parent="Control/VBoxContainer/PanelContainer/VBoxContainer/MarginContainer/Items grid" instance=ExtResource("7_x3lj0")]
+layout_mode = 2
+
+[node name="ItemTemplate6" parent="Control/VBoxContainer/PanelContainer/VBoxContainer/MarginContainer/Items grid" instance=ExtResource("7_x3lj0")]
+layout_mode = 2
+
+[node name="ItemTemplate7" parent="Control/VBoxContainer/PanelContainer/VBoxContainer/MarginContainer/Items grid" instance=ExtResource("7_x3lj0")]
+layout_mode = 2
+
+[node name="ItemInfoFrame" type="PanelContainer" parent="Control/VBoxContainer"]
+layout_mode = 2
+theme = SubResource("Theme_rkbav")
+
+[node name="Texts" type="VBoxContainer" parent="Control/VBoxContainer/ItemInfoFrame"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ItemName" type="Label" parent="Control/VBoxContainer/ItemInfoFrame/Texts"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 48
+text = "Item"
+
+[node name="HSeparator" type="HSeparator" parent="Control/VBoxContainer/ItemInfoFrame/Texts"]
+layout_mode = 2
+
+[node name="ItemDescription" type="Label" parent="Control/VBoxContainer/ItemInfoFrame/Texts"]
+custom_minimum_size = Vector2(100, 20)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "This is a cool item that does amazing things for its price."
+autowrap_mode = 2
+
+[node name="Funds" type="HBoxContainer" parent="Control/VBoxContainer"]
+layout_mode = 2
+
+[node name="Wallet" type="PanelContainer" parent="Control/VBoxContainer/Funds"]
+custom_minimum_size = Vector2(87.01, 0)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer/Funds/Wallet"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/VBoxContainer/Funds/Wallet/HBoxContainer"]
+layout_mode = 2
+text = "1000"
+horizontal_alignment = 2
+
+[node name="TextureRect" type="TextureRect" parent="Control/VBoxContainer/Funds/Wallet/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("9_l6pe1")
+
+[node name="Space" type="Control" parent="Control/VBoxContainer/Funds"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PurchaseButton" type="Button" parent="Control/VBoxContainer/Funds"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Purchase for 55"
+icon = ExtResource("9_l6pe1")
+icon_alignment = 2
+
+[node name="CloseButton" type="TextureButton" parent="Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_top = 5.0
+offset_right = -5.0
+grow_horizontal = 0
+texture_normal = ExtResource("10_at43k")
+stretch_mode = 4
