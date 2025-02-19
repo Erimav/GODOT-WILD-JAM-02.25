@@ -39,7 +39,7 @@ eGenerateMap = true
 eMarkStartAndEnd = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 0, 0, 0)
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, -1.66853, 0.77755, 0.415482)
 mesh = SubResource("PlaneMesh_n5s15")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]

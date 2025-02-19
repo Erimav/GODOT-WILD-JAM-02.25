@@ -15,9 +15,16 @@ public partial class Target : Node
 		AllTargets.Add(this);
 	}
 
+	public void Destroy()
+	{
+		AllTargets.Remove(this);
+		QueueFree();
+	}
+
 	public void TakeHit(int damage)
 	{
 		GD.Print("Ouch!");
 		EmitSignal(SignalName.Hit, damage);
 	}
+
 }
