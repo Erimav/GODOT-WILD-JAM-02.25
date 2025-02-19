@@ -20,6 +20,38 @@ public partial class Map
             new TilePosition(0, 1)
         };
 
+	private List<TilePosition> mLargeOffsets = new List<TilePosition>()
+	{
+		new TilePosition(-2, 0),
+		new TilePosition(-1, -1),
+		new TilePosition(0, -2),
+		new TilePosition(1, -1),
+		new TilePosition(2, 0),
+		new TilePosition(1, 1),
+		new TilePosition(0, 2),
+		new TilePosition(-1, 1),
+
+	};
+
+    // PRIVATE
+    private int CalculateTilePriority(TilePosition tile, List<TilePosition> offsets, Dictionary<int, List<TilePosition>> tilePriorities)
+	{
+		int priority = 0;
+		foreach (var offset in offsets)
+		{
+			TilePosition neighbour = tile + offset;
+			if (IsOnMap(neighbour))
+			{
+				if (tilePriorities[-1].Find((tile) => tile == neighbour) != null)
+				{
+					if (offset.GetModuleDistance() == 2) priority += 1;
+					else if (offset.GetModuleDistance() == 1) priority += 2;
+				}
+			}
+		}
+		return priority;
+	}
+
     // PUBLIC
     public bool IsOnMap(TilePosition tilePosition)
 	{
@@ -280,9 +312,9 @@ public partial class Map
 		return path;
 	}
 
-	public int[,] GetTileTowerPriorities(Tower tower)
+	public Dictionary<int, List<TilePosition>> GetTileTowerPriorities(Tower tower)
 	{
-        int[,] tilePriorities = new int[mHeight, mWidth];
+        Dictionary<int, List<TilePosition>> tilePriorities = new Dictionary<int, List<TilePosition>>();
 		List<TilePosition> path = GetShortestPath();
         foreach (var tile in path)
         {
@@ -293,29 +325,46 @@ public partial class Map
 				}) != null)
 			{
 				// -1 means it's the shortest path
-				tilePriorities[y, x] = -1;
+				if (!tilePriorities.ContainsKey(-1))
+				{
+					tilePriorities.Add(-1, new List<TilePosition> { tile });
+				}
+				else
+				{
+					tilePriorities[-1].Add(tile);
+
+				}
 			}
 		}
 
-		foreach (var tile in path)
+		List<TilePosition> offsets = mLargeOffsets;
+		offsets.AddRange(mOffsets);
+		foreach (var tileList in mMap)
 		{
-			int x = tile.mX;
-			int y = tile.mY;
-			// -1 means it's the shortest path
-			if (tilePriorities[y, x] == -1)
+			foreach (var tile in tileList)
 			{
-				foreach(var offset in mOffsets)
+				int x = tile.mX;
+				int y = tile.mY;
+				TileFill tileFill = mMapFilled[y][x];
+				if (tileFill.isMimic || tileFill.isTower || tileFill.isClear)
 				{
-					TilePosition neighbour = tile + offset;
-                    if (neighbour.mX < 0 || neighbour.mX >= mWidth ||
-						neighbour.mY < 0 || neighbour.mY >= mHeight)
-                    {
-                        continue;
-                    }
-                }
+					//GD.Print("GetTileTowerPriorities - Tile Occupied and skipped");
+					continue;
+				}
+				int priority = CalculateTilePriority(tile, offsets, tilePriorities);
+				if (!tilePriorities.ContainsKey(priority))
+				{
+					tilePriorities[priority] = new List<TilePosition>() { tile };
+				}
+				else
+				{
+					tilePriorities[priority].Add(tile);
+
+				}
 			}
+			
 		}
-		return new int[mHeight, mWidth];
+		return tilePriorities;
 	}
 
     // PUBLIC DEBUG

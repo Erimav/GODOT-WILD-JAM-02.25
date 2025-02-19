@@ -30,6 +30,11 @@ public partial class GameController : Node
     // PRIVATE
     private int mWaveNumber = 1;
 
+    public int WaveNumber
+    {
+        get => mWaveNumber;
+    }
+
     // PUBLIC METHODS
 
     public override void _Ready()

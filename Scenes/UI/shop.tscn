@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://cp34lm64ukxgx"]
+[gd_scene load_steps=20 format=3 uid="uid://yp2udiaiwo6i"]
 
 [ext_resource type="Texture2D" uid="uid://bg3fyfda7c71g" path="res://Assets/Sprites/UI Scaled/tile_0016.png" id="1_6w8hc"]
 [ext_resource type="Texture2D" uid="uid://r2dcbxpgrqmh" path="res://Assets/Sprites/UI Scaled/tile_0021.png" id="2_3qbxk"]
@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cj1jt55so438" path="res://Assets/Sprites/UI Scaled/tile_0020.png" id="4_jnwma"]
 [ext_resource type="Texture2D" uid="uid://cqk7rxyj8a7vm" path="res://Assets/Sprites/UI Scaled/tile_0028.png" id="5_p2mi7"]
 [ext_resource type="FontFile" uid="uid://bwuieix6ipei" path="res://m5x7.ttf" id="6_6kuwx"]
-[ext_resource type="PackedScene" uid="uid://e16pxuvwuqnl" path="res://Scenes/UI/item_template.tscn" id="7_x3lj0"]
+[ext_resource type="PackedScene" uid="uid://d4cbe7h1p4twy" path="res://Scenes/UI/item_template.tscn" id="7_x3lj0"]
 [ext_resource type="Texture2D" uid="uid://32r5bu1xbeyb" path="res://Assets/Sprites/UI Scaled/tile_0018.png" id="8_n3tdj"]
 [ext_resource type="Texture2D" uid="uid://c5otnerdsq4kh" path="res://Assets/Sprites/UI/tile_0039.png" id="9_l6pe1"]
 [ext_resource type="Texture2D" uid="uid://qrlqy1i06gfk" path="res://Assets/Sprites/UI Scaled/close_button.png" id="10_at43k"]

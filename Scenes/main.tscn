@@ -69,8 +69,9 @@ mGameController = NodePath("../../GameController")
 layout_mode = 1
 mGameController = NodePath("../../GameController")
 
-[node name="EnemyController" parent="." node_paths=PackedStringArray("eMapObject") instance=ExtResource("7_dufwh")]
+[node name="EnemyController" parent="." node_paths=PackedStringArray("eMapObject", "eGameController") instance=ExtResource("7_dufwh")]
 eMapObject = NodePath("../Map")
+eGameController = NodePath("../GameController")
 eTowersPrefabs = Array[PackedScene]([ExtResource("7_uk5tl")])
 
 [node name="GameController" parent="." node_paths=PackedStringArray("eMobController", "eMapObject") instance=ExtResource("5_8v0vu")]
@@ -86,4 +87,5 @@ eMapObject = NodePath("../Map")
 [connection signal="blockIsMimic" from="Map" to="PlayerController" method="OnMimic"]
 [connection signal="blockIsTower" from="Map" to="PlayerController" method="onTower"]
 [connection signal="isBlockPressed" from="Map" to="PlayerController" method="TilePressed"]
+[connection signal="GameStateSetToWave" from="GameController" to="EnemyController" method="OnPrepare"]
 [connection signal="TryEraseTile" from="PlayerController" to="Map" method="OnTryEraseTile"]

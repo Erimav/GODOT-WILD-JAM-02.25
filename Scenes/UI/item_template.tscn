@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://e16pxuvwuqnl"]
+[gd_scene load_steps=3 format=3 uid="uid://d4cbe7h1p4twy"]
 
 [ext_resource type="Texture2D" uid="uid://wx258be4vugq" path="res://Assets/Sprites/UI Scaled/tile_0019.png" id="1_udr44"]
 [ext_resource type="Texture2D" uid="uid://by7yx7rjwfdyi" path="res://Assets/Sprites/UI/tile_0081.png" id="2_0mi15"]

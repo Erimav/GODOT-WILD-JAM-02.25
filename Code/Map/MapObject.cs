@@ -159,6 +159,17 @@ public partial class MapObject : Node
 
     }
 
+    public void ErrectTower(TilePosition towerPosition, PackedScene towerPrefab)
+    {
+        Tower tower = towerPrefab.Instantiate<Tower>();
+
+        tower.Position = new Vector3(towerPosition.mY * eTileRowMargin, 0, towerPosition.mX * eTileColMargin) + eMapStartPosition;
+        TileFill tileFill = mMap.GetTileFill(towerPosition);
+        mTiles[towerPosition.mY][towerPosition.mX].ClearTile();
+        tileFill.isTower = true;
+        AddChild(tower);
+    }
+
     public void onBlockClicked(Tile block)
     {
         GD.Print("onBlockClicked");
@@ -217,7 +228,7 @@ public partial class MapObject : Node
             ePath3D.Curve.AddPoint(tile.Position);
         }
     }
-    public int[,] GetTileTowerPriorities(Tower tower)
+    public Dictionary<int, List<TilePosition>> GetTileTowerPriorities(Tower tower)
     {
         return mMap.GetTileTowerPriorities(tower);
     }
