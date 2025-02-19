@@ -41,7 +41,7 @@ public partial class Projectile : Node3D
             .SetEase(Tween.EaseType.In);
         tween.TweenMethod(Callable.From<float>(d =>
         {
-            if (Target is null)
+            if (!IsInstanceValid(Target))
             {
                 QueueFree();
             }
@@ -58,10 +58,6 @@ public partial class Projectile : Node3D
         }), distance, 0f, travelTime);
         tween.TweenCallback(Callable.From(() =>
         {
-            if (Target is null)
-            {
-                QueueFree();
-            }
             if (IsInstanceValid(Target))
             {
                 Target.TakeHit(1);
