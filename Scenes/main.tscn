@@ -87,5 +87,6 @@ eMapObject = NodePath("../Map")
 [connection signal="blockIsMimic" from="Map" to="PlayerController" method="OnMimic"]
 [connection signal="blockIsTower" from="Map" to="PlayerController" method="onTower"]
 [connection signal="isBlockPressed" from="Map" to="PlayerController" method="TilePressed"]
-[connection signal="GameStateSetToWave" from="GameController" to="EnemyController" method="OnPrepare"]
+[connection signal="GameStateSetToPrepare" from="GameController" to="EnemyController" method="OnPrepare"]
+[connection signal="GameStateSetToWave" from="GameController" to="EnemyController" method="OnWaveBegin"]
 [connection signal="TryEraseTile" from="PlayerController" to="Map" method="OnTryEraseTile"]

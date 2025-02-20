@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 public partial class EnemyController : Node
 {
@@ -12,6 +13,8 @@ public partial class EnemyController : Node
     private PackedScene[] eTowersPrefabs;
 
     private List<(Tower, PackedScene)> mTowers;
+
+    private float mResources = 0; 
     // PUBLIC METHODS
 
     public override void _Ready()
@@ -28,9 +31,31 @@ public partial class EnemyController : Node
 
     public void OnPrepare(int waveNumber)
     {
-        GD.Print("Enemy Controller, On Prepare - wave number (" + waveNumber + ")");
-        float resources = GetResourceForTheWave(waveNumber);
+        mResources += GetResourceForTheWave(waveNumber);
+        float maxResourcesSpentForBoulders = mResources * 0.3f;
+        float resourcesSpentForBoulders = 0;
+        List<TilePosition> clearedTiles = eMapObject.GetTilesByTileFill(new TileFill(false, true, false)); 
+        while (mResources > 0 && resourcesSpentForBoulders < maxResourcesSpentForBoulders && clearedTiles.Count > 0)
+        {
+            TilePosition randomClearedPosition = clearedTiles[new Random().Next(clearedTiles.Count)];
+            if (eMapObject.TryRestoreBoulder(randomClearedPosition))
+            {
+                resourcesSpentForBoulders += 25.0f;
+            }
+            clearedTiles.Remove(randomClearedPosition);
+        }
+        mResources -= resourcesSpentForBoulders;
+        eMapObject.AddMimics(waveNumber + 3);
+    }
+
+    public void OnWaveBegin(int waveNumber)
+    {
+        GD.Print("Enemy Controller, On Wave begin - wave number (" + waveNumber + ")");
+        GD.Print("Enemy Controller. On Wave begin - resources (" + mResources + ")");
         float cheapestTower = float.MaxValue;
+        // Spawn Boulders on Random Cleared Tiles
+
+
         // Spawn Random Tower
         foreach(var tower in mTowers)
         {
@@ -38,12 +63,12 @@ public partial class EnemyController : Node
                 cheapestTower = tower.Item1.Price;
         }
 
-        while (resources > cheapestTower)
+        while (mResources >= cheapestTower)
         {
             List<(Tower, PackedScene)> possibleTowers = new List<(Tower, PackedScene)>();
             foreach(var tower in mTowers)
             {
-                if (tower.Item1.Price <= resources)
+                if (tower.Item1.Price <= mResources)
                     possibleTowers.Add((tower));
             }
             Random random = new Random();
@@ -62,7 +87,7 @@ public partial class EnemyController : Node
             TilePosition towerPosition = tilePriorities[biggestPriority][random.Next(tilePriorities[biggestPriority].Count)];
             //tilePriorities[biggestPriority].Remove(towerPosition);
             eMapObject.ErrectTower(towerPosition, curTower.Item2);
-            resources -= curTower.Item1.Price;
+            mResources -= curTower.Item1.Price;
             
         }
     }

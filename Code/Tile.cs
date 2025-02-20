@@ -7,7 +7,7 @@ public partial class Tile : Node3D
 	public delegate void isBlockPressedEventHandler(Tile block);
 
     [Export]
-    private PackedScene[] eBlockMeshVariants;
+    private PackedScene[] eBoulderMeshVariants;
     [Export]
     private PackedScene[] eClearTileMeshVariants;
 	[Export]
@@ -17,10 +17,7 @@ public partial class Tile : Node3D
 
     public override void _Ready()
     {
-		PackedScene blockPrefab = eBlockMeshVariants[new Random().Next(eBlockMeshVariants.Length)];
-		var block = blockPrefab.Instantiate();
-		AddChild(block);
-		mTileContent = block;
+		AddBoulder();
     }
 
     void OnInputEvent(Node camera, InputEvent inputEvent, Vector3 eventPosition, Vector3 normal, int shape_idx)
@@ -29,6 +26,7 @@ public partial class Tile : Node3D
 		{
 			if (mouseEvent.Pressed && mouseEvent.ButtonIndex == MouseButton.Left)
 			{
+				GD.Print("Tile: On Input Event. Left Click Pressed");
 				EmitSignal("isBlockPressed", this);
 			}
 		}
@@ -44,6 +42,14 @@ public partial class Tile : Node3D
 		Node clrearEffect = eClearEffect.Instantiate();
 
 		AddChild(clrearEffect);
+    }
+
+	public void AddBoulder()
+	{
+        PackedScene blockPrefab = eBoulderMeshVariants[new Random().Next(eBoulderMeshVariants.Length)];
+        var block = blockPrefab.Instantiate();
+        AddChild(block);
+        mTileContent = block;
     }
 
 	public void ChangeColor(float r, float g, float b)
