@@ -41,6 +41,10 @@ public partial class Projectile : Node3D
             .SetEase(Tween.EaseType.In);
         tween.TweenMethod(Callable.From<float>(d =>
         {
+            if (!IsInstanceValid(Target))
+            {
+                QueueFree();
+            }
             var flatDirection = Target.TargetPosition - GlobalPosition;
             flatDirection.Y = 0;
             flatDirection = flatDirection.Normalized();
@@ -54,8 +58,11 @@ public partial class Projectile : Node3D
         }), distance, 0f, travelTime);
         tween.TweenCallback(Callable.From(() =>
         {
-            Target.TakeHit(1);
-            Free();
+            if (IsInstanceValid(Target))
+            {
+                Target.TakeHit(1);
+            }
+            QueueFree();
         })).SetDelay(travelTime);
     }
 }

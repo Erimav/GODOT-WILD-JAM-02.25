@@ -40,5 +40,10 @@ public class TilePosition
     {
         return "(x: " + mX + " | " + "y: " + mY + ")";
     }
+
+    public int GetModuleDistance()
+    {
+        return Math.Abs(mX) + Math.Abs(mY);
+    }
 }
 

@@ -9,9 +9,12 @@ public partial class Mob : Node3D
 	public delegate void OnMobDeadPathEventHandler(Mob mob);
 
 	[Export]
-	private float mMaxHP;
+	private Target eTarget;
+
 	[Export]
-	private float mMoveSpeed;
+	private float eMaxHP;
+	[Export]
+	private float eMoveSpeed;
 
 	// PRIVATE
 	private float mCurHP;
@@ -26,7 +29,7 @@ public partial class Mob : Node3D
 
     public override void _Ready()
     {
-		mCurHP = mMaxHP;
+		mCurHP = eMaxHP;
         base._Ready();
     }
 
@@ -34,20 +37,31 @@ public partial class Mob : Node3D
     {
 		if (mPath != null)
 		{
-			mPath.Progress += mMoveSpeed * (float)delta;
+			mPath.Progress += eMoveSpeed * (float)delta;
 			if (mPath.ProgressRatio >= 1.0f)
 			{
 				EmitSignal("OnMobFinishedPath", this);
-				mPath.QueueFree();
+				Destroy();
 			}
 		}
 		if (mCurHP <= 0.0f)
 		{
 			EmitSignal("OnMobDeadPath", this);
-			mPath.QueueFree();
-		}
+            Destroy();
+        }
 		base._Process(delta);
     }
+
+	public void Destroy()
+	{
+		eTarget.Destroy();
+		mPath.QueueFree();
+	}
+
+	public void TakeHit(int damage)
+	{
+		mCurHP -= damage;
+	}
 
 
 }

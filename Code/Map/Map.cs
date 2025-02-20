@@ -20,34 +20,89 @@ public partial class Map
             new TilePosition(0, 1)
         };
 
+	private List<TilePosition> mLargeOffsets = new List<TilePosition>()
+	{
+		new TilePosition(-2, 0),
+		new TilePosition(-1, -1),
+		new TilePosition(0, -2),
+		new TilePosition(1, -1),
+		new TilePosition(2, 0),
+		new TilePosition(1, 1),
+		new TilePosition(0, 2),
+		new TilePosition(-1, 1),
+
+	};
+
+    // PRIVATE
+    private int CalculateTilePriority(TilePosition tile, List<TilePosition> offsets, Dictionary<int, List<TilePosition>> tilePriorities)
+	{
+		int priority = 0;
+		foreach (var offset in offsets)
+		{
+			TilePosition neighbour = tile + offset;
+			if (IsOnMap(neighbour))
+			{
+				if (tilePriorities[-1].Find((tile) => tile == neighbour) != null)
+				{
+					if (offset.GetModuleDistance() == 2) priority += 1;
+					else if (offset.GetModuleDistance() == 1) priority += 2;
+				}
+			}
+		}
+		return priority;
+	}
+
     // PUBLIC
     public bool IsOnMap(TilePosition tilePosition)
 	{
 		return !(tilePosition.mX < 0 || tilePosition.mX >= mWidth || tilePosition.mY < 0 || tilePosition.mY >= mHeight);
 	}
-    public List<TilePosition> GetPlayerOpenEndPositions()
-    {
-        List<TilePosition> openStartPositions = new List<TilePosition>();
+	
+	public List<TilePosition> GetPlayerEndPositions()
+	{
+        List<TilePosition> openEndPositions = new List<TilePosition>();
         for (int i = 0; i < mHeight; ++i)
         {
-            TileFill tileFill = mMapFilled[i][mWidth-1];
+            openEndPositions.Add(mMap[i][mWidth - 1]);
+        }
+        return openEndPositions;
+    }
+
+    public List<TilePosition> GetPlayerOpenEndPositions()
+    {
+		List<TilePosition> endPositions = GetPlayerEndPositions();
+		List<TilePosition> openEndPositions = new List<TilePosition>();
+        foreach (var endPosition in endPositions)
+        {
+            TileFill tileFill = mMapFilled[endPosition.mY][endPosition.mX];
             if (tileFill.isClear)
             {
-                openStartPositions.Add(mMap[i][mWidth - 1]);
+                openEndPositions.Add(mMap[endPosition.mY][endPosition.mX]);
             }
         }
-        return openStartPositions;
+        return openEndPositions;
+    }
+
+	public List<TilePosition> GetPlayerStartPositions()
+	{
+        List<TilePosition> openEndPositions = new List<TilePosition>();
+        for (int i = 0; i < mHeight; ++i)
+        {
+            openEndPositions.Add(mMap[i][0]);
+        }
+        return openEndPositions;
     }
 
     public List<TilePosition> GetPlayerOpenStartPositions()
     {
         List<TilePosition> openStartPositions = new List<TilePosition>();
-        for (int i = 0; i < mHeight; ++i)
+		List<TilePosition> startPositions = GetPlayerStartPositions();
+        foreach (var startPosition in startPositions)
         {
-            TileFill tileFill = mMapFilled[i][0];
+            TileFill tileFill = mMapFilled[startPosition.mY][startPosition.mX];
             if (tileFill.isClear)
             {
-                openStartPositions.Add(mMap[i][0]);
+                openStartPositions.Add(mMap[startPosition.mY][startPosition.mX]);
             }
         }
         return openStartPositions;
@@ -103,23 +158,38 @@ public partial class Map
 	{
 		// BLESS RNGesus
 		RandomNumberGenerator RNG = new RandomNumberGenerator();
+		
+		List<TilePosition> startPositions = GetPlayerStartPositions();
+		List<TilePosition> endPositions   = GetPlayerEndPositions();
+		List<TilePosition> canSpawnMimic = new List<TilePosition>();
+
+		foreach (var tileList in mMap)
+		{
+			foreach (var tile in tileList)
+			{
+				TileFill tileFill = mMapFilled[tile.mY][tile.mX];
+				Predicate<TilePosition> predicate = (TilePosition tilePosition) => { return tile == tilePosition; };
+				if (startPositions.Find(predicate)  != null ||
+					endPositions.Find(predicate)	!= null ||
+                    !tileFill.CanSpawnMimic())
+				{
+					continue;
+				}
+				else
+				{
+					canSpawnMimic.Add(tile);
+				}
+			}
+		}
+
 		for (int i = 0; i < number; ++i)
 		{
-			int x = (int)(RNG.Randi() % mWidth);
-			int y = (int)(RNG.Randi() % mHeight);
+			if (canSpawnMimic.Count == 0) break;
+			TilePosition mimicPosition = canSpawnMimic[RNG.RandiRange(0, canSpawnMimic.Count)];
 
-			TilePosition tilePosition = mMap[y][x];
-			TileFill tileFill = mMapFilled[y][x];
-			GD.Print("Random X: " + x + " | Y: " + y + ";\n");
-			GD.Print("Tile fetched by Random coordinate: " + tilePosition);
-			if (tileFill.IsOccupiedBySomething())
-			{
-				number++;
-			}
-			else
-			{
-				mMapFilled[y][x].isMimic = true;
-			}
+			GD.Print("Tile fetched by Random coordinate: " + mimicPosition);
+			mMapFilled[mimicPosition.mY][mimicPosition.mX].isMimic = true;
+			canSpawnMimic.Remove(mimicPosition);
         }
 	}
 
@@ -280,9 +350,9 @@ public partial class Map
 		return path;
 	}
 
-	public int[,] GetTileTowerPriorities(Tower tower)
+	public Dictionary<int, List<TilePosition>> GetTileTowerPriorities(Tower tower)
 	{
-        int[,] tilePriorities = new int[mHeight, mWidth];
+        Dictionary<int, List<TilePosition>> tilePriorities = new Dictionary<int, List<TilePosition>>();
 		List<TilePosition> path = GetShortestPath();
         foreach (var tile in path)
         {
@@ -293,29 +363,46 @@ public partial class Map
 				}) != null)
 			{
 				// -1 means it's the shortest path
-				tilePriorities[y, x] = -1;
+				if (!tilePriorities.ContainsKey(-1))
+				{
+					tilePriorities.Add(-1, new List<TilePosition> { tile });
+				}
+				else
+				{
+					tilePriorities[-1].Add(tile);
+
+				}
 			}
 		}
 
-		foreach (var tile in path)
+		List<TilePosition> offsets = mLargeOffsets;
+		offsets.AddRange(mOffsets);
+		foreach (var tileList in mMap)
 		{
-			int x = tile.mX;
-			int y = tile.mY;
-			// -1 means it's the shortest path
-			if (tilePriorities[y, x] == -1)
+			foreach (var tile in tileList)
 			{
-				foreach(var offset in mOffsets)
+				int x = tile.mX;
+				int y = tile.mY;
+				TileFill tileFill = mMapFilled[y][x];
+				if (tileFill.isMimic || tileFill.isTower || tileFill.isClear)
 				{
-					TilePosition neighbour = tile + offset;
-                    if (neighbour.mX < 0 || neighbour.mX >= mWidth ||
-						neighbour.mY < 0 || neighbour.mY >= mHeight)
-                    {
-                        continue;
-                    }
-                }
+					//GD.Print("GetTileTowerPriorities - Tile Occupied and skipped");
+					continue;
+				}
+				int priority = CalculateTilePriority(tile, offsets, tilePriorities);
+				if (!tilePriorities.ContainsKey(priority))
+				{
+					tilePriorities[priority] = new List<TilePosition>() { tile };
+				}
+				else
+				{
+					tilePriorities[priority].Add(tile);
+
+				}
 			}
+			
 		}
-		return new int[mHeight, mWidth];
+		return tilePriorities;
 	}
 
     // PUBLIC DEBUG

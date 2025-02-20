@@ -21,6 +21,6 @@ public partial class PurchaseButton : Button
     {
         var item = itemSlot.Item;
         Text = item.Price.ToString();
-        Disabled = item.Price <= Wallet.Balance;
+        Disabled = item.Price > Wallet.Balance;
     }
 }

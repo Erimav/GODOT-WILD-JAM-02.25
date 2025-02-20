@@ -28,13 +28,19 @@ public partial class GameController : Node
     private int eSpawnNumber;
 
     // PRIVATE
-    private int mWaveNumber = 1;
+    private int mWaveNumber = 0;
+
+    public int WaveNumber
+    {
+        get => mWaveNumber;
+    }
 
     // PUBLIC METHODS
 
     public override void _Ready()
     {
         base._Ready();
+        SetPrepare();
     }
 
     public bool CanSetToWave()

@@ -52,6 +52,7 @@ public partial class Tower : Node3D
 
     public override void _Process(double delta)
     {
+        
         if (Target is null)
         {
             if (FindClosestExposedTarget() is Target target)
@@ -60,8 +61,9 @@ public partial class Tower : Node3D
                 mShootTimer.Start();
             }
         }
-        else if (!IsTargetExposed(Target) || GlobalPosition.DistanceTo(Target.TargetPosition) > eDistance)
+        else if (!IsInstanceValid(Target) || (!IsTargetExposed(Target) || GlobalPosition.DistanceTo(Target.TargetPosition) > eDistance))
         {
+            GD.Print("Is Target Valid: " + IsInstanceValid(Target));
             var newTarget = FindClosestExposedTarget();
             if (newTarget is not null)
             {

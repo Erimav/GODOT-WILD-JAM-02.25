@@ -12,7 +12,7 @@
 [node name="Tile" type="Node3D"]
 transform = Transform3D(1.03969, 0, 0, 0, 1.03969, 0, 0, 0, 1.03969, 0, 0, 0)
 script = ExtResource("1_d3pn2")
-eBlockMeshVariants = Array[PackedScene]([ExtResource("2_n3jha"), ExtResource("3_2jpkq"), ExtResource("4_qe41w")])
+eBoulderMeshVariants = Array[PackedScene]([ExtResource("2_n3jha"), ExtResource("3_2jpkq"), ExtResource("4_qe41w")])
 eClearTileMeshVariants = Array[PackedScene]([ExtResource("5_2ej3d")])
 eClearEffect = ExtResource("6_jpvpq")
 

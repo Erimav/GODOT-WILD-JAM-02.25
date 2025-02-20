@@ -1,12 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://04x2hvwpe7k1"]
+[gd_scene load_steps=4 format=3 uid="uid://04x2hvwpe7k1"]
 
 [ext_resource type="PackedScene" uid="uid://1xmup3cl5mis" path="res://Assets/Models/goblin.glb" id="1_gu8cl"]
 [ext_resource type="Script" path="res://Code/Mob/Mob.cs" id="2_u3yeh"]
+[ext_resource type="Script" path="res://Code/Combat/Target.cs" id="3_yob4u"]
 
-[node name="goblin" instance=ExtResource("1_gu8cl")]
+[node name="goblin" node_paths=PackedStringArray("eTarget") instance=ExtResource("1_gu8cl")]
 script = ExtResource("2_u3yeh")
-mMaxHP = 5.0
-mMoveSpeed = 10.0
+eTarget = NodePath("Node")
+eMaxHP = 10.0
+eMoveSpeed = 1.0
 
 [node name="Skeleton3D" parent="Armature" index="0"]
 bones/0/position = Vector3(-2.15108, 3.99403, -30.5026)
@@ -94,3 +96,8 @@ bones/54/rotation = Quaternion(0.575505, 0.257273, 0.303168, 0.714629)
 bones/54/scale = Vector3(1, 1, 1)
 bones/55/rotation = Quaternion(0.334884, 0.175353, -0.0597868, 0.923867)
 bones/55/scale = Vector3(1, 1, 1)
+
+[node name="Node" type="Node" parent="." index="2"]
+script = ExtResource("3_yob4u")
+
+[connection signal="Hit" from="Node" to="." method="TakeHit"]

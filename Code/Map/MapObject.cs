@@ -142,7 +142,7 @@ public partial class MapObject : Node
             rowOffset = new Vector3(rowOffset.X + eTileRowMargin, rowOffset.Y, rowOffset.Z);
         }
 
-        mMap.AddMimics(eMimicNumber);
+        AddMimics(eMimicNumber);
 
     }
 
@@ -157,6 +157,39 @@ public partial class MapObject : Node
         SetupPath(path);
         base._Process(delta);
 
+    }
+
+    public void AddMimics(int mimicNumber)
+    {
+        mMap.AddMimics(mimicNumber);
+    }
+
+    public void ErrectTower(TilePosition towerPosition, PackedScene towerPrefab)
+    {
+        Tower tower = towerPrefab.Instantiate<Tower>();
+
+        tower.Position = new Vector3(towerPosition.mY * eTileRowMargin, 0, towerPosition.mX * eTileColMargin) + eMapStartPosition;
+        TileFill tileFill = mMap.GetTileFill(towerPosition);
+        mTiles[towerPosition.mY][towerPosition.mX].ClearTile();
+        tileFill.isTower = true;
+        AddChild(tower);
+    }
+
+    public List<TilePosition> GetTilesByTileFill(TileFill predicate)
+    {
+        List<TilePosition> needTiles = new List<TilePosition>();
+        for (int y = 0; y < eHeight; ++y)
+        {
+            for (int x = 0; x < eWidth; ++x)
+            {
+                TileFill tileFill = mMap.GetTileFill(x,y);
+                if (predicate == tileFill)
+                {
+                    needTiles.Add(new TilePosition(x, y));
+                }
+            }
+        }
+        return needTiles;
     }
 
     public void onBlockClicked(Tile block)
@@ -175,6 +208,23 @@ public partial class MapObject : Node
                 }
             }
         }
+    }
+
+    public bool TryRestoreBoulder(int x, int y)
+    {
+        return TryRestoreBoulder(new TilePosition(x, y));
+    }
+
+    public bool TryRestoreBoulder(TilePosition tilePosition)
+    {
+        if (mMap.GetTileFill(tilePosition).isClear && !mMap.GetTileFill(tilePosition).isTower && !mMap.GetTileFill(tilePosition).isMimic)
+        {
+
+            mTiles[tilePosition.mY][tilePosition.mX].AddBoulder();
+            mMap.GetTileFill(tilePosition).isClear = false;
+            return true;
+        }
+        return false;
     }
 
     public void OnTryEraseTile(int xTile, int yTile)
@@ -217,7 +267,7 @@ public partial class MapObject : Node
             ePath3D.Curve.AddPoint(tile.Position);
         }
     }
-    public int[,] GetTileTowerPriorities(Tower tower)
+    public Dictionary<int, List<TilePosition>> GetTileTowerPriorities(Tower tower)
     {
         return mMap.GetTileTowerPriorities(tower);
     }
