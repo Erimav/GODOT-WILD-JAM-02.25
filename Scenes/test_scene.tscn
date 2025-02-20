@@ -40,8 +40,10 @@ constant_force = Vector3(0, 0, 2)
 [node name="Target" type="Node" parent="RigidBody3D/goblin"]
 script = ExtResource("7_fv7d6")
 
-[node name="vfx_Poof" parent="." instance=ExtResource("7_j2l2m")]
+[node name="vfx_Poof" parent="." node_paths=PackedStringArray("eParticles") instance=ExtResource("7_j2l2m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -2)
+eParticles = []
 
 [node name="Tower proto" parent="." instance=ExtResource("8_qxfgg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.53805, 0.0717802, -2.1778)
+ePrice = 0.0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://cp34lm64ukxgx"]
+[gd_scene load_steps=25 format=3 uid="uid://cp34lm64ukxgx"]
 
 [ext_resource type="Texture2D" uid="uid://bg3fyfda7c71g" path="res://Assets/Sprites/UI Scaled/tile_0016.png" id="1_6w8hc"]
 [ext_resource type="Texture2D" uid="uid://r2dcbxpgrqmh" path="res://Assets/Sprites/UI Scaled/tile_0021.png" id="2_3qbxk"]
@@ -6,10 +6,15 @@
 [ext_resource type="Texture2D" uid="uid://cj1jt55so438" path="res://Assets/Sprites/UI Scaled/tile_0020.png" id="4_jnwma"]
 [ext_resource type="Texture2D" uid="uid://cqk7rxyj8a7vm" path="res://Assets/Sprites/UI Scaled/tile_0028.png" id="5_p2mi7"]
 [ext_resource type="FontFile" uid="uid://bwuieix6ipei" path="res://m5x7.ttf" id="6_6kuwx"]
+[ext_resource type="Script" path="res://Code/Shop/ItemsGrid.cs" id="7_jm76s"]
+[ext_resource type="Script" path="res://Code/Shop/Shop.cs" id="7_km40n"]
 [ext_resource type="PackedScene" uid="uid://e16pxuvwuqnl" path="res://Scenes/UI/item_template.tscn" id="7_x3lj0"]
 [ext_resource type="Texture2D" uid="uid://32r5bu1xbeyb" path="res://Assets/Sprites/UI Scaled/tile_0018.png" id="8_n3tdj"]
 [ext_resource type="Texture2D" uid="uid://c5otnerdsq4kh" path="res://Assets/Sprites/UI/tile_0039.png" id="9_l6pe1"]
 [ext_resource type="Texture2D" uid="uid://qrlqy1i06gfk" path="res://Assets/Sprites/UI Scaled/close_button.png" id="10_at43k"]
+[ext_resource type="Script" path="res://Code/Shop/ItemInfoDisplay.cs" id="10_d3ps0"]
+[ext_resource type="Script" path="res://Code/Shop/BalanceDisplay.cs" id="11_ooi1j"]
+[ext_resource type="Script" path="res://Code/Shop/PurchaseButton.cs" id="13_2l7bw"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dlme4"]
 texture = ExtResource("1_6w8hc")
@@ -77,29 +82,35 @@ axis_stretch_vertical = 1
 [sub_resource type="Theme" id="Theme_rkbav"]
 PanelContainer/styles/panel = SubResource("StyleBoxTexture_1meey")
 
-[node name="Shop" type="Control"]
+[node name="Shop" type="Control" node_paths=PackedStringArray("eMainShopWindow")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(1.00307, 1.00208)
 theme = SubResource("Theme_cpbh4")
+script = ExtResource("7_km40n")
+eMainShopWindow = NodePath("Control")
+eSlideTime = 0.595
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_top = -210.5
-offset_right = 440.0
-offset_bottom = 210.5
+offset_top = -258.5
+offset_right = 494.0
+offset_bottom = 258.5
 grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control"]
 layout_mode = 2
-offset_right = 440.0
-offset_bottom = 421.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 474.0
+offset_bottom = 497.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = -1
@@ -111,44 +122,29 @@ layout_mode = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/VBoxContainer/PanelContainer"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="Control/VBoxContainer/PanelContainer/VBoxContainer"]
+[node name="Items Container" type="MarginContainer" parent="Control/VBoxContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="Items grid" type="GridContainer" parent="Control/VBoxContainer/PanelContainer/VBoxContainer/MarginContainer"]
+[node name="Items grid" type="GridContainer" parent="Control/VBoxContainer/PanelContainer/VBoxContainer/Items Container"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 theme_override_constants/h_separation = 10
 theme_override_constants/v_separation = 10
-columns = 5
+columns = 4
+script = ExtResource("7_jm76s")
+eItemSlotPrefab = ExtResource("7_x3lj0")
 
-[node name="ItemTemplate" parent="Control/VBoxContainer/PanelContainer/VBoxContainer/MarginContainer/Items grid" instance=ExtResource("7_x3lj0")]
-layout_mode = 2
-
-[node name="ItemTemplate2" parent="Control/VBoxContainer/PanelContainer/VBoxContainer/MarginContainer/Items grid" instance=ExtResource("7_x3lj0")]
-layout_mode = 2
-
-[node name="ItemTemplate3" parent="Control/VBoxContainer/PanelContainer/VBoxContainer/MarginContainer/Items grid" instance=ExtResource("7_x3lj0")]
-layout_mode = 2
-
-[node name="ItemTemplate4" parent="Control/VBoxContainer/PanelContainer/VBoxContainer/MarginContainer/Items grid" instance=ExtResource("7_x3lj0")]
-layout_mode = 2
-
-[node name="ItemTemplate5" parent="Control/VBoxContainer/PanelContainer/VBoxContainer/MarginContainer/Items grid" instance=ExtResource("7_x3lj0")]
-layout_mode = 2
-
-[node name="ItemTemplate6" parent="Control/VBoxContainer/PanelContainer/VBoxContainer/MarginContainer/Items grid" instance=ExtResource("7_x3lj0")]
-layout_mode = 2
-
-[node name="ItemTemplate7" parent="Control/VBoxContainer/PanelContainer/VBoxContainer/MarginContainer/Items grid" instance=ExtResource("7_x3lj0")]
-layout_mode = 2
-
-[node name="ItemInfoFrame" type="PanelContainer" parent="Control/VBoxContainer"]
+[node name="ItemInfoFrame" type="PanelContainer" parent="Control/VBoxContainer" node_paths=PackedStringArray("eName", "eDescription", "eItemsGrid")]
 layout_mode = 2
 theme = SubResource("Theme_rkbav")
+script = ExtResource("10_d3ps0")
+eName = NodePath("Texts/ItemName")
+eDescription = NodePath("Texts/ItemDescription")
+eItemsGrid = NodePath("../PanelContainer/VBoxContainer/Items Container/Items grid")
 
 [node name="Texts" type="VBoxContainer" parent="Control/VBoxContainer/ItemInfoFrame"]
 layout_mode = 2
@@ -184,6 +180,7 @@ layout_mode = 2
 layout_mode = 2
 text = "1000"
 horizontal_alignment = 2
+script = ExtResource("11_ooi1j")
 
 [node name="TextureRect" type="TextureRect" parent="Control/VBoxContainer/Funds/Wallet/HBoxContainer"]
 layout_mode = 2
@@ -193,20 +190,23 @@ texture = ExtResource("9_l6pe1")
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="PurchaseButton" type="Button" parent="Control/VBoxContainer/Funds"]
+[node name="PurchaseButton" type="Button" parent="Control/VBoxContainer/Funds" node_paths=PackedStringArray("eItemsGrid")]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Purchase for 55"
 icon = ExtResource("9_l6pe1")
 icon_alignment = 2
+script = ExtResource("13_2l7bw")
+eItemsGrid = NodePath("../../PanelContainer/VBoxContainer/Items Container/Items grid")
 
 [node name="CloseButton" type="TextureButton" parent="Control"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_top = 5.0
-offset_right = -5.0
+layout_mode = 2
+offset_left = 430.678
+offset_top = 26.7341
+offset_right = 462.678
+offset_bottom = 58.7341
 grow_horizontal = 0
 texture_normal = ExtResource("10_at43k")
 stretch_mode = 4
+
+[connection signal="pressed" from="Control/CloseButton" to="." method="HideMainWindow"]
