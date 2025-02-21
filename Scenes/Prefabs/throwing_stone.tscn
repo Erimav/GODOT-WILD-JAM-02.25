@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://n3rw0h2p3vgu"]
+[gd_scene load_steps=5 format=3 uid="uid://ch00dcc5nxcr0"]
 
 [ext_resource type="Script" path="res://Code/Combat/Projectile.cs" id="2_euqj4"]
+[ext_resource type="AudioStream" uid="uid://8ieyj3lip6qk" path="res://Assets/SFX/snowball-throw-hit_4-278172.mp3" id="2_v2kpp"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lhdhc"]
 albedo_color = Color(0.454524, 0.454524, 0.454524, 1)
@@ -10,6 +11,7 @@ material = SubResource("StandardMaterial3D_lhdhc")
 
 [node name="ThrowingStone" type="Node3D"]
 script = ExtResource("2_euqj4")
+eHitSound = ExtResource("2_v2kpp")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.438073, 0, 0, 0, 0.438073, 0, 0, 0, 0.438073, 0, 0, 0)

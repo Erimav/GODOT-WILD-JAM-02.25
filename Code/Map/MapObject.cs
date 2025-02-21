@@ -237,6 +237,7 @@ public partial class MapObject : Node
             if (tileFill.isMimic)
             {
                 EmitSignal("blockIsMimic");
+                mTiles[tilePosition.mY][tilePosition.mX].AddMimic();
                 return;
             }
             if (tileFill.isTower)

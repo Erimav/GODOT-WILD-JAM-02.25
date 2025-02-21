@@ -1,0 +1,48 @@
+[gd_scene load_steps=2 format=3 uid="uid://cjjt7i4h1hwmq"]
+
+[ext_resource type="Script" path="res://Code/AudioManager.cs" id="1_7cb76"]
+
+[node name="AudioManager" type="Node" node_paths=PackedStringArray("eSFXHitPlayers", "eSFXEnemyPlayers")]
+script = ExtResource("1_7cb76")
+eSFXHitPlayers = [NodePath("HitStreams/AudioStreamPlayer"), NodePath("HitStreams/AudioStreamPlayer2"), NodePath("HitStreams/AudioStreamPlayer3"), NodePath("HitStreams/AudioStreamPlayer4"), NodePath("HitStreams/AudioStreamPlayer5"), NodePath("HitStreams/AudioStreamPlayer6"), NodePath("HitStreams/AudioStreamPlayer7"), NodePath("HitStreams/AudioStreamPlayer8")]
+eSFXEnemyPlayers = [NodePath("EnemyStreams/AudioStreamPlayer"), NodePath("EnemyStreams/AudioStreamPlayer2"), NodePath("EnemyStreams/AudioStreamPlayer3"), NodePath("EnemyStreams/AudioStreamPlayer4")]
+
+[node name="HitStreams" type="Node" parent="."]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="HitStreams"]
+bus = &"SFX"
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="HitStreams"]
+bus = &"SFX"
+
+[node name="AudioStreamPlayer3" type="AudioStreamPlayer" parent="HitStreams"]
+bus = &"SFX"
+
+[node name="AudioStreamPlayer4" type="AudioStreamPlayer" parent="HitStreams"]
+bus = &"SFX"
+
+[node name="AudioStreamPlayer5" type="AudioStreamPlayer" parent="HitStreams"]
+bus = &"SFX"
+
+[node name="AudioStreamPlayer6" type="AudioStreamPlayer" parent="HitStreams"]
+bus = &"SFX"
+
+[node name="AudioStreamPlayer7" type="AudioStreamPlayer" parent="HitStreams"]
+bus = &"SFX"
+
+[node name="AudioStreamPlayer8" type="AudioStreamPlayer" parent="HitStreams"]
+bus = &"SFX"
+
+[node name="EnemyStreams" type="Node" parent="."]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="EnemyStreams"]
+bus = &"SFX"
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="EnemyStreams"]
+bus = &"SFX"
+
+[node name="AudioStreamPlayer3" type="AudioStreamPlayer" parent="EnemyStreams"]
+bus = &"SFX"
+
+[node name="AudioStreamPlayer4" type="AudioStreamPlayer" parent="EnemyStreams"]
+bus = &"SFX"

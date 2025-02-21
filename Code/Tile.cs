@@ -11,6 +11,8 @@ public partial class Tile : Node3D
     [Export]
     private PackedScene[] eClearTileMeshVariants;
 	[Export]
+	private PackedScene[] eMimicVariants;
+	[Export]
 	private PackedScene eClearEffect;
 
 	private Node mTileContent;
@@ -39,9 +41,9 @@ public partial class Tile : Node3D
         var clearTile = tilePrefab.Instantiate();
         AddChild(clearTile);
 		mTileContent = clearTile;
-		Node clrearEffect = eClearEffect.Instantiate();
+		Node clearEffect = eClearEffect.Instantiate();
 
-		AddChild(clrearEffect);
+		AddChild(clearEffect);
     }
 
 	public void AddBoulder()
@@ -50,6 +52,18 @@ public partial class Tile : Node3D
         var block = blockPrefab.Instantiate();
         AddChild(block);
         mTileContent = block;
+    }
+
+	public void AddMimic()
+	{
+		mTileContent.QueueFree();
+        PackedScene tilePrefab = eMimicVariants[new Random().Next(eMimicVariants.Length)];
+        var mimicTile = tilePrefab.Instantiate();
+        AddChild(mimicTile);
+        mTileContent = mimicTile;
+        Node3D clearEffect = eClearEffect.Instantiate<Node3D>();
+		clearEffect.Scale *= 2.5f;
+        AddChild(clearEffect);
     }
 
 	public void ChangeColor(float r, float g, float b)

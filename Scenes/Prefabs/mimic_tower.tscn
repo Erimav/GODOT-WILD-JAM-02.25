@@ -1,8 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bx3nv0u2lf0y3"]
+[gd_scene load_steps=4 format=3 uid="uid://bbvd8cf3h0x74"]
 
 [ext_resource type="PackedScene" uid="uid://276nrm7xieda" path="res://Assets/Models/mimic_tower.glb" id="1_g2ymv"]
 [ext_resource type="Script" path="res://Code/Combat/Tower.cs" id="2_8fluh"]
-[ext_resource type="PackedScene" uid="uid://n3rw0h2p3vgu" path="res://Scenes/Prefabs/throwing_stone.tscn" id="3_ypxex"]
+[ext_resource type="PackedScene" uid="uid://ch00dcc5nxcr0" path="res://Scenes/Prefabs/throwing_stone.tscn" id="3_ypxex"]
 
 [node name="mimic_tower" node_paths=PackedStringArray("eProjectileSpawnPoint") instance=ExtResource("1_g2ymv")]
 script = ExtResource("2_8fluh")

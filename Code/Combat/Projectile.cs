@@ -5,6 +5,8 @@ public partial class Projectile : Node3D
 {
     [Export]
     private float eSpeed = 10;
+    [Export]
+    private AudioStream eHitSound;
 
     private bool isFired;
     private Vector3 mLastPostition;
@@ -61,6 +63,7 @@ public partial class Projectile : Node3D
             if (IsInstanceValid(Target))
             {
                 Target.TakeHit(1);
+                AudioManager.Instance.PlayHitSound(eHitSound);
             }
             QueueFree();
         })).SetDelay(travelTime);

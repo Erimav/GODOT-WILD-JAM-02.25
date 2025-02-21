@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://e0wp0h0rrm1u"]
+[gd_scene load_steps=14 format=3 uid="uid://e0wp0h0rrm1u"]
 
 [ext_resource type="Script" path="res://Code/Map/MapObject.cs" id="1_ldni7"]
 [ext_resource type="PackedScene" uid="uid://c04p8dpts73sm" path="res://Scenes/Prefabs/tile.tscn" id="2_3i4cd"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://cd6n5dhrorcw1" path="res://Scenes/UI/hud.tscn" id="7_bk4vi"]
 [ext_resource type="PackedScene" uid="uid://ccnjexk57xyr1" path="res://Scenes/Controllers/enemy_controller.tscn" id="7_dufwh"]
 [ext_resource type="PackedScene" uid="uid://dkb62k31g4xmu" path="res://Scenes/Prefabs/tower_proto.tscn" id="7_uk5tl"]
+[ext_resource type="PackedScene" uid="uid://cjjt7i4h1hwmq" path="res://Scenes/Controllers/audio_manager.tscn" id="11_pu1pj"]
 
 [sub_resource type="Curve3D" id="Curve3D_y6g7l"]
 _data = {
@@ -84,6 +85,8 @@ eMobFinishedToWin = 50
 eMapObject = NodePath("../Map")
 
 [node name="PlayerController" parent="." instance=ExtResource("4_777qx")]
+
+[node name="AudioManager" parent="." instance=ExtResource("11_pu1pj")]
 
 [connection signal="blockErased" from="Map" to="PlayerController" method="onErase"]
 [connection signal="blockIsMimic" from="Map" to="PlayerController" method="OnMimic"]

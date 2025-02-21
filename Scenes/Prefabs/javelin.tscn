@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://b8oanxrprmm25"]
+[gd_scene load_steps=4 format=3 uid="uid://b8oanxrprmm25"]
 
 [ext_resource type="PackedScene" uid="uid://nhlhvya26flw" path="res://Assets/Models/Javelin.glb" id="1_qfvun"]
 [ext_resource type="Script" path="res://Code/Combat/Projectile.cs" id="2_yr5md"]
+[ext_resource type="AudioStream" uid="uid://8ieyj3lip6qk" path="res://Assets/SFX/snowball-throw-hit_4-278172.mp3" id="3_xe8mf"]
 
 [node name="Javelin" instance=ExtResource("1_qfvun")]
 script = ExtResource("2_yr5md")
+eHitSound = ExtResource("3_xe8mf")

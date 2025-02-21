@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://04x2hvwpe7k1"]
+[gd_scene load_steps=5 format=3 uid="uid://04x2hvwpe7k1"]
 
 [ext_resource type="PackedScene" uid="uid://1xmup3cl5mis" path="res://Assets/Models/goblin.glb" id="1_gu8cl"]
 [ext_resource type="Script" path="res://Code/Mob/Mob.cs" id="2_u3yeh"]
+[ext_resource type="AudioStream" uid="uid://bwtqjl0v7euvc" path="res://Assets/SFX/gag-with-liquid-rising-38246.mp3" id="3_q3pcs"]
 [ext_resource type="Script" path="res://Code/Combat/Target.cs" id="3_yob4u"]
 
 [node name="goblin" node_paths=PackedStringArray("eTarget", "eAnimationController") instance=ExtResource("1_gu8cl")]
@@ -11,6 +12,7 @@ eTarget = NodePath("Node")
 eAnimationController = NodePath("AnimationPlayer")
 eMaxHP = 10.0
 eMoveSpeed = 2.0
+mDyingSound = ExtResource("3_q3pcs")
 
 [node name="Skeleton3D" parent="Armature" index="0"]
 bones/0/position = Vector3(-2.15108, 3.99403, -30.5026)

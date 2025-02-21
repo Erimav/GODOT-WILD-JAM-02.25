@@ -20,6 +20,9 @@ public partial class Mob : Node3D
 	[Export]
 	private float eMoveSpeed;
 
+	[Export]
+	private AudioStream mDyingSound;
+
 	// PRIVATE
 	private float mCurHP;
 	private PathFollow3D mPath;
@@ -61,6 +64,7 @@ public partial class Mob : Node3D
             if (mCurHP <= 0.0f)
             {
                 EmitSignal("OnMobDeadPath", this);
+				AudioManager.Instance.PlayEnemySound(mDyingSound);
                 eAnimationController.CurrentAnimation = "Dying";
 				mDead = true;
                 eTarget.Destroy();
