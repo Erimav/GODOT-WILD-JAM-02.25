@@ -4,11 +4,13 @@
 [ext_resource type="Script" path="res://Code/Mob/Mob.cs" id="2_u3yeh"]
 [ext_resource type="Script" path="res://Code/Combat/Target.cs" id="3_yob4u"]
 
-[node name="goblin" node_paths=PackedStringArray("eTarget") instance=ExtResource("1_gu8cl")]
+[node name="goblin" node_paths=PackedStringArray("eTarget", "eAnimationController") instance=ExtResource("1_gu8cl")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 script = ExtResource("2_u3yeh")
 eTarget = NodePath("Node")
+eAnimationController = NodePath("AnimationPlayer")
 eMaxHP = 10.0
-eMoveSpeed = 1.0
+eMoveSpeed = 2.0
 
 [node name="Skeleton3D" parent="Armature" index="0"]
 bones/0/position = Vector3(-2.15108, 3.99403, -30.5026)
@@ -100,4 +102,5 @@ bones/55/scale = Vector3(1, 1, 1)
 [node name="Node" type="Node" parent="." index="2"]
 script = ExtResource("3_yob4u")
 
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="OnAnimationEnd"]
 [connection signal="Hit" from="Node" to="." method="TakeHit"]

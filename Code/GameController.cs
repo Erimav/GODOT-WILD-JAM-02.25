@@ -15,6 +15,12 @@ public partial class GameController : Node
     [Signal]
     public delegate void GameStateSetToPrepareEventHandler(int waveNumber);
 
+    [Signal]
+    public delegate void GameWonEventHandler();
+
+    [Signal]
+    public delegate void GameLostEventHandler();
+
 
     [ExportCategory("External Exports")]
     [Export]
@@ -26,13 +32,35 @@ public partial class GameController : Node
     [ExportCategory("Game Parameters")]
     [Export]
     private int eSpawnNumber;
+    [Export]
+    private int eMaxWave;
+    [Export]
+    private int eMobFinishedToWin;
 
     // PRIVATE
     private int mWaveNumber = 0;
 
+    // PUBLIC
+
+    public int SpawnNumber
+    {
+        get => eSpawnNumber;
+    }
+    public int MaxWave
+    {
+        get => eMaxWave;
+    }
     public int WaveNumber
     {
         get => mWaveNumber;
+    }
+    public int MobFinishedPathToWin
+    {
+        get => eMobFinishedToWin;
+    }
+    public int MobFinishedPath
+    {
+        get => eMobController.MobFinishedPath;
     }
 
     // PUBLIC METHODS
@@ -41,6 +69,20 @@ public partial class GameController : Node
     {
         base._Ready();
         SetPrepare();
+    }
+
+    public override void _Process(double delta)
+    {
+        if (mWaveNumber == 10)
+        {
+            EmitSignal("GameLost");
+        }
+
+        if (eMobController.MobFinishedPath == eMobFinishedToWin)
+        {
+            EmitSignal("GameWon");
+        }
+        base._Process(delta);
     }
 
     public bool CanSetToWave()

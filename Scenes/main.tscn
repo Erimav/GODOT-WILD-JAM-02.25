@@ -77,6 +77,8 @@ eTowersPrefabs = Array[PackedScene]([ExtResource("7_uk5tl")])
 [node name="GameController" parent="." node_paths=PackedStringArray("eMobController", "eMapObject") instance=ExtResource("5_8v0vu")]
 eMobController = NodePath("../MobController")
 eMapObject = NodePath("../Map")
+eMaxWave = 10
+eMobFinishedToWin = 50
 
 [node name="MobController" parent="." node_paths=PackedStringArray("eMapObject") instance=ExtResource("6_4odl5")]
 eMapObject = NodePath("../Map")

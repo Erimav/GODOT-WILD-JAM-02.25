@@ -20,6 +20,13 @@ public partial class MobController : Node
 	private int mTimerCount = 0;
 	private int mTimerEndCount = 0;
     private int mMobNumber = -1;
+    private int mMobFinishedPath = 0;
+
+    // PUBLIC
+    public int MobFinishedPath
+    {
+        get => mMobFinishedPath;
+    }
 
 	// PRIVATE METHOD
     private void SpawnMob()
@@ -29,6 +36,7 @@ public partial class MobController : Node
 
         mob.OnMobDeadPath += (Mob mob) => { mMobNumber--; };
         mob.OnMobFinishedPath += (Mob mob) => { mMobNumber--; };
+        mob.OnMobFinishedPath += (Mob mob) => { mMobFinishedPath++; };
 
         eMapObject.AddMobToMap(mob);
         mTimerCount++;

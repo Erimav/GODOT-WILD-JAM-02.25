@@ -67,7 +67,7 @@ public partial class MapObject : Node
     {
         set {
             GD.Print("eGenerate is " + value);
-            GenerateMap();
+            //GenerateMap();
         }
         get { return false; }
     }
@@ -77,11 +77,11 @@ public partial class MapObject : Node
         set
         {
             GD.Print("eMartStartAndEnd is " + value);
-            for (int i = 0; i < eHeight; ++i)
+           /* for (int i = 0; i < eHeight; ++i)
             {
                 mTiles[i][0].ChangeColor(0.0f, 1.0f, 0.0f);
                 mTiles[i][eWidth - 1].ChangeColor(0.0f, 0.0f, 1.0f);
-            }
+            }*/
         }
         get { return false; }
     }
@@ -149,6 +149,7 @@ public partial class MapObject : Node
     // PUBLIC METHODS
     public override void _Ready()
     {
+        GenerateMap();
     }
 
     public override void _Process(double delta)
