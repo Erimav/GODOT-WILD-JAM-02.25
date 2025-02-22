@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://diig35atngx6i"]
+[gd_scene load_steps=5 format=3 uid="uid://diig35atngx6i"]
 
 [ext_resource type="Theme" uid="uid://bsip5y65j1e6v" path="res://ui_theme.tres" id="1_kgiwn"]
-[ext_resource type="Script" path="res://Code/UI/MainMenu.cs" id="2_scomo"]
+[ext_resource type="Script" path="res://Code/UI/Menu.cs" id="2_oy0pb"]
 [ext_resource type="PackedScene" uid="uid://e0wp0h0rrm1u" path="res://Scenes/main.tscn" id="3_wf4sk"]
+[ext_resource type="Script" path="res://Code/UI/SoundVolumeSlider.cs" id="4_votua"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -12,7 +13,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_kgiwn")
-script = ExtResource("2_scomo")
+script = ExtResource("2_oy0pb")
 eMainScene = ExtResource("3_wf4sk")
 
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
@@ -93,6 +94,7 @@ size_flags_horizontal = 3
 max_value = 1.0
 step = 0.01
 value = 0.5
+script = ExtResource("4_votua")
 
 [node name="Label2" type="Label" parent="AspectRatioContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -105,8 +107,8 @@ size_flags_horizontal = 3
 max_value = 1.0
 step = 0.01
 value = 0.5
+script = ExtResource("4_votua")
+eBusIndex = 2
 
 [connection signal="pressed" from="AspectRatioContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons/NewGameBtn" to="." method="NewGame"]
 [connection signal="pressed" from="AspectRatioContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons/Button4" to="." method="Exit"]
-[connection signal="value_changed" from="AspectRatioContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/SFXSlider" to="." method="ChangeVolume" binds= [1]]
-[connection signal="value_changed" from="AspectRatioContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/MusicSlider" to="." method="ChangeVolume" binds= [2]]

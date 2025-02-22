@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://cp34lm64ukxgx"]
+[gd_scene load_steps=28 format=3 uid="uid://cp34lm64ukxgx"]
 
 [ext_resource type="Texture2D" uid="uid://bg3fyfda7c71g" path="res://Assets/Sprites/UI Scaled/tile_0016.png" id="1_6w8hc"]
 [ext_resource type="Texture2D" uid="uid://r2dcbxpgrqmh" path="res://Assets/Sprites/UI Scaled/tile_0021.png" id="2_3qbxk"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://Code/Shop/Shop.cs" id="7_km40n"]
 [ext_resource type="PackedScene" uid="uid://e16pxuvwuqnl" path="res://Scenes/UI/item_template.tscn" id="7_x3lj0"]
 [ext_resource type="Texture2D" uid="uid://32r5bu1xbeyb" path="res://Assets/Sprites/UI Scaled/tile_0018.png" id="8_n3tdj"]
+[ext_resource type="AudioStream" uid="uid://c3smc5j78b1xn" path="res://Assets/SFX/coin-flip-37787.mp3" id="8_qcpao"]
 [ext_resource type="Texture2D" uid="uid://qrlqy1i06gfk" path="res://Assets/Sprites/UI Scaled/close_button.png" id="10_at43k"]
 [ext_resource type="Script" path="res://Code/Shop/ItemInfoDisplay.cs" id="10_d3ps0"]
 [ext_resource type="Script" path="res://Code/Shop/BalanceDisplay.cs" id="11_ooi1j"]
@@ -84,7 +85,7 @@ axis_stretch_vertical = 1
 [sub_resource type="Theme" id="Theme_rkbav"]
 PanelContainer/styles/panel = SubResource("StyleBoxTexture_1meey")
 
-[node name="Shop" type="Control" node_paths=PackedStringArray("eMainShopWindow", "eUseItemConfirmationElement", "eItemsGrid")]
+[node name="Shop" type="Control" node_paths=PackedStringArray("eMainShopWindow", "eUseItemConfirmationElement", "eItemsGrid", "eBuffsBar", "eOpenButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -98,7 +99,10 @@ script = ExtResource("7_km40n")
 eMainShopWindow = NodePath("MainWindow")
 eUseItemConfirmationElement = NodePath("FieldItemConfirmation")
 eItemsGrid = NodePath("MainWindow/VBoxContainer/PanelContainer/VBoxContainer/Items Container/Items grid")
+eBuffsBar = NodePath("BuffsMargin/BuffsBar")
+eOpenButton = NodePath("Button")
 eSlideTime = 0.595
+eCoinSound = ExtResource("8_qcpao")
 
 [node name="MainWindow" type="Control" parent="."]
 layout_mode = 1
@@ -198,6 +202,7 @@ texture_normal = ExtResource("10_at43k")
 stretch_mode = 4
 
 [node name="FieldItemConfirmation" type="CenterContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.85

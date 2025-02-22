@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=14 format=3 uid="uid://bsip5y65j1e6v"]
+[gd_resource type="Theme" load_steps=15 format=3 uid="uid://bsip5y65j1e6v"]
 
 [ext_resource type="Texture2D" uid="uid://r2dcbxpgrqmh" path="res://Assets/Sprites/UI Scaled/tile_0021.png" id="1_bvqcs"]
 [ext_resource type="Texture2D" uid="uid://b3honqcx2il42" path="res://Assets/Sprites/UI Scaled/tile_0022.png" id="2_1pecy"]
@@ -7,6 +7,13 @@
 [ext_resource type="Texture2D" uid="uid://bpgr12honsagh" path="res://Assets/Sprites/UI Scaled/tile_0029.png" id="5_n2hua"]
 [ext_resource type="Texture2D" uid="uid://b87k4t10qvu2n" path="res://Assets/Sprites/UI Scaled/tile_0031.png" id="6_fau7v"]
 [ext_resource type="FontFile" uid="uid://bwuieix6ipei" path="res://m5x7.ttf" id="7_g0c5t"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_thid6"]
+texture = ExtResource("4_ecry3")
+texture_margin_left = 20.0
+texture_margin_top = 20.0
+texture_margin_right = 20.0
+texture_margin_bottom = 20.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7cj6c"]
 texture = ExtResource("1_bvqcs")
@@ -51,6 +58,7 @@ texture = ExtResource("6_fau7v")
 [resource]
 default_font = ExtResource("7_g0c5t")
 default_font_size = 32
+Button/styles/disabled = SubResource("StyleBoxTexture_thid6")
 Button/styles/hover = SubResource("StyleBoxTexture_7cj6c")
 Button/styles/normal = SubResource("StyleBoxTexture_coc11")
 Button/styles/pressed = SubResource("StyleBoxTexture_iuxhn")
