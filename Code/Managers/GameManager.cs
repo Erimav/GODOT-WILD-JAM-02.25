@@ -7,6 +7,7 @@ public class GameManager
     public enum GameState
     {
         Prepare,
+        UseFieldItem,
         Wave
     }
     
@@ -38,4 +39,6 @@ public class GameManager
     {
         mGameState = state;
     }
+
+    public Item ItemAtHand { get; set; }
 }

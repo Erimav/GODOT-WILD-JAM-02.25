@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://cp34lm64ukxgx"]
+[gd_scene load_steps=27 format=3 uid="uid://cp34lm64ukxgx"]
 
 [ext_resource type="Texture2D" uid="uid://bg3fyfda7c71g" path="res://Assets/Sprites/UI Scaled/tile_0016.png" id="1_6w8hc"]
 [ext_resource type="Texture2D" uid="uid://r2dcbxpgrqmh" path="res://Assets/Sprites/UI Scaled/tile_0021.png" id="2_3qbxk"]
@@ -10,11 +10,13 @@
 [ext_resource type="Script" path="res://Code/Shop/Shop.cs" id="7_km40n"]
 [ext_resource type="PackedScene" uid="uid://e16pxuvwuqnl" path="res://Scenes/UI/item_template.tscn" id="7_x3lj0"]
 [ext_resource type="Texture2D" uid="uid://32r5bu1xbeyb" path="res://Assets/Sprites/UI Scaled/tile_0018.png" id="8_n3tdj"]
-[ext_resource type="Texture2D" uid="uid://c5otnerdsq4kh" path="res://Assets/Sprites/UI/tile_0039.png" id="9_l6pe1"]
 [ext_resource type="Texture2D" uid="uid://qrlqy1i06gfk" path="res://Assets/Sprites/UI Scaled/close_button.png" id="10_at43k"]
 [ext_resource type="Script" path="res://Code/Shop/ItemInfoDisplay.cs" id="10_d3ps0"]
 [ext_resource type="Script" path="res://Code/Shop/BalanceDisplay.cs" id="11_ooi1j"]
 [ext_resource type="Script" path="res://Code/Shop/PurchaseButton.cs" id="13_2l7bw"]
+[ext_resource type="Texture2D" uid="uid://dev4usv7vdr5s" path="res://Assets/Sprites/Coin.png" id="13_mmw43"]
+[ext_resource type="Texture2D" uid="uid://cwnyuco3pcruy" path="res://Assets/Sprites/mouse_left.png" id="16_fsncd"]
+[ext_resource type="Texture2D" uid="uid://bw41ccj04hcx3" path="res://Assets/Sprites/mouse_right.png" id="17_2lx7b"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dlme4"]
 texture = ExtResource("1_6w8hc")
@@ -82,7 +84,7 @@ axis_stretch_vertical = 1
 [sub_resource type="Theme" id="Theme_rkbav"]
 PanelContainer/styles/panel = SubResource("StyleBoxTexture_1meey")
 
-[node name="Shop" type="Control" node_paths=PackedStringArray("eMainShopWindow")]
+[node name="Shop" type="Control" node_paths=PackedStringArray("eMainShopWindow", "eUseItemConfirmationElement", "eItemsGrid")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -94,6 +96,8 @@ mouse_filter = 2
 theme = SubResource("Theme_cpbh4")
 script = ExtResource("7_km40n")
 eMainShopWindow = NodePath("MainWindow")
+eUseItemConfirmationElement = NodePath("FieldItemConfirmation")
+eItemsGrid = NodePath("MainWindow/VBoxContainer/PanelContainer/VBoxContainer/Items Container/Items grid")
 eSlideTime = 0.595
 
 [node name="MainWindow" type="Control" parent="."]
@@ -171,7 +175,6 @@ autowrap_mode = 2
 layout_mode = 2
 
 [node name="Wallet" type="PanelContainer" parent="MainWindow/VBoxContainer/Funds"]
-custom_minimum_size = Vector2(87.01, 0)
 layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MainWindow/VBoxContainer/Funds/Wallet"]
@@ -185,7 +188,8 @@ script = ExtResource("11_ooi1j")
 
 [node name="TextureRect" type="TextureRect" parent="MainWindow/VBoxContainer/Funds/Wallet/HBoxContainer"]
 layout_mode = 2
-texture = ExtResource("9_l6pe1")
+texture = ExtResource("13_mmw43")
+stretch_mode = 4
 
 [node name="Space" type="Control" parent="MainWindow/VBoxContainer/Funds"]
 layout_mode = 2
@@ -195,7 +199,7 @@ size_flags_horizontal = 3
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Purchase for 55"
-icon = ExtResource("9_l6pe1")
+icon = ExtResource("13_mmw43")
 icon_alignment = 2
 script = ExtResource("13_2l7bw")
 eItemsGrid = NodePath("../../PanelContainer/VBoxContainer/Items Container/Items grid")
@@ -210,4 +214,47 @@ grow_horizontal = 0
 texture_normal = ExtResource("10_at43k")
 stretch_mode = 4
 
+[node name="FieldItemConfirmation" type="CenterContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="FieldItemConfirmation"]
+layout_mode = 2
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_bottom = 40
+
+[node name="HBoxContainer" type="HBoxContainer" parent="FieldItemConfirmation/MarginContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="FieldItemConfirmation/MarginContainer/HBoxContainer"]
+texture_filter = 2
+layout_mode = 2
+texture = ExtResource("16_fsncd")
+
+[node name="Label" type="Label" parent="FieldItemConfirmation/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Use"
+
+[node name="VSeparator" type="VSeparator" parent="FieldItemConfirmation/MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="TextureRect3" type="TextureRect" parent="FieldItemConfirmation/MarginContainer/HBoxContainer"]
+texture_filter = 2
+layout_mode = 2
+texture = ExtResource("17_2lx7b")
+
+[node name="Label2" type="Label" parent="FieldItemConfirmation/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Cancel"
+
+[connection signal="pressed" from="MainWindow/VBoxContainer/Funds/PurchaseButton" to="." method="TryUseItem"]
 [connection signal="pressed" from="MainWindow/CloseButton" to="." method="HideMainWindow"]

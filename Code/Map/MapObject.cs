@@ -17,13 +17,18 @@ public partial class MapObject : Node
     [Signal]
     public delegate void blockIsTowerEventHandler();
 
+    [Signal]
+    public delegate void TileRevealedEventHandler(Tile tile, int xTile, int yTile);
+    [Signal]
+    public delegate void TileBlownUpEventHandler(Tile tile, int xTile, int yTile);
+
     //EXPORTS
     [ExportCategory("External Exports")]
     [Export]
     private Path3D ePath3D;
+    [Export]
 
     [ExportCategory("MapParameters")]
-    [Export]
     private int eWidth;
     [Export]
     private int eHeight;
@@ -42,6 +47,10 @@ public partial class MapObject : Node
     [Export]
     private Vector3 eBlockScale;
 
+    //[ExportCategory("ShopItemsParameters")]
+    //[Export]
+    //private PackedScene eMimicSign;
+
     [ExportCategory("Debug")]
     [Export]
     private int eStartX;
@@ -58,14 +67,15 @@ public partial class MapObject : Node
         {
             GD.Print("eGeneratePath is " + value);
             BuildShortestPath(eStartX, eStartY, eEndX, eEndY);
-            }
+        }
         get { return false; }
     }
 
     [Export]
     private bool eGenerateMap
     {
-        set {
+        set
+        {
             GD.Print("eGenerate is " + value);
             //GenerateMap();
         }
@@ -73,15 +83,15 @@ public partial class MapObject : Node
     }
     [Export]
     private bool eMarkStartAndEnd
-    { 
+    {
         set
         {
             GD.Print("eMartStartAndEnd is " + value);
-           /* for (int i = 0; i < eHeight; ++i)
-            {
-                mTiles[i][0].ChangeColor(0.0f, 1.0f, 0.0f);
-                mTiles[i][eWidth - 1].ChangeColor(0.0f, 0.0f, 1.0f);
-            }*/
+            /* for (int i = 0; i < eHeight; ++i)
+             {
+                 mTiles[i][0].ChangeColor(0.0f, 1.0f, 0.0f);
+                 mTiles[i][eWidth - 1].ChangeColor(0.0f, 0.0f, 1.0f);
+             }*/
         }
         get { return false; }
     }
@@ -183,7 +193,7 @@ public partial class MapObject : Node
         {
             for (int x = 0; x < eWidth; ++x)
             {
-                TileFill tileFill = mMap.GetTileFill(x,y);
+                TileFill tileFill = mMap.GetTileFill(x, y);
                 if (predicate == tileFill)
                 {
                     needTiles.Add(new TilePosition(x, y));
@@ -198,9 +208,9 @@ public partial class MapObject : Node
         GD.Print("onBlockClicked");
         if (mMap != null)
         {
-            for(int i = 0; i < eHeight; ++i)
+            for (int i = 0; i < eHeight; ++i)
             {
-                for(int j = 0; j < eWidth; ++j)
+                for (int j = 0; j < eWidth; ++j)
                 {
                     if (block == mTiles[i][j])
                     {
@@ -247,12 +257,74 @@ public partial class MapObject : Node
             }
             if (!tileFill.isClear)
             {
-                tileFill.isClear = true;
-                mTiles[tilePosition.mY][tilePosition.mX].ClearTile();
-                EmitSignal("blockErased");
+                ForceClearTile(tilePosition, tileFill);
                 return;
             }
         }
+    }
+
+    private void ForceClearTile(TilePosition tilePosition, TileFill tileFill)
+    {
+        tileFill.isClear = true;
+        mTiles[tilePosition.mY][tilePosition.mX].ClearTile();
+        EmitSignal("blockErased");
+    }
+
+    public void OnUseItem(int xTile, int yTile)
+    {
+        var itemUsage = GameManager.GetInstance().ItemAtHand.Usage as FieldItemUsage;
+        if (itemUsage is null)
+        {
+            GD.PrintErr("Trying to use non-map item");
+            return;
+        }
+
+        GD.Print($"Using item to {itemUsage.UseAction} tile {xTile}:{yTile}");
+        var action = itemUsage.UseAction;
+
+        switch (action)
+        {
+            case FieldItemUsage.Action.Reveal:
+                RevealTile(xTile, yTile);
+                break;
+            case FieldItemUsage.Action.BlowUp:
+                BlowUpTile(xTile, yTile);
+                break;
+        }
+    }
+
+    private void BlowUpTile(int xTile, int yTile)
+    {
+        TilePosition tilePosition = new(xTile, yTile);
+        var tileFill = mMap.GetTileFill(tilePosition);
+        if (tileFill.isClear)
+        {
+            return;
+        }
+
+        ForceClearTile(tilePosition, tileFill);
+        EmitSignal(SignalName.TileBlownUp, mTiles[yTile][xTile], xTile, yTile);
+    }
+
+    private void RevealTile(int xTile, int yTile)
+    {
+        TilePosition tilePosition = new(xTile, yTile);
+        var tileFill = mMap.GetTileFill(tilePosition);
+        if (tileFill.isClear)
+        {
+            return;
+        }
+        GD.Print($"Tile {xTile}:{yTile} revealed. It's {(tileFill.isMimic ? "mimic" : "not mimic")}");
+
+        if (tileFill.isMimic)
+        {
+            var sign = new Label3D { Text = "It's Mimic!" };
+            mTiles[yTile][xTile].AddChild(sign);
+            sign.Position = Vector3.Up * 3;
+            sign.RotationDegrees = new(90, 0, 0);
+        }
+
+        EmitSignal(SignalName.TileRevealed, mTiles[yTile][xTile], xTile, yTile);
     }
 
     public Dictionary<TilePosition, List<TilePosition>> FindAllPaths()
@@ -277,7 +349,7 @@ public partial class MapObject : Node
     {
         var paths = FindAllPaths();
         //GD.Print("MapObject: Num of Paths - " + paths.Count);
-        
+
         if (paths.Count == 0) return new List<TilePosition>();
         else
         {

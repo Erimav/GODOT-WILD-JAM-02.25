@@ -12,7 +12,9 @@ public class BuffItemUsage : IItemUsage
 
 public class FieldItemUsage : IItemUsage
 {
-    public Func<TilePosition, bool> UseAction { get; init; }
+    public Action UseAction { get; init; }
+
+    public enum Action { Reveal, BlowUp }
 }
 
 public record Item(string Name, string Description, string IconName, int Price, IItemUsage Usage)
@@ -21,19 +23,11 @@ public record Item(string Name, string Description, string IconName, int Price, 
     {
         new("Magnifying glass", "Reveals a tile.", "magnifier.png", 50, new FieldItemUsage
             {
-                UseAction = (tile) =>
-                {
-                    //Reveal code
-                    return true;
-                }
+                UseAction = FieldItemUsage.Action.Reveal,
             }),
         new("Dynamite",         "Powerful enough to blow up a tower.", "dynamite.png", 100, new FieldItemUsage
             {
-                UseAction = (tile) =>
-                {
-                    //Blow up code
-                    return true;
-                }
+                UseAction = FieldItemUsage.Action.BlowUp,
             }),
         new("Energy potion",    "An invigorating drink. One sip can make anyone run faster.", "potion.png", 75, new BuffItemUsage
         {

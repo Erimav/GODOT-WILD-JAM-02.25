@@ -11,6 +11,9 @@ public partial class PlayerController : Node
     [Signal]
     public delegate void TryEraseTileEventHandler(int xTile, int yTile);
 
+    [Signal]
+    public delegate void UseItemOnTileEventHandler(int xTile, int yTile);
+
     // PUBLIC METHODS
 
     public override void _Ready()
@@ -20,9 +23,14 @@ public partial class PlayerController : Node
     public void TilePressed(Tile tile, int xTile, int yTile)
     {
         GD.Print("PlayerController: Tile Pressed. Try to Erase");
-        if (GameManager.GetInstance().GetGameState() == GameManager.GameState.Prepare)
+        var state = GameManager.GetInstance().GetGameState();
+        if (state == GameManager.GameState.Prepare)
         {
-            EmitSignal("TryEraseTile", xTile, yTile);
+            EmitSignal(SignalName.TryEraseTile, xTile, yTile);
+        }
+        else if (state == GameManager.GameState.UseFieldItem)
+        {
+            EmitSignal(SignalName.UseItemOnTile, xTile, yTile);
         }
     }
 

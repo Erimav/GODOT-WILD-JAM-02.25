@@ -9,18 +9,18 @@ public partial class PurchaseButton : Button
     public override void _Ready()
     {
         eItemsGrid.ItemSlotSelected += OnItemSelected;
-        Pressed += TryPurchase;
+        Wallet.BalanceChanged += OnBalanceChanged;
     }
 
-    private void TryPurchase()
+    private void OnBalanceChanged(int newBalance)
     {
-        throw new NotImplementedException();
+        Disabled = eItemsGrid.SelectedItemSlot.Item.Price > newBalance;
     }
 
     private void OnItemSelected(ItemSlot itemSlot)
     {
         var item = itemSlot.Item;
-        Text = item.Price.ToString();
+        Text = $"Purchase for {item.Price}";
         Disabled = item.Price > Wallet.Balance;
     }
 }

@@ -2,13 +2,13 @@
 
 public static class Wallet
 {
-    private static int sBalance = 200;
+    private static int sBalance = 1000;
 
     public static int Balance 
     { 
         get => sBalance;
         set {
-            sBalance = Math.Min(value, 0);
+            sBalance = Math.Max(value, 0);
             BalanceChanged?.Invoke(sBalance);
         } 
     }
