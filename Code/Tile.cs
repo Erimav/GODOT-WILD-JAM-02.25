@@ -97,7 +97,7 @@ public partial class Tile : Node3D
 
 	public void RemoveRevealSphere()
 	{
-		if (mRevealedSphere is not null)
+		if (IsInstanceValid(mRevealedSphere))
 		{
 			mIsRevealed = false;
 
