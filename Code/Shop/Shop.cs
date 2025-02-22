@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 public partial class Shop : Control
@@ -13,6 +14,8 @@ public partial class Shop : Control
     private Control eUseItemConfirmationElement;
     [Export]
     private ItemsGrid eItemsGrid;
+    [Export]
+    private Container eBuffsBar;
 
     [Export]
     private MapObject eMap;
@@ -22,6 +25,7 @@ public partial class Shop : Control
 
     [Export]
     private AudioStream eCoinSound;
+    private List<BuffItemUsage> mAppliedBuffItems = new(2);
 
     public bool IsOpen { get; private set; }
 
@@ -64,6 +68,10 @@ public partial class Shop : Control
                 _ = TryUseFieldItemAsync(fieldUsage, item);
                 break;
             case BuffItemUsage buff:
+                if (PushBuff(buff, item.Icon))
+                {
+                    ItemUseConfirmed(item);
+                }
                 break;
             case LuxuryItemUsage:
                 GD.Print($"You actually bought the {item.Name} for {item.Price} coins...");
@@ -90,7 +98,7 @@ public partial class Shop : Control
         if (result == waitForConfirmationTask)
         {
             ItemUseConfirmed(item);
-        } 
+        }
         else
         {
             ItemUseCanceled();
@@ -99,7 +107,7 @@ public partial class Shop : Control
         GameManager.GetInstance().ChangeState(GameManager.GameState.Prepare);
 
         eUseItemConfirmationElement.Hide();
-    } 
+    }
 
     private void ItemUseConfirmed(Item item)
     {
@@ -112,6 +120,22 @@ public partial class Shop : Control
     private void ItemUseCanceled()
     {
         //ShowMainWindow();
+    }
+
+    private bool PushBuff(BuffItemUsage buff, Texture2D icon)
+    {
+        if (mAppliedBuffItems.Contains(buff))
+        {
+            return false;
+        }
+
+        mAppliedBuffItems.Add(buff);
+        eBuffsBar.AddChild(new TextureRect
+        {
+            Texture = icon,
+            ExpandMode = TextureRect.ExpandModeEnum.FitWidth
+        });
+        return true;
     }
 
     public override void _Ready()
@@ -141,5 +165,20 @@ public partial class Shop : Control
         {
             EmitSignal(SignalName.CancelItemUsage);
         }
+    }
+
+    public void OnWaveComplete()
+    {
+        mAppliedBuffItems.Clear();
+        foreach (var child in eBuffsBar.GetChildren())
+        {
+            child.Free(); // The child is free now and ready to leave the nest. They grow so quickly *sob*
+        }
+    }
+
+
+    public void OnMobSpawned(Mob mob)
+    {
+        mAppliedBuffItems.ForEach(buff => buff.UseAction(mob));
     }
 }
