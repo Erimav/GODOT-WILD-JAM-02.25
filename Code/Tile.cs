@@ -97,9 +97,11 @@ public partial class Tile : Node3D
 
 	public void RemoveRevealSphere()
 	{
-		if (mRevealedSphere is not null)
+		if (IsInstanceValid(mRevealedSphere))
 		{
-			mRevealedSphere.QueueFree();
+			mIsRevealed = false;
+
+            mRevealedSphere.QueueFree();
 		}
     }
 

@@ -84,7 +84,7 @@ axis_stretch_vertical = 1
 [sub_resource type="Theme" id="Theme_rkbav"]
 PanelContainer/styles/panel = SubResource("StyleBoxTexture_1meey")
 
-[node name="Shop" type="Control" node_paths=PackedStringArray("eMainShopWindow", "eUseItemConfirmationElement", "eItemsGrid", "eBuffsBar")]
+[node name="Shop" type="Control" node_paths=PackedStringArray("eMainShopWindow", "eUseItemConfirmationElement", "eItemsGrid")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -98,7 +98,6 @@ script = ExtResource("7_km40n")
 eMainShopWindow = NodePath("MainWindow")
 eUseItemConfirmationElement = NodePath("FieldItemConfirmation")
 eItemsGrid = NodePath("MainWindow/VBoxContainer/PanelContainer/VBoxContainer/Items Container/Items grid")
-eBuffsBar = NodePath("BuffsMargin/BuffsBar")
 eSlideTime = 0.595
 
 [node name="MainWindow" type="Control" parent="."]
