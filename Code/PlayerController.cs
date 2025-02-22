@@ -22,7 +22,7 @@ public partial class PlayerController : Node
     }
     public void TilePressed(Tile tile, int xTile, int yTile)
     {
-        GD.Print("PlayerController: Tile Pressed. Try to Erase");
+        GD.Print("PlayerController: Tile Pressed");
         var state = GameManager.GetInstance().GetGameState();
         if (state == GameManager.GameState.Prepare)
         {
@@ -30,6 +30,7 @@ public partial class PlayerController : Node
         }
         else if (state == GameManager.GameState.UseFieldItem)
         {
+            GD.Print("PlayerController: Try Use Item");
             EmitSignal(SignalName.UseItemOnTile, xTile, yTile);
         }
     }

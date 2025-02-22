@@ -9,12 +9,16 @@ public partial class AudioManager : Node
 	[Export]
 	private AudioStreamPlayer[] eSFXEnemyPlayers;
 
+	[Export]
+	private AudioStreamPlayer[] eSFXGeneralPlayers;
+
 	private static AudioManager mAudioManager;
 	public static AudioManager Instance
 		{ get { return mAudioManager; } }
 
 	private int mHitStreamNumber = 0;
 	private int mEnemyStreamNumber = 0;
+	private int mGeneralStreamNumber = 0;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -42,5 +46,10 @@ public partial class AudioManager : Node
 	public void PlayEnemySound(AudioStream sound)
 	{
 		PlaySound(sound, eSFXEnemyPlayers, ref mEnemyStreamNumber);
+	}
+
+	public void PlaySFX(AudioStream sound)
+	{
+		PlaySound(sound, eSFXGeneralPlayers, ref mGeneralStreamNumber);
 	}
 }

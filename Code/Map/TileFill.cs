@@ -23,6 +23,11 @@ public class TileFill
         this.isMimic = isMimic;
     }
 
+    // Tile Clear and no mimic and tower is present
+    public bool ClearedTile()
+    {
+        return isClear && !isMimic && !isTower;
+    }
     public bool CanSpawnMimic()
     {
         return !isTower && !isClear && !isMimic;

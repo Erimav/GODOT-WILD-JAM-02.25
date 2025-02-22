@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Threading;
 
 public partial class Tile : Node3D
 {
@@ -16,6 +17,10 @@ public partial class Tile : Node3D
 	private PackedScene eClearEffect;
 
 	private Node mTileContent;
+	private Node mRevealedSphere;
+
+	private bool mIsRevealed = false;
+	public bool IsRevealed => mIsRevealed;
 
     public override void _Ready()
     {
@@ -44,6 +49,11 @@ public partial class Tile : Node3D
 		Node clearEffect = eClearEffect.Instantiate();
 
 		AddChild(clearEffect);
+		if (mRevealedSphere is not null)
+		{
+			RemoveRevealSphere();
+
+        }
     }
 
 	public void AddBoulder()
@@ -66,6 +76,16 @@ public partial class Tile : Node3D
         AddChild(clearEffect);
     }
 
+	public void SetTileContent(Node tileContent)
+	{
+		if (mTileContent is not null)
+		{
+			mTileContent.QueueFree();
+		}
+		AddChild(tileContent);
+		mTileContent = tileContent; 
+	}
+
 	public void ChangeColor(float r, float g, float b)
 	{
 		/*MeshInstance3D mesh = GetNode<MeshInstance3D>("TileMesh");
@@ -74,4 +94,37 @@ public partial class Tile : Node3D
 		material.Set("albedo_color", color);
         mesh.SetSurfaceOverrideMaterial(0, material);*/
 	}
+
+	public void RemoveRevealSphere()
+	{
+		if (mRevealedSphere is not null)
+		{
+			mRevealedSphere.QueueFree();
+		}
+    }
+
+	public void RevealSphere(Color color, float time)
+	{
+		if (mIsRevealed) return;
+
+        var revealSphere = new MeshInstance3D();
+        revealSphere.Scale = new Vector3(1.5f, 1.5f, 1.5f);
+        revealSphere.Mesh = new SphereMesh();
+        revealSphere.MaterialOverride ??= new StandardMaterial3D();
+        revealSphere.MaterialOverride.Set("transparency", 1);
+        revealSphere.MaterialOverride.Set("albedo_color", color);
+		AddChild(revealSphere);
+		
+		mRevealedSphere = revealSphere;
+		mIsRevealed = true;
+		
+		Color finalColor = color;
+		finalColor.A = 0;
+		
+		var tween = CreateTween().SetParallel();
+		tween.TweenProperty(revealSphere.MaterialOverride, "albedo_color", finalColor, time);
+		tween.TweenCallback(Callable.From(() => {
+			RemoveRevealSphere();
+		})).SetDelay(time);
+    }
 }

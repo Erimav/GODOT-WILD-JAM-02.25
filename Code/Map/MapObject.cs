@@ -8,7 +8,7 @@ public partial class MapObject : Node
     // SIGNALS
 
     [Signal]
-    public delegate void isBlockPressedEventHandler(Tile block, int xBlock, int yBlock);
+    public delegate void isBlockPressedEventHandler(Tile block, int colBlock, int rowBlock);
 
     [Signal]
     public delegate void blockErasedEventHandler();
@@ -18,17 +18,17 @@ public partial class MapObject : Node
     public delegate void blockIsTowerEventHandler();
 
     [Signal]
-    public delegate void TileRevealedEventHandler(Tile tile, int xTile, int yTile);
+    public delegate void TileRevealedEventHandler(Tile tile, int colTile, int rowTile);
     [Signal]
-    public delegate void TileBlownUpEventHandler(Tile tile, int xTile, int yTile);
+    public delegate void TileBlownUpEventHandler(Tile tile, int colTile, int rowTile);
 
     //EXPORTS
     [ExportCategory("External Exports")]
     [Export]
     private Path3D ePath3D;
-    [Export]
 
     [ExportCategory("MapParameters")]
+    [Export]
     private int eWidth;
     [Export]
     private int eHeight;
@@ -97,7 +97,7 @@ public partial class MapObject : Node
     }
 
     // PRIVATE
-    private List<List<Tile>> mTiles = new List<List<Tile>>();
+    private Tile[,] mTiles;
 
     private Dictionary<TilePosition, List<TilePosition>> mPaths = new Dictionary<TilePosition, List<TilePosition>>();
 
@@ -112,19 +112,20 @@ public partial class MapObject : Node
         for (int i = 0; i < path.Count; ++i)
         {
             GD.Print("Path position " + i + ": " + path[i]);
-            mTiles[path[i].mY][path[i].mX].Scale = new Vector3(0.5f, 0.5f, 0.5f);
+            mTiles[path[i].mRow, path[i].mCol].Scale = new Vector3(0.5f, 0.5f, 0.5f);
         }
     }
     private void GenerateMap()
     {
-        foreach (List<Tile> blocks in mTiles)
+        if (mTiles != null)
         {
-            foreach (Tile node in blocks)
+            foreach (var tile in mTiles)
             {
-                node.QueueFree();
+                tile.QueueFree();
             }
         }
-        mTiles.Clear();
+
+        mTiles = new Tile[eHeight, eWidth];
 
         mMap.GenerateMap(eWidth, eHeight);
 
@@ -132,8 +133,6 @@ public partial class MapObject : Node
         for (int i = 0; i < eHeight; ++i)
         {
             Vector3 colOffset = Vector3.Zero;
-            mTiles.Add(new List<Tile>());
-            var row = mTiles[mTiles.Count - 1];
             for (int j = 0; j < eWidth; ++j)
             {
                 var tile = eMapTile.Instantiate<Tile>();
@@ -146,7 +145,7 @@ public partial class MapObject : Node
 
                 tile.Connect("isBlockPressed", new Godot.Callable(this, "onBlockClicked"));
 
-                row.Add(tile);
+                mTiles[i,j] = tile;
                 AddChild(tile);
             }
             rowOffset = new Vector3(rowOffset.X + eTileRowMargin, rowOffset.Y, rowOffset.Z);
@@ -179,11 +178,12 @@ public partial class MapObject : Node
     {
         Tower tower = towerPrefab.Instantiate<Tower>();
 
-        tower.Position = new Vector3(towerPosition.mY * eTileRowMargin, 0, towerPosition.mX * eTileColMargin) + eMapStartPosition;
         TileFill tileFill = mMap.GetTileFill(towerPosition);
-        mTiles[towerPosition.mY][towerPosition.mX].ClearTile();
+        mTiles[towerPosition.mRow, towerPosition.mCol].ClearTile();
         tileFill.isTower = true;
-        AddChild(tower);
+        //tower.Position = new Vector3(towerPosition.mRow * eTileRowMargin, 0, towerPosition.mCol * eTileColMargin) + eMapStartPosition;
+        mTiles[towerPosition.mRow, towerPosition.mCol].SetTileContent(tower);
+        
     }
 
     public List<TilePosition> GetTilesByTileFill(TileFill predicate)
@@ -212,9 +212,9 @@ public partial class MapObject : Node
             {
                 for (int j = 0; j < eWidth; ++j)
                 {
-                    if (block == mTiles[i][j])
+                    if (block == mTiles[i,j])
                     {
-                        EmitSignal("isBlockPressed", mTiles[i][j], j, i);
+                        EmitSignal("isBlockPressed", mTiles[i, j], j, i);
                     }
                 }
             }
@@ -231,7 +231,7 @@ public partial class MapObject : Node
         if (mMap.GetTileFill(tilePosition).isClear && !mMap.GetTileFill(tilePosition).isTower && !mMap.GetTileFill(tilePosition).isMimic)
         {
 
-            mTiles[tilePosition.mY][tilePosition.mX].AddBoulder();
+            mTiles[tilePosition.mRow, tilePosition.mCol].AddBoulder();
             mMap.GetTileFill(tilePosition).isClear = false;
             return true;
         }
@@ -247,7 +247,7 @@ public partial class MapObject : Node
             if (tileFill.isMimic)
             {
                 EmitSignal("blockIsMimic");
-                mTiles[tilePosition.mY][tilePosition.mX].AddMimic();
+                mTiles[tilePosition.mRow, tilePosition.mCol].AddMimic();
                 return;
             }
             if (tileFill.isTower)
@@ -266,11 +266,11 @@ public partial class MapObject : Node
     private void ForceClearTile(TilePosition tilePosition, TileFill tileFill)
     {
         tileFill.isClear = true;
-        mTiles[tilePosition.mY][tilePosition.mX].ClearTile();
+        mTiles[tilePosition.mRow, tilePosition.mCol].ClearTile();
         EmitSignal("blockErased");
     }
 
-    public void OnUseItem(int xTile, int yTile)
+    public void OnUseItem(int colTile, int rowTile)
     {
         var itemUsage = GameManager.GetInstance().ItemAtHand.Usage as FieldItemUsage;
         if (itemUsage is null)
@@ -279,23 +279,23 @@ public partial class MapObject : Node
             return;
         }
 
-        GD.Print($"Using item to {itemUsage.UseAction} tile {xTile}:{yTile}");
+        GD.Print($"Using item to {itemUsage.UseAction} tile {colTile}:{rowTile}");
         var action = itemUsage.UseAction;
 
         switch (action)
         {
             case FieldItemUsage.Action.Reveal:
-                RevealTile(xTile, yTile);
+                RevealTile(colTile, rowTile);
                 break;
             case FieldItemUsage.Action.BlowUp:
-                BlowUpTile(xTile, yTile);
+                BlowUpTile(colTile, rowTile);
                 break;
         }
     }
 
-    private void BlowUpTile(int xTile, int yTile)
+    private void BlowUpTile(int colTile, int rowTile)
     {
-        TilePosition tilePosition = new(xTile, yTile);
+        TilePosition tilePosition = new(colTile, rowTile);
         var tileFill = mMap.GetTileFill(tilePosition);
         if (tileFill.isClear)
         {
@@ -303,28 +303,64 @@ public partial class MapObject : Node
         }
 
         ForceClearTile(tilePosition, tileFill);
-        EmitSignal(SignalName.TileBlownUp, mTiles[yTile][xTile], xTile, yTile);
+        tileFill.isTower = false;
+        tileFill.isMimic = false;
+        EmitSignal(SignalName.TileBlownUp, mTiles[rowTile, colTile], colTile, rowTile);
     }
 
-    private void RevealTile(int xTile, int yTile)
+    private void SpawnRevealSphere(int rowTile, int colTile, Color color, float time )
     {
-        TilePosition tilePosition = new(xTile, yTile);
-        var tileFill = mMap.GetTileFill(tilePosition);
-        if (tileFill.isClear)
-        {
-            return;
-        }
-        GD.Print($"Tile {xTile}:{yTile} revealed. It's {(tileFill.isMimic ? "mimic" : "not mimic")}");
+        var revealSphere = new MeshInstance3D();
+        revealSphere.Scale = new Vector3(1.5f, 1.5f, 1.5f);
+        revealSphere.Mesh = new SphereMesh();
+        revealSphere.MaterialOverride ??= new StandardMaterial3D();
+        revealSphere.MaterialOverride.Set("transparency", 1);
+        revealSphere.MaterialOverride.Set("albedo_color", color);
+        mTiles[rowTile, colTile].AddChild(revealSphere);
+    }
 
-        if (tileFill.isMimic)
+    private void RevealTile(int colTile, int rowTile)
+    {
+        
+        GD.Print($"Tile {colTile}:{rowTile} try to 3x3 reveale");
+        //var revealSphere = eRevealSphere.Instantiate<MeshInstance3D>();
+
+        for (int row = -1; row < 2; ++row)
         {
-            var sign = new Label3D { Text = "It's Mimic!" };
-            mTiles[yTile][xTile].AddChild(sign);
-            sign.Position = Vector3.Up * 3;
-            sign.RotationDegrees = new(90, 0, 0);
+            for (int col = -1; col < 2; ++col)
+            {
+                TilePosition tilePosition = new(col+colTile, row + rowTile);
+                if (!mMap.IsOnMap(tilePosition))
+                {
+                    return;
+                }
+                var tileFill = mMap.GetTileFill(tilePosition);
+                if (tileFill.isClear)
+                {
+                    return;
+                }
+
+                GD.Print($"Tile {colTile}:{rowTile} try to reveal");
+
+                if (tileFill.isMimic)
+                {
+                    mTiles[tilePosition.mRow, tilePosition.mCol].RevealSphere(new Color(1.0f, 0.0f, 0.0f, 0.3f), 60.0f);
+                    /*
+                    var sign = new Label3D { Text = "It's Mimic!" };
+                    mTiles[rowTile, colTile].AddChild(sign);
+                    sign.Position = Vector3.Up * 3;
+                    sign.RotationDegrees = new(90, 0, 0);*/
+                }
+                else if (!tileFill.isMimic && !tileFill.isTower && !tileFill.isClear)
+                {
+                    mTiles[tilePosition.mRow, tilePosition.mCol].RevealSphere(new Color(0.0f, 1.0f, 0.0f, 0.3f), 5.0f);
+                }
+
+                EmitSignal(SignalName.TileRevealed, mTiles[tilePosition.mRow, tilePosition.mCol], tilePosition.mCol, tilePosition.mRow);
+            }
         }
 
-        EmitSignal(SignalName.TileRevealed, mTiles[yTile][xTile], xTile, yTile);
+        
     }
 
     public Dictionary<TilePosition, List<TilePosition>> FindAllPaths()
@@ -337,7 +373,7 @@ public partial class MapObject : Node
         ePath3D.Curve.ClearPoints();
         foreach (TilePosition position in path)
         {
-            Tile tile = mTiles[position.mY][position.mX];
+            Tile tile = mTiles[position.mRow, position.mCol];
             ePath3D.Curve.AddPoint(tile.Position);
         }
     }

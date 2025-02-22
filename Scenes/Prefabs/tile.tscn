@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://ccoqhclktyu6r" path="res://Assets/Models/Boulders/Boulders2.glb" id="3_2jpkq"]
 [ext_resource type="PackedScene" uid="uid://1y55uihgs6nn" path="res://Assets/Models/Boulders/Boulders3.glb" id="4_qe41w"]
 [ext_resource type="PackedScene" uid="uid://45cwtkwvi30f" path="res://Scenes/Prefabs/boulders/ClearTile.tscn" id="5_2ej3d"]
-[ext_resource type="PackedScene" uid="uid://bbvd8cf3h0x74" path="res://Scenes/Prefabs/mimic_tower.tscn" id="6_eodan"]
+[ext_resource type="PackedScene" uid="uid://bx3nv0u2lf0y3" path="res://Scenes/Prefabs/mimic_tower.tscn" id="6_eodan"]
 [ext_resource type="PackedScene" uid="uid://beiqn7jfrmoh7" path="res://Scenes/Prefabs/vfx_poof.tscn" id="6_jpvpq"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_u28fb"]
