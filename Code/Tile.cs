@@ -99,7 +99,9 @@ public partial class Tile : Node3D
 	{
 		if (mRevealedSphere is not null)
 		{
-			mRevealedSphere.QueueFree();
+			mIsRevealed = false;
+
+            mRevealedSphere.QueueFree();
 		}
     }
 
