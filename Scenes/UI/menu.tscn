@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://diig35atngx6i"]
+[gd_scene load_steps=4 format=3 uid="uid://diig35atngx6i"]
 
 [ext_resource type="Theme" uid="uid://bsip5y65j1e6v" path="res://ui_theme.tres" id="1_kgiwn"]
+[ext_resource type="Script" path="res://Code/UI/MainMenu.cs" id="2_scomo"]
+[ext_resource type="PackedScene" uid="uid://e0wp0h0rrm1u" path="res://Scenes/main.tscn" id="3_wf4sk"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -10,6 +12,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_kgiwn")
+script = ExtResource("2_scomo")
+eMainScene = ExtResource("3_wf4sk")
 
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
 layout_mode = 1
@@ -86,7 +90,9 @@ text = "SFX"
 [node name="SFXSlider" type="HSlider" parent="AspectRatioContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-value = 50.0
+max_value = 1.0
+step = 0.01
+value = 0.5
 
 [node name="Label2" type="Label" parent="AspectRatioContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -96,4 +102,11 @@ text = "     Music
 [node name="MusicSlider" type="HSlider" parent="AspectRatioContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-value = 50.0
+max_value = 1.0
+step = 0.01
+value = 0.5
+
+[connection signal="pressed" from="AspectRatioContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons/NewGameBtn" to="." method="NewGame"]
+[connection signal="pressed" from="AspectRatioContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons/Button4" to="." method="Exit"]
+[connection signal="value_changed" from="AspectRatioContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/SFXSlider" to="." method="ChangeVolume" binds= [1]]
+[connection signal="value_changed" from="AspectRatioContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/MusicSlider" to="." method="ChangeVolume" binds= [2]]

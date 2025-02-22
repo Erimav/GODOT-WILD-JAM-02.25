@@ -175,23 +175,6 @@ autowrap_mode = 2
 [node name="Funds" type="HBoxContainer" parent="MainWindow/VBoxContainer"]
 layout_mode = 2
 
-[node name="Wallet" type="PanelContainer" parent="MainWindow/VBoxContainer/Funds"]
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="MainWindow/VBoxContainer/Funds/Wallet"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="MainWindow/VBoxContainer/Funds/Wallet/HBoxContainer"]
-layout_mode = 2
-text = "1000"
-horizontal_alignment = 2
-script = ExtResource("11_ooi1j")
-
-[node name="TextureRect" type="TextureRect" parent="MainWindow/VBoxContainer/Funds/Wallet/HBoxContainer"]
-layout_mode = 2
-texture = ExtResource("13_mmw43")
-stretch_mode = 4
-
 [node name="Space" type="Control" parent="MainWindow/VBoxContainer/Funds"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -216,12 +199,12 @@ texture_normal = ExtResource("10_at43k")
 stretch_mode = 4
 
 [node name="FieldItemConfirmation" type="CenterContainer" parent="."]
-visible = false
 layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
+anchors_preset = -1
+anchor_top = 0.8
 anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_bottom = 0.8
+offset_top = -188.0
 grow_horizontal = 2
 grow_vertical = 0
 mouse_filter = 2
@@ -257,6 +240,27 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 64
 text = "Cancel"
 
+[node name="Wallet" type="PanelContainer" parent="."]
+layout_mode = 1
+offset_left = 40.0
+offset_top = 40.0
+offset_right = 164.0
+offset_bottom = 112.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Wallet"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Wallet/HBoxContainer"]
+layout_mode = 2
+text = "1000"
+horizontal_alignment = 2
+script = ExtResource("11_ooi1j")
+
+[node name="TextureRect" type="TextureRect" parent="Wallet/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("13_mmw43")
+stretch_mode = 4
+
 [node name="BuffsMargin" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 1
@@ -274,6 +278,13 @@ theme_override_constants/margin_bottom = 40
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 theme_override_constants/separation = 16
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_font_sizes/font_size = 48
+text = "Shop"
 
 [connection signal="pressed" from="MainWindow/VBoxContainer/Funds/PurchaseButton" to="." method="TryUseItem"]
 [connection signal="pressed" from="MainWindow/CloseButton" to="." method="HideMainWindow"]

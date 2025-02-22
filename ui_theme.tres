@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://b3honqcx2il42" path="res://Assets/Sprites/UI Scaled/tile_0022.png" id="2_1pecy"]
 [ext_resource type="Texture2D" uid="uid://cj1jt55so438" path="res://Assets/Sprites/UI Scaled/tile_0020.png" id="3_5dhbk"]
 [ext_resource type="Texture2D" uid="uid://bg3fyfda7c71g" path="res://Assets/Sprites/UI Scaled/tile_0016.png" id="4_ecry3"]
-[ext_resource type="Texture2D" uid="uid://sdf4xrscrthn" path="res://Assets/Sprites/UI Scaled/tile_0001.png" id="5_0wmow"]
+[ext_resource type="Texture2D" uid="uid://bpgr12honsagh" path="res://Assets/Sprites/UI Scaled/tile_0029.png" id="5_n2hua"]
 [ext_resource type="Texture2D" uid="uid://b87k4t10qvu2n" path="res://Assets/Sprites/UI Scaled/tile_0031.png" id="6_fau7v"]
 [ext_resource type="FontFile" uid="uid://bwuieix6ipei" path="res://m5x7.ttf" id="7_g0c5t"]
 
@@ -39,7 +39,7 @@ texture_margin_right = 20.0
 texture_margin_bottom = 20.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1fg5b"]
-texture = ExtResource("5_0wmow")
+texture = ExtResource("5_n2hua")
 texture_margin_left = 20.0
 texture_margin_top = 20.0
 texture_margin_right = 20.0
