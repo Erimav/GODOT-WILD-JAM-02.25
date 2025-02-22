@@ -33,7 +33,10 @@ public partial class Mob : Node3D
 	{
 		get => mDead;
 	}
-	public void SetPath(PathFollow3D path)
+    public float CurrentHP { get => mCurHP; set => mCurHP = value; }
+    public float MoveSpeed { get => eMoveSpeed; set => eMoveSpeed = value; }
+
+    public void SetPath(PathFollow3D path)
 	{
 		mPath = path;
 		path.AddChild(this);

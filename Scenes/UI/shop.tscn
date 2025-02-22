@@ -84,7 +84,7 @@ axis_stretch_vertical = 1
 [sub_resource type="Theme" id="Theme_rkbav"]
 PanelContainer/styles/panel = SubResource("StyleBoxTexture_1meey")
 
-[node name="Shop" type="Control" node_paths=PackedStringArray("eMainShopWindow", "eUseItemConfirmationElement", "eItemsGrid")]
+[node name="Shop" type="Control" node_paths=PackedStringArray("eMainShopWindow", "eUseItemConfirmationElement", "eItemsGrid", "eBuffsBar")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -98,6 +98,7 @@ script = ExtResource("7_km40n")
 eMainShopWindow = NodePath("MainWindow")
 eUseItemConfirmationElement = NodePath("FieldItemConfirmation")
 eItemsGrid = NodePath("MainWindow/VBoxContainer/PanelContainer/VBoxContainer/Items Container/Items grid")
+eBuffsBar = NodePath("BuffsMargin/BuffsBar")
 eSlideTime = 0.595
 
 [node name="MainWindow" type="Control" parent="."]
@@ -255,6 +256,24 @@ texture = ExtResource("17_2lx7b")
 layout_mode = 2
 theme_override_font_sizes/font_size = 64
 text = "Cancel"
+
+[node name="BuffsMargin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="BuffsBar" type="HBoxContainer" parent="BuffsMargin"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_constants/separation = 16
 
 [connection signal="pressed" from="MainWindow/VBoxContainer/Funds/PurchaseButton" to="." method="TryUseItem"]
 [connection signal="pressed" from="MainWindow/CloseButton" to="." method="HideMainWindow"]

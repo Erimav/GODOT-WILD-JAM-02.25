@@ -33,16 +33,20 @@ public record Item(string Name, string Description, string IconName, int Price, 
         {
             UseAction = (mob) =>
             {
-                // Increase mob speed
+                mob.CurrentHP *= 2;
             }
         }),
         new("Golden apple",     "Healthy food makes people(and goblins) more durable.", "apple.png", 100, new BuffItemUsage
         {
             UseAction = (mob) =>
             {
-                // Increase mob health
+                mob.MoveSpeed *= 1.5f;
             }
         }),
         new("Shiny gem",        "No particular reason to buy it, but it's very beautiful.", "gem.png", 1000, new LuxuryItemUsage())
     };
+
+    private Texture2D mIconCache;
+
+    public Texture2D Icon => mIconCache ??= GD.Load<Texture2D>($"res://Assets/Sprites/Items/{IconName}");
 }

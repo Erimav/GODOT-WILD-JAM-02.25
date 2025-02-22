@@ -43,6 +43,6 @@ public partial class ItemSlot : Node
     public override void _Ready()
     {
         eButton.Pressed += OnItemClicked;
-        eButton.TextureNormal = GD.Load<Texture2D>($"res://Assets/Sprites/Items/{Item.IconName}");
+        eButton.TextureNormal = Item.Icon;
     }
 }

@@ -5,6 +5,8 @@ public partial class MobController : Node
 {
 	[Signal]
 	public delegate void NoMoreMobsOnWaveEventHandler();
+    [Signal]
+    public delegate void MobSpawnedEventHandler(Mob mob);
 
 	[ExportCategory("External Exports")]
 	[Export]
@@ -39,6 +41,7 @@ public partial class MobController : Node
         mob.OnMobFinishedPath += (Mob mob) => { mMobFinishedPath++; };
 
         eMapObject.AddMobToMap(mob);
+        EmitSignal(SignalName.MobSpawned, mob);
         mTimerCount++;
     }
 
