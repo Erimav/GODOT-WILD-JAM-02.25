@@ -87,7 +87,7 @@ public partial class GameController : Node
 
     public bool CanSetToWave()
     {
-        if (GameManager.GetInstance().GetGameState() == GameManager.GameState.Wave) 
+        if (GameManager.GetInstance().GetGameState() != GameManager.GameState.Prepare ) 
             return false;
         var paths = eMapObject.FindAllPaths();
         if (paths.Count == 0)

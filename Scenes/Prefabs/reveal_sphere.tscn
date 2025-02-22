@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://dt36c4ox5522e"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_il35y"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_2cymy"]
+
+[node name="MeshInstance3D" type="MeshInstance3D"]
+material_override = SubResource("StandardMaterial3D_il35y")
+mesh = SubResource("SphereMesh_2cymy")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://e0wp0h0rrm1u"]
+[gd_scene load_steps=16 format=3 uid="uid://e0wp0h0rrm1u"]
 
 [ext_resource type="Script" path="res://Code/Map/MapObject.cs" id="1_ldni7"]
 [ext_resource type="PackedScene" uid="uid://c04p8dpts73sm" path="res://Scenes/Prefabs/tile.tscn" id="2_3i4cd"]
@@ -20,6 +20,8 @@ _data = {
 }
 point_count = 3
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ibj0v"]
+
 [sub_resource type="PlaneMesh" id="PlaneMesh_n5s15"]
 
 [node name="Main" type="Node3D"]
@@ -28,6 +30,7 @@ point_count = 3
 curve = SubResource("Curve3D_y6g7l")
 
 [node name="Map" type="Node3D" parent="." node_paths=PackedStringArray("ePath3D")]
+transform = Transform3D(1.00269, 0, 0, 0, 1.00269, 0, 0, 0, 1.00269, 0, 0, 0)
 script = ExtResource("1_ldni7")
 ePath3D = NodePath("../Path3D")
 eWidth = 10
@@ -42,12 +45,13 @@ eMarkStartAndEnd = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, -1.66853, 0.77755, 0.415482)
+material_override = SubResource("StandardMaterial3D_ibj0v")
 mesh = SubResource("PlaneMesh_n5s15")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.26545, 0)
-light_energy = 2.0
-omni_range = 30.0
+transform = Transform3D(0.997811, 0, 0, 0, 0.997811, 0, 0, 0, 0.997811, 0, 2.26545, 0)
+light_energy = 9.379
+omni_range = 70.927
 
 [node name="RTScamera" parent="." instance=ExtResource("3_v4tk2")]
 transform = Transform3D(1, 0, 0, 0, 0.783542, 0.621339, 0, -0.621339, 0.783542, 0, 4.50119, 3)

@@ -55,7 +55,7 @@ public partial class Map
     // PUBLIC
     public bool IsOnMap(TilePosition tilePosition)
 	{
-		return !(tilePosition.mX < 0 || tilePosition.mX >= mWidth || tilePosition.mY < 0 || tilePosition.mY >= mHeight);
+		return !(tilePosition.mCol < 0 || tilePosition.mCol >= mWidth || tilePosition.mRow < 0 || tilePosition.mRow >= mHeight);
 	}
 	
 	public List<TilePosition> GetPlayerEndPositions()
@@ -74,10 +74,10 @@ public partial class Map
 		List<TilePosition> openEndPositions = new List<TilePosition>();
         foreach (var endPosition in endPositions)
         {
-            TileFill tileFill = mMapFilled[endPosition.mY][endPosition.mX];
+            TileFill tileFill = mMapFilled[endPosition.mRow][endPosition.mCol];
             if (tileFill.isClear)
             {
-                openEndPositions.Add(mMap[endPosition.mY][endPosition.mX]);
+                openEndPositions.Add(mMap[endPosition.mRow][endPosition.mCol]);
             }
         }
         return openEndPositions;
@@ -99,10 +99,10 @@ public partial class Map
 		List<TilePosition> startPositions = GetPlayerStartPositions();
         foreach (var startPosition in startPositions)
         {
-            TileFill tileFill = mMapFilled[startPosition.mY][startPosition.mX];
+            TileFill tileFill = mMapFilled[startPosition.mRow][startPosition.mCol];
             if (tileFill.isClear)
             {
-                openStartPositions.Add(mMap[startPosition.mY][startPosition.mX]);
+                openStartPositions.Add(mMap[startPosition.mRow][startPosition.mCol]);
             }
         }
         return openStartPositions;
@@ -151,7 +151,7 @@ public partial class Map
 			return null;
 		}
 
-		return mMapFilled[tilePosition.mY][tilePosition.mX];
+		return mMapFilled[tilePosition.mRow][tilePosition.mCol];
 	}
 
 	public void AddMimics(int number)
@@ -167,7 +167,7 @@ public partial class Map
 		{
 			foreach (var tile in tileList)
 			{
-				TileFill tileFill = mMapFilled[tile.mY][tile.mX];
+				TileFill tileFill = mMapFilled[tile.mRow][tile.mCol];
 				Predicate<TilePosition> predicate = (TilePosition tilePosition) => { return tile == tilePosition; };
 				if (startPositions.Find(predicate)  != null ||
 					endPositions.Find(predicate)	!= null ||
@@ -188,7 +188,7 @@ public partial class Map
 			TilePosition mimicPosition = canSpawnMimic[RNG.RandiRange(0, canSpawnMimic.Count)];
 
 			GD.Print("Tile fetched by Random coordinate: " + mimicPosition);
-			mMapFilled[mimicPosition.mY][mimicPosition.mX].isMimic = true;
+			mMapFilled[mimicPosition.mRow][mimicPosition.mCol].isMimic = true;
 			canSpawnMimic.Remove(mimicPosition);
         }
 	}
@@ -276,47 +276,47 @@ public partial class Map
 
 		Stack<TilePosition> tilePositions = new Stack<TilePosition>();
 		tilePositions.Push(startPosition);
-		tileEstimation[startPosition.mY, startPosition.mX] = 0;
+		tileEstimation[startPosition.mRow, startPosition.mCol] = 0;
 
 		bool pathFound = false;
 
 		while (tilePositions.Count > 0)
 		{
 			TilePosition currentPosition = tilePositions.Pop();
-			tileStates[currentPosition.mY, currentPosition.mX] = true;
+			tileStates[currentPosition.mRow, currentPosition.mCol] = true;
 
 			List<TilePosition> neighbours = new List<TilePosition>();
 
 			foreach (TilePosition offset in mOffsets)
 			{
 				TilePosition neighbour = currentPosition + offset;
-				if (neighbour.mX < 0 || neighbour.mX >= mWidth ||
-					neighbour.mY < 0 || neighbour.mY >= mHeight)
+				if (neighbour.mCol < 0 || neighbour.mCol >= mWidth ||
+					neighbour.mRow < 0 || neighbour.mRow >= mHeight)
 				{
 					continue;
 				}
-				if (tileStates[neighbour.mY, neighbour.mX])
+				if (tileStates[neighbour.mRow, neighbour.mCol])
 				{
 					continue;
 				}
-				if (!mMapFilled[neighbour.mY][neighbour.mX].isClear)
+				if (!mMapFilled[neighbour.mRow][neighbour.mCol].isClear)
 				{
 					continue;
 				}
 				
-				int newEstimate = tileEstimation[currentPosition.mY, currentPosition.mX] + 1;
-				if (tileEstimation[neighbour.mY,neighbour.mX] == -1 || tileEstimation[neighbour.mY, neighbour.mX] > newEstimate)
+				int newEstimate = tileEstimation[currentPosition.mRow, currentPosition.mCol] + 1;
+				if (tileEstimation[neighbour.mRow,neighbour.mCol] == -1 || tileEstimation[neighbour.mRow, neighbour.mCol] > newEstimate)
 				{
-					tileEstimation[neighbour.mY, neighbour.mX] = newEstimate;
-					tilePrevious[neighbour.mY, neighbour.mX] = currentPosition;
+					tileEstimation[neighbour.mRow, neighbour.mCol] = newEstimate;
+					tilePrevious[neighbour.mRow, neighbour.mCol] = currentPosition;
 				}
 				neighbours.Add(neighbour);
 			}
 
 			neighbours.Sort((TilePosition x, TilePosition y) => 
 			{
-				int xEstimation = tileEstimation[x.mY, x.mX];
-				int yEstimation = tileEstimation[y.mY, y.mX];
+				int xEstimation = tileEstimation[x.mRow, x.mCol];
+				int yEstimation = tileEstimation[y.mRow, y.mCol];
 				if (xEstimation < yEstimation) return 1;
 				if (xEstimation == yEstimation) return 0;
 				if (xEstimation > yEstimation) return -1;
@@ -328,7 +328,7 @@ public partial class Map
 				tilePositions.Push(neighbour);
 			}
 
-			if (tilePrevious[endPosition.mY, endPosition.mX] != null)
+			if (tilePrevious[endPosition.mRow, endPosition.mCol] != null)
 			{
 				pathFound = true;
                 break;
@@ -341,7 +341,7 @@ public partial class Map
 			while(pathPoint != startPosition)
 			{
 				path.Add(pathPoint);
-				pathPoint = tilePrevious[pathPoint.mY, pathPoint.mX];
+				pathPoint = tilePrevious[pathPoint.mRow, pathPoint.mCol];
 			}
 			path.Add(startPosition);
 			path.Reverse();
@@ -356,10 +356,10 @@ public partial class Map
 		List<TilePosition> path = GetShortestPath();
         foreach (var tile in path)
         {
-            int x = tile.mX;
-            int y = tile.mY;
+            int x = tile.mCol;
+            int y = tile.mRow;
             if (path.Find((tile) => {
-				return tile.mX == x && tile.mY == y;
+				return tile.mCol == x && tile.mRow == y;
 				}) != null)
 			{
 				// -1 means it's the shortest path
@@ -381,8 +381,8 @@ public partial class Map
 		{
 			foreach (var tile in tileList)
 			{
-				int x = tile.mX;
-				int y = tile.mY;
+				int x = tile.mCol;
+				int y = tile.mRow;
 				TileFill tileFill = mMapFilled[y][x];
 				if (tileFill.isMimic || tileFill.isTower || tileFill.isClear)
 				{

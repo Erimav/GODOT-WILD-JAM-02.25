@@ -2,10 +2,11 @@
 
 [ext_resource type="Script" path="res://Code/AudioManager.cs" id="1_7cb76"]
 
-[node name="AudioManager" type="Node" node_paths=PackedStringArray("eSFXHitPlayers", "eSFXEnemyPlayers")]
+[node name="AudioManager" type="Node" node_paths=PackedStringArray("eSFXHitPlayers", "eSFXEnemyPlayers", "eSFXGeneralPlayers")]
 script = ExtResource("1_7cb76")
 eSFXHitPlayers = [NodePath("HitStreams/AudioStreamPlayer"), NodePath("HitStreams/AudioStreamPlayer2"), NodePath("HitStreams/AudioStreamPlayer3"), NodePath("HitStreams/AudioStreamPlayer4"), NodePath("HitStreams/AudioStreamPlayer5"), NodePath("HitStreams/AudioStreamPlayer6"), NodePath("HitStreams/AudioStreamPlayer7"), NodePath("HitStreams/AudioStreamPlayer8")]
 eSFXEnemyPlayers = [NodePath("EnemyStreams/AudioStreamPlayer"), NodePath("EnemyStreams/AudioStreamPlayer2"), NodePath("EnemyStreams/AudioStreamPlayer3"), NodePath("EnemyStreams/AudioStreamPlayer4")]
+eSFXGeneralPlayers = [NodePath("GeneralSFXStreams/AudioStreamPlayer"), NodePath("GeneralSFXStreams/AudioStreamPlayer2"), NodePath("GeneralSFXStreams/AudioStreamPlayer3"), NodePath("GeneralSFXStreams/AudioStreamPlayer4")]
 
 [node name="HitStreams" type="Node" parent="."]
 
@@ -45,4 +46,18 @@ bus = &"SFX"
 bus = &"SFX"
 
 [node name="AudioStreamPlayer4" type="AudioStreamPlayer" parent="EnemyStreams"]
+bus = &"SFX"
+
+[node name="GeneralSFXStreams" type="Node" parent="."]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="GeneralSFXStreams"]
+bus = &"SFX"
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="GeneralSFXStreams"]
+bus = &"SFX"
+
+[node name="AudioStreamPlayer3" type="AudioStreamPlayer" parent="GeneralSFXStreams"]
+bus = &"SFX"
+
+[node name="AudioStreamPlayer4" type="AudioStreamPlayer" parent="GeneralSFXStreams"]
 bus = &"SFX"

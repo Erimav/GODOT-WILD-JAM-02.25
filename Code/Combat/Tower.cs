@@ -86,8 +86,8 @@ public partial class Tower : Node3D
         }
 
         var projectile = eProjectilePrefab.Instantiate<Projectile>();
-        GetTree().Root.CallDeferred("add_child", projectile);
-        projectile.Position = eProjectileSpawnPoint.GlobalPosition;
+        CallDeferred("add_child", projectile);
+        projectile.Position = eProjectileSpawnPoint.Position;
         projectile.Target = mTarget;
         mProjectileInChamber = projectile;
     }

@@ -23,6 +23,8 @@ public partial class Shop : Control
     [Export]
     private float eSlideTime = 0.5f;
 
+    [Export]
+    private AudioStream eCoinSound;
     private List<BuffItemUsage> mAppliedBuffItems = new(2);
 
     public bool IsOpen { get; private set; }
@@ -79,6 +81,7 @@ public partial class Shop : Control
 
     private async Task TryUseFieldItemAsync(FieldItemUsage fieldUsage, Item item)
     {
+        GD.Print("Shop - TryUseFieldItemAsync" + fieldUsage.ToString());
         //HideMainWindow();
         eUseItemConfirmationElement.Show();
         GameManager.GetInstance().ChangeState(GameManager.GameState.UseFieldItem);
@@ -100,6 +103,7 @@ public partial class Shop : Control
         {
             ItemUseCanceled();
         }
+        GD.Print("Shop - TryUseFieldItemAsync End");
         GameManager.GetInstance().ChangeState(GameManager.GameState.Prepare);
 
         eUseItemConfirmationElement.Hide();
@@ -107,7 +111,9 @@ public partial class Shop : Control
 
     private void ItemUseConfirmed(Item item)
     {
+        GD.Print("Shop - Item Use Confirmed");
         Wallet.Balance -= item.Price;
+        AudioManager.Instance.PlaySFX(eCoinSound);
         // TODO: Add coins sound here
     }
 
