@@ -1,0 +1,223 @@
+[gd_scene load_steps=3 format=3 uid="uid://cihb1ub3q0m47"]
+
+[ext_resource type="Theme" uid="uid://bsip5y65j1e6v" path="res://ui_theme.tres" id="1_gr1j1"]
+[ext_resource type="Texture2D" uid="uid://qrlqy1i06gfk" path="res://Assets/Sprites/UI Scaled/close_button.png" id="2_8xyxt"]
+
+[node name="Credits" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_gr1j1")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.2
+anchor_right = 0.8
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+alignment = 1
+
+[node name="Label4" type="Label" parent="ScrollContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 48
+text = "Made by:
+"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+text = "Erimav: Code, Visuals
+Hisuich: Code, Audio"
+horizontal_alignment = 1
+
+[node name="Space" type="Control" parent="ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 48
+text = "Used third pary assets:
+"
+horizontal_alignment = 1
+
+[node name="Label4" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Models:
+"
+horizontal_alignment = 1
+
+[node name="LinkButton" type="LinkButton" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+text = "Stone 1"
+uri = "https://poly.pizza/m/3a0ubCurnwU"
+
+[node name="LinkButton2" type="LinkButton" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+text = "Stone 2"
+uri = "https://poly.pizza/m/JmFMh7ztL9"
+
+[node name="LinkButton3" type="LinkButton" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+text = "Stone 3"
+uri = "https://kenney.nl/assets/nature-kit"
+
+[node name="LinkButton5" type="LinkButton" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+text = "Potion"
+uri = "https://kenney.nl/assets/nature-kit"
+
+[node name="LinkButton6" type="LinkButton" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+text = "Apple"
+uri = "https://poly.pizza/m/o4Of5itnxB"
+
+[node name="Space4" type="Control" parent="ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label4" type="Label" parent="ScrollContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_vertical = 6
+text = "Animations:"
+horizontal_alignment = 1
+
+[node name="LinkButton8" type="LinkButton" parent="ScrollContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+text = "mixamo.com"
+uri = "https://www.mixamo.com/#/"
+
+[node name="Space2" type="Control" parent="ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="Label5" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "UI Sprites:
+"
+horizontal_alignment = 1
+
+[node name="LinkButton4" type="LinkButton" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+text = "UI Pack - Pixel Adventure"
+uri = "https://kenney.nl/assets/ui-pack-pixel-adventure"
+
+[node name="LinkButton7" type="LinkButton" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+text = "Input Prompts"
+uri = "https://kenney.nl/assets/input-prompts"
+
+[node name="Space3" type="Control" parent="ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="Label6" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "SFX by:
+"
+horizontal_alignment = 1
+
+[node name="Label7" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "DJARTMUSIC
+666HeroHero
+Floraphonic
+freesound_community
+u_xjrmmgxfru
+"
+horizontal_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label4" type="Label" parent="ScrollContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 6
+text = "Sounds can be found on "
+horizontal_alignment = 1
+
+[node name="LinkButton8" type="LinkButton" parent="ScrollContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+text = "pixabay.com"
+uri = "https://pixabay.com/"
+
+[node name="Space5" type="Control" parent="ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="Label8" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Environments:"
+horizontal_alignment = 1
+
+[node name="LinkButton8" type="LinkButton" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+text = "Day Sky HDRI"
+uri = "https://ambientcg.com/view?id=DaySkyHDRI049B"
+
+[node name="LinkButton9" type="LinkButton" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+text = "Evening Sky"
+uri = "https://ambientcg.com/view?id=EveningSkyHDRI035B"
+
+[node name="TextureButton" type="TextureButton" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.77
+anchor_right = 0.8
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+scale = Vector2(2, 2)
+texture_normal = ExtResource("2_8xyxt")
+
+[connection signal="pressed" from="TextureButton" to="." method="hide"]

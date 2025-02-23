@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://e0wp0h0rrm1u"]
+[gd_scene load_steps=25 format=3 uid="uid://e0wp0h0rrm1u"]
 
 [ext_resource type="Texture2D" uid="uid://c3ofn2sjkh5ed" path="res://Assets/EveningSkyHDRI035B_1K-HDR.exr" id="1_iectl"]
 [ext_resource type="Script" path="res://Code/MusicPlayer.cs" id="1_la7tl"]
@@ -18,7 +18,6 @@
 [ext_resource type="PackedScene" uid="uid://jlaprs3jv5jr" path="res://Scenes/UI/game_over_window.tscn" id="8_abuua"]
 [ext_resource type="PackedScene" uid="uid://cjjt7i4h1hwmq" path="res://Scenes/Controllers/audio_manager.tscn" id="11_pu1pj"]
 [ext_resource type="AudioStream" uid="uid://dfggw8vi5t5og" path="res://Assets/SFX/medium-explosion-40472.mp3" id="11_tglvj"]
-[ext_resource type="AudioStream" uid="uid://b0d3m3l8uepwc" path="res://Assets/SFX/yooooooooooooooooooooooooo_4.mp3" id="12_8qewx"]
 [ext_resource type="PackedScene" uid="uid://q7nno3avbiqs" path="res://Scenes/UI/pause.tscn" id="14_ptmps"]
 [ext_resource type="PackedScene" uid="uid://ennxsvgdwbkv" path="res://Scenes/map_temp.tscn" id="15_rqva5"]
 
@@ -100,7 +99,6 @@ mGameController = NodePath("../../GameController")
 layout_mode = 1
 eMap = NodePath("../../Map")
 eDynamiteSound = ExtResource("11_tglvj")
-eShinyGemSound = ExtResource("12_8qewx")
 
 [node name="VictoryWindow" parent="UI" instance=ExtResource("7_88bla")]
 layout_mode = 1
@@ -117,7 +115,7 @@ eMapObject = NodePath("../Map")
 eGameController = NodePath("../GameController")
 eTowersPrefabs = Array[PackedScene]([ExtResource("7_uk5tl")])
 eMimicAddByWave = 5
-eMimicScaleByWave = 2
+eMimicScaleByWave = 3
 
 [node name="GameController" parent="." node_paths=PackedStringArray("eMobController", "ePlayerController", "eEnemyController", "eMapObject") instance=ExtResource("5_8v0vu")]
 eMobController = NodePath("../MobController")
@@ -127,7 +125,7 @@ eMapObject = NodePath("../Map")
 eSpawnNumber = 8
 eMaxWave = 10
 eMobFinishedToWin = 50
-eStartBalance = 700
+eStartBalance = 800
 
 [node name="MobController" parent="." node_paths=PackedStringArray("eMapObject", "eEnemyController", "ePlayerController") instance=ExtResource("6_4odl5")]
 eMapObject = NodePath("../Map")

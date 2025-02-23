@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://diig35atngx6i"]
+[gd_scene load_steps=5 format=3 uid="uid://diig35atngx6i"]
 
 [ext_resource type="Theme" uid="uid://bsip5y65j1e6v" path="res://ui_theme.tres" id="1_kgiwn"]
 [ext_resource type="Script" path="res://Code/UI/Menu.cs" id="2_oy0pb"]
+[ext_resource type="PackedScene" uid="uid://cihb1ub3q0m47" path="res://Scenes/UI/credits.tscn" id="4_2vxnf"]
 [ext_resource type="Script" path="res://Code/UI/SoundVolumeSlider.cs" id="4_votua"]
 
 [node name="Control" type="Control"]
@@ -14,16 +15,22 @@ grow_vertical = 2
 theme = ExtResource("1_kgiwn")
 script = ExtResource("2_oy0pb")
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
+[node name="AspectRatioContainer" type="Control" parent="."]
 layout_mode = 1
-anchors_preset = -1
+anchor_left = 0.25
+anchor_top = 0.511
+anchor_right = 0.75
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="AspectRatioContainer"]
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="AspectRatioContainer"]
-layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
@@ -42,14 +49,6 @@ theme_override_constants/margin_bottom = 40
 [node name="VBoxContainer" type="VBoxContainer" parent="AspectRatioContainer/MarginContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
 alignment = 2
-
-[node name="Label" type="Label" parent="AspectRatioContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 6
-theme_override_font_sizes/font_size = 80
-text = "Тут могла б бути ваша реклама"
-horizontal_alignment = 1
-autowrap_mode = 2
 
 [node name="Buttons" type="VBoxContainer" parent="AspectRatioContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -108,5 +107,10 @@ value = 0.5
 script = ExtResource("4_votua")
 eBusIndex = 2
 
+[node name="Credits" parent="." instance=ExtResource("4_2vxnf")]
+visible = false
+layout_mode = 1
+
 [connection signal="pressed" from="AspectRatioContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons/NewGameBtn" to="." method="NewGame"]
+[connection signal="pressed" from="AspectRatioContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons/Button3" to="Credits" method="show"]
 [connection signal="pressed" from="AspectRatioContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons/Button4" to="." method="Exit"]

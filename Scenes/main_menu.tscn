@@ -1,14 +1,99 @@
-[gd_scene load_steps=5 format=3 uid="uid://ddmevo7fqisfy"]
+[gd_scene load_steps=17 format=3 uid="uid://ddmevo7fqisfy"]
 
 [ext_resource type="Script" path="res://Code/MusicPlayer.cs" id="1_aehe6"]
 [ext_resource type="PackedScene" uid="uid://diig35atngx6i" path="res://Scenes/UI/menu.tscn" id="1_qrhci"]
 [ext_resource type="PackedScene" uid="uid://cjjt7i4h1hwmq" path="res://Scenes/Controllers/audio_manager.tscn" id="2_e1ali"]
 [ext_resource type="AudioStream" uid="uid://37ccbp8a3uy8" path="res://Assets/Music/Some Ambient.wav" id="2_hxsyu"]
+[ext_resource type="Texture2D" uid="uid://cuu8y4teu6a84" path="res://Assets/DaySkyHDRI049B_1K-HDR.exr" id="3_m33ht"]
+[ext_resource type="PackedScene" uid="uid://kcm3uw0vd3kr" path="res://Assets/Models/Tower proto.glb" id="5_7keyv"]
+[ext_resource type="PackedScene" uid="uid://c44aeier52hjw" path="res://Scenes/Prefabs/goblin_main_menu.tscn" id="6_8rrqx"]
+[ext_resource type="PackedScene" uid="uid://nhlhvya26flw" path="res://Assets/Models/Javelin.glb" id="6_bgvyr"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_4u70i"]
+panorama = ExtResource("3_m33ht")
+
+[sub_resource type="Sky" id="Sky_mppau"]
+sky_material = SubResource("PanoramaSkyMaterial_4u70i")
+
+[sub_resource type="Environment" id="Environment_572av"]
+background_mode = 2
+sky = SubResource("Sky_mppau")
+tonemap_mode = 2
+
+[sub_resource type="Animation" id="Animation_rd18i"]
+resource_name = "main_menu_tower_anim"
+length = 10.0
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Javelin2:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 9.03333, 9.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, -1.31884, 0), Vector3(0, -1.31947, 0), Vector3(0, -0.710401, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ml37x"]
+length = 5.0
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Javelin2:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(-0.266667, 4, 4.53333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, -1.31884, 0), Vector3(0, -1.31884, 0), Vector3(0, -0.725237, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0w8cd"]
+_data = {
+"RESET": SubResource("Animation_ml37x"),
+"main_menu_tower_anim": SubResource("Animation_rd18i")
+}
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8hxop"]
+albedo_color = Color(0.262745, 0.427451, 0, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_y7dk7"]
+material = SubResource("StandardMaterial3D_8hxop")
 
 [node name="MainMenu" type="Node3D"]
 script = ExtResource("1_aehe6")
 eMusicToPlay = ExtResource("2_hxsyu")
 
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_572av")
+
 [node name="Control" parent="." instance=ExtResource("1_qrhci")]
 
 [node name="AudioManager" parent="." instance=ExtResource("2_e1ali")]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.987688, -0.0327916, -0.152959, 0, 0.977783, -0.209619, 0.156434, 0.207038, 0.965745, -0.248935, 0.627793, 3.09016)
+
+[node name="Tower proto" parent="." instance=ExtResource("5_7keyv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.69523, 0, 1.11857)
+
+[node name="Javelin2" parent="Tower proto" instance=ExtResource("6_bgvyr")]
+transform = Transform3D(0.249298, 0, -0.968427, 0, 1, 0, 0.968427, 0, 0.249298, -0.00475788, 1.95119, -0.118565)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Tower proto"]
+libraries = {
+"": SubResource("AnimationLibrary_0w8cd")
+}
+autoplay = "RESET"
+
+[node name="Old Man Idle" parent="." instance=ExtResource("6_8rrqx")]
+transform = Transform3D(0.644207, 0, 0.803096, 0, 1.02955, 0, -0.803096, 0, 0.644207, -1.60546, 0, 0.955)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1000, 0, 0, 0, -4.37114e-05, 1000, 0, -1000, -4.37114e-05, 0, 0, 0)
+mesh = SubResource("QuadMesh_y7dk7")
