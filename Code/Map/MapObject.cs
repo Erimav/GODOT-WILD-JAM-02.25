@@ -348,12 +348,12 @@ public partial class MapObject : Node
                 TilePosition tilePosition = new(col+colTile, row + rowTile);
                 if (!mMap.IsOnMap(tilePosition))
                 {
-                    return;
+                    continue;
                 }
                 var tileFill = mMap.GetTileFill(tilePosition);
                 if (tileFill.isClear)
                 {
-                    return;
+                    continue;
                 }
 
                 GD.Print($"Tile {colTile}:{rowTile} try to reveal");
