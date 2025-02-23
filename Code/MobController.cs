@@ -57,6 +57,11 @@ public partial class MobController : Node
     }
 
     // PUBLIC METHODS
+
+    public void Reset()
+    {
+
+    }
     public override void _Ready()
     {
         base._Ready();

@@ -1,17 +1,12 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class GameController : Node
 {
-    public enum GameState
-    {
-        Prepare,
-        Wave
-    }
-
     [Signal]
     public delegate void GameStateSetToWaveEventHandler(int waveNumber);
-    
+
     [Signal]
     public delegate void GameStateSetToPrepareEventHandler(int waveNumber);
 
@@ -21,10 +16,17 @@ public partial class GameController : Node
     [Signal]
     public delegate void GameLostEventHandler();
 
+    [Signal]
+    public delegate void GameStartedEventHandler();
+
 
     [ExportCategory("External Exports")]
     [Export]
     private MobController eMobController;
+    [Export]
+    private PlayerController ePlayerController;
+    [Export]
+    private EnemyController eEnemyController;
 
     [Export]
     private MapObject eMapObject;
@@ -36,10 +38,13 @@ public partial class GameController : Node
     private int eMaxWave;
     [Export]
     private int eMobFinishedToWin;
+    [Export]
+    private int eStartBalance;
+
 
     // PRIVATE
     private int mWaveNumber = 0;
-
+    private bool mIsGameOnPause = false;
     // PUBLIC
 
     public int SpawnNumber
@@ -68,19 +73,57 @@ public partial class GameController : Node
     public override void _Ready()
     {
         base._Ready();
+        StartGame();
         SetPrepare();
+    }
+
+    public void ResetGame()
+    {
+        mWaveNumber = 0;
+        ePlayerController.Reset();
+        eMobController.Reset();
+        eEnemyController.Reset();
+        eMapObject.GenerateMap();
+    }
+
+    public void PauseGame()
+    {
+        ProcessMode = Node.ProcessModeEnum.Pausable;
+        mIsGameOnPause = true;
+    }
+
+    public void UnPauseGame()
+    {
+        ProcessMode = Node.ProcessModeEnum.Always;
+        mIsGameOnPause = false;
+    }
+
+    public void StartGame()
+    {
+        ResetGame();
+        UnPauseGame();
+        Wallet.Balance = eStartBalance;
+        EmitSignal(SignalName.GameStarted);
     }
 
     public override void _Process(double delta)
     {
-        if (mWaveNumber == 10)
+        if (!mIsGameOnPause)
         {
-            EmitSignal("GameLost");
-        }
+            List<TilePosition> path = eMapObject.TakeShortestPath();
+            if (mWaveNumber == 10 || (path.Count == 0 && Wallet.Balance < eMapObject.ClearTilePrice))
+            {
+                GD.Print("Game Lost");
+                EmitSignal(SignalName.GameLost);
+                PauseGame(); 
+            }
 
-        if (eMobController.MobFinishedPath == eMobFinishedToWin)
-        {
-            EmitSignal("GameWon");
+            if (eMobController.MobFinishedPath == eMobFinishedToWin)
+            {
+                GD.Print("Game Won");
+                EmitSignal(SignalName.GameWon);
+                PauseGame();
+            }
         }
         base._Process(delta);
     }
@@ -118,7 +161,7 @@ public partial class GameController : Node
         if (TryToToSetWave())
         {
             GD.Print("Game Controller: Start Wave");
-            eMobController.StartSpawn(eSpawnNumber);
+            eMobController.StartSpawn(eSpawnNumber + mWaveNumber * 4);
             eMobController.Connect("NoMoreMobsOnWave", new Callable(this, "EndWave"), (uint)ConnectFlags.OneShot);
         }
     }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://e0wp0h0rrm1u"]
+[gd_scene load_steps=21 format=3 uid="uid://e0wp0h0rrm1u"]
 
 [ext_resource type="Script" path="res://Code/Map/MapObject.cs" id="1_ldni7"]
 [ext_resource type="PackedScene" uid="uid://c04p8dpts73sm" path="res://Scenes/Prefabs/tile.tscn" id="2_3i4cd"]
@@ -8,10 +8,24 @@
 [ext_resource type="PackedScene" uid="uid://cmh0pr3rlh182" path="res://Scenes/Controllers/game_controller.tscn" id="5_8v0vu"]
 [ext_resource type="PackedScene" uid="uid://cd0m8r5sfu1uu" path="res://Scenes/Controllers/mob_controller.tscn" id="6_4odl5"]
 [ext_resource type="PackedScene" uid="uid://cp34lm64ukxgx" path="res://Scenes/UI/shop.tscn" id="6_itkt7"]
+[ext_resource type="PackedScene" uid="uid://0lnem8i4p4w7" path="res://Scenes/UI/victory_window.tscn" id="7_88bla"]
 [ext_resource type="PackedScene" uid="uid://cd6n5dhrorcw1" path="res://Scenes/UI/hud.tscn" id="7_bk4vi"]
 [ext_resource type="PackedScene" uid="uid://ccnjexk57xyr1" path="res://Scenes/Controllers/enemy_controller.tscn" id="7_dufwh"]
 [ext_resource type="PackedScene" uid="uid://dkb62k31g4xmu" path="res://Scenes/Prefabs/tower_proto.tscn" id="7_uk5tl"]
+[ext_resource type="PackedScene" uid="uid://jlaprs3jv5jr" path="res://Scenes/UI/game_over_window.tscn" id="8_abuua"]
 [ext_resource type="PackedScene" uid="uid://cjjt7i4h1hwmq" path="res://Scenes/Controllers/audio_manager.tscn" id="11_pu1pj"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ybstf"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_mh1vs"]
+sky_material = SubResource("ProceduralSkyMaterial_ybstf")
+
+[sub_resource type="Environment" id="Environment_20fmd"]
+background_mode = 2
+sky = SubResource("Sky_mh1vs")
+tonemap_mode = 2
 
 [sub_resource type="Curve3D" id="Curve3D_y6g7l"]
 _data = {
@@ -26,6 +40,14 @@ point_count = 3
 
 [node name="Main" type="Node3D"]
 
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_20fmd")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+light_energy = 0.025
+shadow_enabled = true
+
 [node name="Path3D" type="Path3D" parent="."]
 curve = SubResource("Curve3D_y6g7l")
 
@@ -33,13 +55,15 @@ curve = SubResource("Curve3D_y6g7l")
 transform = Transform3D(1.00269, 0, 0, 0, 1.00269, 0, 0, 0, 1.00269, 0, 0, 0)
 script = ExtResource("1_ldni7")
 ePath3D = NodePath("../Path3D")
-eWidth = 10
+eWidth = 20
 eHeight = 10
-eMimicNumber = 5
+eMimicNumber = 10
 eMapTile = ExtResource("2_3i4cd")
-eMapStartPosition = Vector3(0, 1, 0)
+eMapStartPosition = Vector3(0, 1, -6)
 eTileColMargin = 1.5
 eTileRowMargin = 1.5
+eBlockScale = Vector3(1.5, 1.5, 1.5)
+eClearTilePrice = 25
 eGenerateMap = true
 eMarkStartAndEnd = true
 
@@ -47,11 +71,6 @@ eMarkStartAndEnd = true
 transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, -1.66853, 0.77755, 0.415482)
 material_override = SubResource("StandardMaterial3D_ibj0v")
 mesh = SubResource("PlaneMesh_n5s15")
-
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(0.997811, 0, 0, 0, 0.997811, 0, 0, 0, 0.997811, 0, 2.26545, 0)
-light_energy = 9.379
-omni_range = 70.927
 
 [node name="RTScamera" parent="." instance=ExtResource("3_v4tk2")]
 transform = Transform3D(1, 0, 0, 0, 0.783542, 0.621339, 0, -0.621339, 0.783542, 0, 4.50119, 3)
@@ -81,16 +100,30 @@ mGameController = NodePath("../../GameController")
 layout_mode = 1
 eMap = NodePath("../../Map")
 
+[node name="VictoryWindow" parent="UI" instance=ExtResource("7_88bla")]
+layout_mode = 1
+offset_left = 651.0
+offset_top = 608.0
+offset_right = 651.0
+offset_bottom = 608.0
+
+[node name="GameOverWindow" parent="UI" instance=ExtResource("8_abuua")]
+layout_mode = 1
+
 [node name="EnemyController" parent="." node_paths=PackedStringArray("eMapObject", "eGameController") instance=ExtResource("7_dufwh")]
 eMapObject = NodePath("../Map")
 eGameController = NodePath("../GameController")
 eTowersPrefabs = Array[PackedScene]([ExtResource("7_uk5tl")])
 
-[node name="GameController" parent="." node_paths=PackedStringArray("eMobController", "eMapObject") instance=ExtResource("5_8v0vu")]
+[node name="GameController" parent="." node_paths=PackedStringArray("eMobController", "ePlayerController", "eEnemyController", "eMapObject") instance=ExtResource("5_8v0vu")]
 eMobController = NodePath("../MobController")
+ePlayerController = NodePath("../PlayerController")
+eEnemyController = NodePath("../EnemyController")
 eMapObject = NodePath("../Map")
+eSpawnNumber = 8
 eMaxWave = 10
 eMobFinishedToWin = 50
+eStartBalance = 800
 
 [node name="MobController" parent="." node_paths=PackedStringArray("eMapObject") instance=ExtResource("6_4odl5")]
 eMapObject = NodePath("../Map")
@@ -103,10 +136,12 @@ eMapObject = NodePath("../Map")
 [connection signal="blockIsMimic" from="Map" to="PlayerController" method="OnMimic"]
 [connection signal="blockIsTower" from="Map" to="PlayerController" method="onTower"]
 [connection signal="isBlockPressed" from="Map" to="PlayerController" method="TilePressed"]
+[connection signal="GameLost" from="GameController" to="UI/GameOverWindow" method="show"]
+[connection signal="GameStarted" from="GameController" to="UI/VictoryWindow" method="hide"]
+[connection signal="GameStarted" from="GameController" to="UI/GameOverWindow" method="hide"]
 [connection signal="GameStateSetToPrepare" from="GameController" to="EnemyController" method="OnPrepare"]
-[connection signal="GameStateSetToPrepare" from="GameController" to="UI/Shop" method="ShowOpenButton" unbinds=1]
 [connection signal="GameStateSetToWave" from="GameController" to="EnemyController" method="OnWaveBegin"]
 [connection signal="GameStateSetToWave" from="GameController" to="UI/Shop" method="HideMainWindow" unbinds=1]
-[connection signal="GameStateSetToWave" from="GameController" to="UI/Shop" method="HideOpenButton" unbinds=1]
+[connection signal="GameWon" from="GameController" to="UI/VictoryWindow" method="show"]
 [connection signal="TryEraseTile" from="PlayerController" to="Map" method="OnTryEraseTile"]
 [connection signal="UseItemOnTile" from="PlayerController" to="Map" method="OnUseItem"]

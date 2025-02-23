@@ -2,7 +2,7 @@
 
 public static class Wallet
 {
-    private static int sBalance = 1000;
+    private static int sBalance = 800;
 
     public static int Balance 
     { 

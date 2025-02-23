@@ -1,9 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://b6tffaq6x6jkk"]
+[gd_scene load_steps=3 format=3 uid="uid://0lnem8i4p4w7"]
 
 [ext_resource type="Theme" uid="uid://bsip5y65j1e6v" path="res://ui_theme.tres" id="1_mb2j0"]
 [ext_resource type="Script" path="res://Code/UI/Menu.cs" id="2_utk65"]
-[ext_resource type="PackedScene" uid="uid://e0wp0h0rrm1u" path="res://Scenes/main.tscn" id="3_7u27y"]
-[ext_resource type="PackedScene" uid="uid://d285jxfiansw5" path="res://Scenes/main_menu.tscn" id="4_r1on7"]
 
 [node name="VictoryWindow" type="Control"]
 layout_mode = 3
@@ -14,8 +12,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_mb2j0")
 script = ExtResource("2_utk65")
-eMainScene = ExtResource("3_7u27y")
-mMainMenuScene = ExtResource("4_r1on7")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1

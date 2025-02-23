@@ -184,7 +184,7 @@ public partial class Map
 
 		for (int i = 0; i < number; ++i)
 		{
-			if (canSpawnMimic.Count == 0) break;
+			if (canSpawnMimic is null && canSpawnMimic.Count == 0) break;
 			TilePosition mimicPosition = canSpawnMimic[RNG.RandiRange(0, canSpawnMimic.Count)];
 
 			GD.Print("Tile fetched by Random coordinate: " + mimicPosition);
@@ -269,9 +269,12 @@ public partial class Map
 		TilePosition[,] tilePrevious = new TilePosition[mHeight, mWidth];
 
 		int[,] tileEstimation = new int[mHeight, mWidth];
-        for (int i = 0; i < tileEstimation.Length; i++)
+        
+		for (int i = 0; i < tileEstimation.Length; i++)
         {
-			tileEstimation[i / mHeight,i % mWidth] = -1;
+			int row = i / (mWidth > mHeight ? mWidth : mHeight);
+			int col = i % (mWidth > mHeight ? mWidth : mHeight);
+			tileEstimation[row, col] = -1;
         };
 
 		Stack<TilePosition> tilePositions = new Stack<TilePosition>();

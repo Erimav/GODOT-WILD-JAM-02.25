@@ -16,6 +16,12 @@ public partial class PlayerController : Node
 
     // PUBLIC METHODS
 
+    public void Reset()
+    {
+        // there is no inner state in Player Controller to reset
+        // so Reset just for Conformity with other controllers
+    }
+
     public override void _Ready()
     {
         base._Ready();

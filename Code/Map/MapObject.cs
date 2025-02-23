@@ -46,6 +46,9 @@ public partial class MapObject : Node
     private float eTileRowMargin;
     [Export]
     private Vector3 eBlockScale;
+    [Export]
+    private int eClearTilePrice;
+    public int ClearTilePrice => eClearTilePrice;
 
     //[ExportCategory("ShopItemsParameters")]
     //[Export]
@@ -115,7 +118,7 @@ public partial class MapObject : Node
             mTiles[path[i].mRow, path[i].mCol].Scale = new Vector3(0.5f, 0.5f, 0.5f);
         }
     }
-    private void GenerateMap()
+    public void GenerateMap()
     {
         if (mTiles != null)
         {
@@ -138,6 +141,7 @@ public partial class MapObject : Node
                 var tile = eMapTile.Instantiate<Tile>();
 
                 tile.Position = eMapStartPosition + rowOffset + colOffset;
+                tile.Scale = eBlockScale;
 
                 GD.Print("Block Position: " + tile.Position);
 
@@ -152,7 +156,6 @@ public partial class MapObject : Node
         }
 
         AddMimics(eMimicNumber);
-
     }
 
     // PUBLIC METHODS
@@ -265,9 +268,14 @@ public partial class MapObject : Node
 
     private void ForceClearTile(TilePosition tilePosition, TileFill tileFill)
     {
-        tileFill.isClear = true;
-        mTiles[tilePosition.mRow, tilePosition.mCol].ClearTile();
-        EmitSignal("blockErased");
+        if (Wallet.Balance >= eClearTilePrice)
+        {
+            tileFill.isClear = true;
+            mTiles[tilePosition.mRow, tilePosition.mCol].ClearTile();
+            Wallet.Balance -= eClearTilePrice;
+            EmitSignal("blockErased");
+
+        }
     }
 
     public void OnUseItem(int colTile, int rowTile)

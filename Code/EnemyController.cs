@@ -17,6 +17,11 @@ public partial class EnemyController : Node
     private float mResources = 0; 
     // PUBLIC METHODS
 
+
+    public void Reset()
+    {
+
+    }
     public override void _Ready()
     {
         mTowers = new List<(Tower, PackedScene)> ();
@@ -45,7 +50,7 @@ public partial class EnemyController : Node
             clearedTiles.Remove(randomClearedPosition);
         }
         mResources -= resourcesSpentForBoulders;
-        eMapObject.AddMimics(waveNumber + 3);
+        eMapObject.AddMimics(waveNumber * 2 + 4);
     }
 
     public void OnWaveBegin(int waveNumber)
