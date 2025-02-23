@@ -14,6 +14,13 @@ public partial class PlayerController : Node
     [Signal]
     public delegate void UseItemOnTileEventHandler(int xTile, int yTile);
 
+
+    [Export]
+    // Base money each turn
+    private int eMoneyEachTurn;
+    [Export]
+    // Money that scales with wave number
+    private int eMoneyWaveBonus;
     // PUBLIC METHODS
 
     public void Reset()
@@ -39,6 +46,11 @@ public partial class PlayerController : Node
             GD.Print("PlayerController: Try Use Item");
             EmitSignal(SignalName.UseItemOnTile, xTile, yTile);
         }
+    }
+
+    public void AddMoneyToPlayer(int waveNumber)
+    {
+        Wallet.Balance += eMoneyEachTurn + eMoneyWaveBonus*waveNumber;
     }
 
     public void OnMimic()

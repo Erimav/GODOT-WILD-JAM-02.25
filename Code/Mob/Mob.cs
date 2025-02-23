@@ -19,6 +19,8 @@ public partial class Mob : Node3D
 	private float eMaxHP;
 	[Export]
 	private float eMoveSpeed;
+	[Export]
+	private int eResourceValue;
 
 	[Export]
 	private AudioStream mDyingSound;
@@ -29,6 +31,7 @@ public partial class Mob : Node3D
 	private bool mDead;
 
 	// Public
+	public int ResourceValue => eResourceValue;
 	public bool IsDead
 	{
 		get => mDead;

@@ -26,6 +26,8 @@ public partial class MapObject : Node
     [ExportCategory("External Exports")]
     [Export]
     private Path3D ePath3D;
+    [Export]
+    private AudioStream eMimicFoundSFX;
 
     [ExportCategory("MapParameters")]
     [Export]
@@ -251,6 +253,7 @@ public partial class MapObject : Node
             {
                 EmitSignal("blockIsMimic");
                 mTiles[tilePosition.mRow, tilePosition.mCol].AddMimic();
+                AudioManager.Instance.PlaySFX(eMimicFoundSFX);
                 return;
             }
             if (tileFill.isTower)

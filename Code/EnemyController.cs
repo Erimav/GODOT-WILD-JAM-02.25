@@ -14,6 +14,14 @@ public partial class EnemyController : Node
 
     private List<(Tower, PackedScene)> mTowers;
 
+    [ExportCategory("Export Parameters")]
+    [Export]
+    // Base Add By Each Wave
+    private int eMimicAddByWave;
+    [Export]
+    // Scale by Wave
+    private int eMimicScaleByWave;
+
     private float mResources = 0; 
     // PUBLIC METHODS
 
@@ -50,7 +58,8 @@ public partial class EnemyController : Node
             clearedTiles.Remove(randomClearedPosition);
         }
         mResources -= resourcesSpentForBoulders;
-        eMapObject.AddMimics(waveNumber * 2 + 4);
+
+        eMapObject.AddMimics(waveNumber * eMimicScaleByWave + eMimicAddByWave);
     }
 
     public void OnWaveBegin(int waveNumber)
@@ -95,6 +104,11 @@ public partial class EnemyController : Node
             mResources -= curTower.Item1.Price;
             
         }
+    }
+
+    public void AddToResource(float resources)
+    {
+        mResources += resources;
     }
 
     // PRIVATE METHODS

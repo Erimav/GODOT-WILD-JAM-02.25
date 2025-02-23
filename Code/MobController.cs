@@ -13,6 +13,10 @@ public partial class MobController : Node
 	private Timer eTimer;
 	[Export]
 	private MapObject eMapObject;
+    [Export]
+    private EnemyController eEnemyController;
+    [Export]
+    private PlayerController ePlayerController;
 
 	[ExportCategory("Mobs scenes")]
 	[Export]
@@ -37,8 +41,11 @@ public partial class MobController : Node
         Mob mob = eGoblin.Instantiate<Mob>();
 
         mob.OnMobDeadPath += (Mob mob) => { mMobNumber--; };
+        mob.OnMobDeadPath += (Mob mob) => { eEnemyController.AddToResource(mob.ResourceValue / 5); };
         mob.OnMobFinishedPath += (Mob mob) => { mMobNumber--; };
         mob.OnMobFinishedPath += (Mob mob) => { mMobFinishedPath++; };
+
+        mob.OnMobFinishedPath += (Mob mob) => { Wallet.Balance += mob.ResourceValue; };
 
         eMapObject.AddMobToMap(mob);
         EmitSignal(SignalName.MobSpawned, mob);
@@ -60,8 +67,12 @@ public partial class MobController : Node
 
     public void Reset()
     {
-
+        mTimerCount = 0;
+        mTimerEndCount = 0;
+        mMobNumber = -1;
+        mMobFinishedPath = 0;
     }
+
     public override void _Ready()
     {
         base._Ready();

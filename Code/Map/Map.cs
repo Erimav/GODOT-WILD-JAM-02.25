@@ -387,7 +387,8 @@ public partial class Map
 				int x = tile.mCol;
 				int y = tile.mRow;
 				TileFill tileFill = mMapFilled[y][x];
-				if (tileFill.isMimic || tileFill.isTower || tileFill.isClear)
+				if (tileFill.isMimic || tileFill.isTower || 
+					(tilePriorities[-1].Find((TilePosition t) => t == tile) != null))
 				{
 					//GD.Print("GetTileTowerPriorities - Tile Occupied and skipped");
 					continue;

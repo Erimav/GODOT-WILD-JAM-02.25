@@ -1,8 +1,9 @@
-[gd_scene load_steps=20 format=3 uid="uid://e0wp0h0rrm1u"]
+[gd_scene load_steps=21 format=3 uid="uid://e0wp0h0rrm1u"]
 
 [ext_resource type="Texture2D" uid="uid://c3ofn2sjkh5ed" path="res://Assets/EveningSkyHDRI035B_1K-HDR.exr" id="1_iectl"]
 [ext_resource type="Script" path="res://Code/Map/MapObject.cs" id="1_ldni7"]
 [ext_resource type="PackedScene" uid="uid://c04p8dpts73sm" path="res://Scenes/Prefabs/tile.tscn" id="2_3i4cd"]
+[ext_resource type="AudioStream" uid="uid://0cniu1f8vgu6" path="res://Assets/SFX/wilhelm-1-86895.mp3" id="3_kqwb3"]
 [ext_resource type="PackedScene" uid="uid://cf7brgwaxlmud" path="res://Code/3d_rts_camera/rtscam.tscn" id="3_v4tk2"]
 [ext_resource type="PackedScene" uid="uid://xu8wg8g0j8iw" path="res://Scenes/Controllers/player_controller.tscn" id="4_777qx"]
 [ext_resource type="PackedScene" uid="uid://cmh0pr3rlh182" path="res://Scenes/Controllers/game_controller.tscn" id="5_8v0vu"]
@@ -51,9 +52,10 @@ curve = SubResource("Curve3D_y6g7l")
 transform = Transform3D(1.00269, 0, 0, 0, 1.00269, 0, 0, 0, 1.00269, 0, 0, 0)
 script = ExtResource("1_ldni7")
 ePath3D = NodePath("../Path3D")
+eMimicFoundSFX = ExtResource("3_kqwb3")
 eWidth = 18
 eHeight = 20
-eMimicNumber = 10
+eMimicNumber = 30
 eMapTile = ExtResource("2_3i4cd")
 eMapStartPosition = Vector3(-14, 0, -12)
 eTileColMargin = 1.5
@@ -102,6 +104,8 @@ layout_mode = 1
 eMapObject = NodePath("../Map")
 eGameController = NodePath("../GameController")
 eTowersPrefabs = Array[PackedScene]([ExtResource("7_uk5tl")])
+eMimicAddByWave = 5
+eMimicScaleByWave = 3
 
 [node name="GameController" parent="." node_paths=PackedStringArray("eMobController", "ePlayerController", "eEnemyController", "eMapObject") instance=ExtResource("5_8v0vu")]
 eMobController = NodePath("../MobController")
@@ -113,10 +117,14 @@ eMaxWave = 10
 eMobFinishedToWin = 50
 eStartBalance = 800
 
-[node name="MobController" parent="." node_paths=PackedStringArray("eMapObject") instance=ExtResource("6_4odl5")]
+[node name="MobController" parent="." node_paths=PackedStringArray("eMapObject", "eEnemyController", "ePlayerController") instance=ExtResource("6_4odl5")]
 eMapObject = NodePath("../Map")
+eEnemyController = NodePath("../EnemyController")
+ePlayerController = NodePath("../PlayerController")
 
 [node name="PlayerController" parent="." instance=ExtResource("4_777qx")]
+eMoneyEachTurn = 100
+eMoneyWaveBonus = 50
 
 [node name="AudioManager" parent="." instance=ExtResource("11_pu1pj")]
 
@@ -128,6 +136,7 @@ eMapObject = NodePath("../Map")
 [connection signal="GameStarted" from="GameController" to="UI/VictoryWindow" method="hide"]
 [connection signal="GameStarted" from="GameController" to="UI/GameOverWindow" method="hide"]
 [connection signal="GameStateSetToPrepare" from="GameController" to="EnemyController" method="OnPrepare"]
+[connection signal="GameStateSetToPrepare" from="GameController" to="PlayerController" method="AddMoneyToPlayer"]
 [connection signal="GameStateSetToWave" from="GameController" to="EnemyController" method="OnWaveBegin"]
 [connection signal="GameStateSetToWave" from="GameController" to="UI/Shop" method="HideMainWindow" unbinds=1]
 [connection signal="GameWon" from="GameController" to="UI/VictoryWindow" method="show"]
