@@ -184,8 +184,11 @@ public partial class Map
 
 		for (int i = 0; i < number; ++i)
 		{
-			if (canSpawnMimic is null && canSpawnMimic.Count == 0) break;
-			TilePosition mimicPosition = canSpawnMimic[RNG.RandiRange(0, canSpawnMimic.Count)];
+			if (RNG is null || canSpawnMimic is null || canSpawnMimic.Count == 0)
+			{
+				break;
+			}
+			TilePosition mimicPosition = canSpawnMimic[RNG.RandiRange(0, canSpawnMimic.Count - 1)];
 
 			GD.Print("Tile fetched by Random coordinate: " + mimicPosition);
 			mMapFilled[mimicPosition.mRow][mimicPosition.mCol].isMimic = true;

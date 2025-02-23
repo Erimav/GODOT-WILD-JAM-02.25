@@ -146,7 +146,7 @@ eMoneyWaveBonus = 50
 [connection signal="GameStarted" from="GameController" to="UI/VictoryWindow" method="hide"]
 [connection signal="GameStarted" from="GameController" to="UI/GameOverWindow" method="hide"]
 [connection signal="GameStateSetToPrepare" from="GameController" to="EnemyController" method="OnPrepare"]
-[connection signal="GameStateSetToPrepare" from="GameController" to="PlayerController" method="AddMoneyToPlayer"]
+[connection signal="GameStateSetToPrepare" from="GameController" to="PlayerController" method="AddMoneyToPlayer" flags=3]
 [connection signal="GameStateSetToPrepare" from="GameController" to="UI/Shop" method="OnWaveComplete" unbinds=1]
 [connection signal="GameStateSetToWave" from="GameController" to="EnemyController" method="OnWaveBegin"]
 [connection signal="GameStateSetToWave" from="GameController" to="UI/Shop" method="HideMainWindow" unbinds=1]

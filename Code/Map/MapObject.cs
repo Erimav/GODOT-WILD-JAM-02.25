@@ -262,14 +262,15 @@ public partial class MapObject : Node
                 AudioManager.Instance.PlaySFX(eMimicFoundSFX);
                 return;
             }
-            if (tileFill.isTower)
+            else if (tileFill.isTower)
             {
                 EmitSignal("blockIsTower");
                 return;
             }
-            if (!tileFill.isClear)
+            else if (!tileFill.isClear)
             {
                 ForceClearTile(tilePosition, tileFill);
+                Wallet.Balance -= eClearTilePrice;
                 return;
             }
         }
@@ -281,9 +282,7 @@ public partial class MapObject : Node
         {
             tileFill.isClear = true;
             mTiles[tilePosition.mRow, tilePosition.mCol].ClearTile();
-            Wallet.Balance -= eClearTilePrice;
             EmitSignal("blockErased");
-
         }
     }
 
