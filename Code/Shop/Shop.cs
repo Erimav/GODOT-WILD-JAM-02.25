@@ -29,6 +29,8 @@ public partial class Shop : Control
     private AudioStream eCoinSound;
     [Export]
     private AudioStream eDynamiteSound;
+    [Export]
+    private AudioStream eShinyGemSound;
     private List<BuffItemUsage> mAppliedBuffItems = new(2);
 
     public bool IsOpen { get; private set; }
@@ -119,7 +121,14 @@ public partial class Shop : Control
     {
         GD.Print("Shop - Item Use Confirmed");
         Wallet.Balance -= item.Price;
-        AudioManager.Instance.PlaySFX(eCoinSound);
+        if (item.Name == "Shiny gem")
+        {
+            AudioManager.Instance.PlaySFX(eShinyGemSound);
+        }
+        else
+        {
+            AudioManager.Instance.PlaySFX(eCoinSound);
+        }
         // Hardcoded Dynamite Sound. I just wanna hear the world exploding
         // https://www.youtube.com/watch?v=I685CIJkt7U&ab_channel=MoeMusic
         if (item.Name == "Dynamite")
