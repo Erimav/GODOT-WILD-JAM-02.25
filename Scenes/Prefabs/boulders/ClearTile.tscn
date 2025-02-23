@@ -1,8 +1,3 @@
-[gd_scene load_steps=2 format=3 uid="uid://45cwtkwvi30f"]
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_42psq"]
+[gd_scene format=3 uid="uid://45cwtkwvi30f"]
 
 [node name="ClearTile" type="Node3D"]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("PlaneMesh_42psq")

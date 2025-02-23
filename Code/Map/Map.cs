@@ -272,8 +272,8 @@ public partial class Map
         
 		for (int i = 0; i < tileEstimation.Length; i++)
         {
-			int row = i / (mWidth > mHeight ? mWidth : mHeight);
-			int col = i % (mWidth > mHeight ? mWidth : mHeight);
+			int row = i / mWidth;
+			int col = i % mWidth;
 			tileEstimation[row, col] = -1;
         };
 

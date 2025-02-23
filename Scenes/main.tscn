@@ -1,10 +1,10 @@
-[gd_scene load_steps=21 format=3 uid="uid://e0wp0h0rrm1u"]
+[gd_scene load_steps=20 format=3 uid="uid://e0wp0h0rrm1u"]
 
+[ext_resource type="Texture2D" uid="uid://c3ofn2sjkh5ed" path="res://Assets/EveningSkyHDRI035B_1K-HDR.exr" id="1_iectl"]
 [ext_resource type="Script" path="res://Code/Map/MapObject.cs" id="1_ldni7"]
 [ext_resource type="PackedScene" uid="uid://c04p8dpts73sm" path="res://Scenes/Prefabs/tile.tscn" id="2_3i4cd"]
 [ext_resource type="PackedScene" uid="uid://cf7brgwaxlmud" path="res://Code/3d_rts_camera/rtscam.tscn" id="3_v4tk2"]
 [ext_resource type="PackedScene" uid="uid://xu8wg8g0j8iw" path="res://Scenes/Controllers/player_controller.tscn" id="4_777qx"]
-[ext_resource type="PackedScene" uid="uid://dfe2sdxinynai" path="res://Assets/Models/map_temp.glb" id="4_a5c1g"]
 [ext_resource type="PackedScene" uid="uid://cmh0pr3rlh182" path="res://Scenes/Controllers/game_controller.tscn" id="5_8v0vu"]
 [ext_resource type="PackedScene" uid="uid://cd0m8r5sfu1uu" path="res://Scenes/Controllers/mob_controller.tscn" id="6_4odl5"]
 [ext_resource type="PackedScene" uid="uid://cp34lm64ukxgx" path="res://Scenes/UI/shop.tscn" id="6_itkt7"]
@@ -14,13 +14,13 @@
 [ext_resource type="PackedScene" uid="uid://dkb62k31g4xmu" path="res://Scenes/Prefabs/tower_proto.tscn" id="7_uk5tl"]
 [ext_resource type="PackedScene" uid="uid://jlaprs3jv5jr" path="res://Scenes/UI/game_over_window.tscn" id="8_abuua"]
 [ext_resource type="PackedScene" uid="uid://cjjt7i4h1hwmq" path="res://Scenes/Controllers/audio_manager.tscn" id="11_pu1pj"]
+[ext_resource type="PackedScene" uid="uid://ennxsvgdwbkv" path="res://Scenes/map_temp.tscn" id="15_rqva5"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ybstf"]
-sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
-ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_xnx4b"]
+panorama = ExtResource("1_iectl")
 
 [sub_resource type="Sky" id="Sky_mh1vs"]
-sky_material = SubResource("ProceduralSkyMaterial_ybstf")
+sky_material = SubResource("PanoramaSkyMaterial_xnx4b")
 
 [sub_resource type="Environment" id="Environment_20fmd"]
 background_mode = 2
@@ -34,10 +34,6 @@ _data = {
 }
 point_count = 3
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ibj0v"]
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_n5s15"]
-
 [node name="Main" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -45,7 +41,7 @@ environment = SubResource("Environment_20fmd")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
-light_energy = 0.025
+light_energy = 0.1
 shadow_enabled = true
 
 [node name="Path3D" type="Path3D" parent="."]
@@ -55,11 +51,11 @@ curve = SubResource("Curve3D_y6g7l")
 transform = Transform3D(1.00269, 0, 0, 0, 1.00269, 0, 0, 0, 1.00269, 0, 0, 0)
 script = ExtResource("1_ldni7")
 ePath3D = NodePath("../Path3D")
-eWidth = 20
-eHeight = 10
+eWidth = 18
+eHeight = 20
 eMimicNumber = 10
 eMapTile = ExtResource("2_3i4cd")
-eMapStartPosition = Vector3(0, 1, -6)
+eMapStartPosition = Vector3(-14, 0, -12)
 eTileColMargin = 1.5
 eTileRowMargin = 1.5
 eBlockScale = Vector3(1.5, 1.5, 1.5)
@@ -67,21 +63,13 @@ eClearTilePrice = 25
 eGenerateMap = true
 eMarkStartAndEnd = true
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, -1.66853, 0.77755, 0.415482)
-material_override = SubResource("StandardMaterial3D_ibj0v")
-mesh = SubResource("PlaneMesh_n5s15")
-
 [node name="RTScamera" parent="." instance=ExtResource("3_v4tk2")]
 transform = Transform3D(1, 0, 0, 0, 0.783542, 0.621339, 0, -0.621339, 0.783542, 0, 4.50119, 3)
-camera_zoom_speed = 40.0
-camera_zoom_min = 5.0
-camera_zoom_max = 10.0
+camera_zoom_max = 20.0
 edge_scroll_margin = 0.0
 edge_scroll_speed = 0.0
 
-[node name="map_temp" parent="." instance=ExtResource("4_a5c1g")]
-transform = Transform3D(1.26151, 0, 0, 0, 1.26151, 0, 0, 0, 1.26151, 7.07761, 0.778, 6.63482)
+[node name="map_temp" parent="." instance=ExtResource("15_rqva5")]
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3

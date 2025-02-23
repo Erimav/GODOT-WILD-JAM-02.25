@@ -52,7 +52,6 @@ public partial class Tile : Node3D
 		if (mRevealedSphere is not null)
 		{
 			RemoveRevealSphere();
-
         }
     }
 
