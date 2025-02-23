@@ -1,9 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://e0wp0h0rrm1u"]
+[gd_scene load_steps=16 format=3 uid="uid://e0wp0h0rrm1u"]
 
 [ext_resource type="Script" path="res://Code/Map/MapObject.cs" id="1_ldni7"]
 [ext_resource type="PackedScene" uid="uid://c04p8dpts73sm" path="res://Scenes/Prefabs/tile.tscn" id="2_3i4cd"]
 [ext_resource type="PackedScene" uid="uid://cf7brgwaxlmud" path="res://Code/3d_rts_camera/rtscam.tscn" id="3_v4tk2"]
 [ext_resource type="PackedScene" uid="uid://xu8wg8g0j8iw" path="res://Scenes/Controllers/player_controller.tscn" id="4_777qx"]
+[ext_resource type="PackedScene" uid="uid://dfe2sdxinynai" path="res://Assets/Models/map_temp.glb" id="4_a5c1g"]
 [ext_resource type="PackedScene" uid="uid://cmh0pr3rlh182" path="res://Scenes/Controllers/game_controller.tscn" id="5_8v0vu"]
 [ext_resource type="PackedScene" uid="uid://cd0m8r5sfu1uu" path="res://Scenes/Controllers/mob_controller.tscn" id="6_4odl5"]
 [ext_resource type="PackedScene" uid="uid://cp34lm64ukxgx" path="res://Scenes/UI/shop.tscn" id="6_itkt7"]
@@ -56,6 +57,9 @@ omni_range = 70.927
 transform = Transform3D(1, 0, 0, 0, 0.783542, 0.621339, 0, -0.621339, 0.783542, 0, 4.50119, 3)
 edge_scroll_margin = 0.0
 edge_scroll_speed = 0.0
+
+[node name="map_temp" parent="." instance=ExtResource("4_a5c1g")]
+transform = Transform3D(1.26151, 0, 0, 0, 1.26151, 0, 0, 0, 1.26151, 7.07761, 0.778, 6.63482)
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3
