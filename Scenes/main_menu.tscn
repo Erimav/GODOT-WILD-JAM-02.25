@@ -1,7 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://ddmevo7fqisfy"]
+[gd_scene load_steps=5 format=3 uid="uid://ddmevo7fqisfy"]
 
+[ext_resource type="Script" path="res://Code/MusicPlayer.cs" id="1_aehe6"]
 [ext_resource type="PackedScene" uid="uid://diig35atngx6i" path="res://Scenes/UI/menu.tscn" id="1_qrhci"]
+[ext_resource type="PackedScene" uid="uid://cjjt7i4h1hwmq" path="res://Scenes/Controllers/audio_manager.tscn" id="2_e1ali"]
+[ext_resource type="AudioStream" uid="uid://37ccbp8a3uy8" path="res://Assets/Music/Some Ambient.wav" id="2_hxsyu"]
 
 [node name="MainMenu" type="Node3D"]
+script = ExtResource("1_aehe6")
+eMusicToPlay = ExtResource("2_hxsyu")
 
 [node name="Control" parent="." instance=ExtResource("1_qrhci")]
+
+[node name="AudioManager" parent="." instance=ExtResource("2_e1ali")]

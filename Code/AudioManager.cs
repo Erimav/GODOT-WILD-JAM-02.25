@@ -12,6 +12,9 @@ public partial class AudioManager : Node
 	[Export]
 	private AudioStreamPlayer[] eSFXGeneralPlayers;
 
+	[Export]
+	private AudioStreamPlayer eMusicPlayer;
+
 	private static AudioManager mAudioManager;
 	public static AudioManager Instance
 		{ get { return mAudioManager; } }
@@ -51,5 +54,12 @@ public partial class AudioManager : Node
 	public void PlaySFX(AudioStream sound)
 	{
 		PlaySound(sound, eSFXGeneralPlayers, ref mGeneralStreamNumber);
+	}
+
+	public void PlayMusic(AudioStream music)
+	{
+		if (eMusicPlayer.Playing) eMusicPlayer.Stop();
+		eMusicPlayer.Stream = music;
+		eMusicPlayer.Play();
 	}
 }

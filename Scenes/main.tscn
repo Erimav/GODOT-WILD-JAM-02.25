@@ -1,8 +1,10 @@
-[gd_scene load_steps=21 format=3 uid="uid://e0wp0h0rrm1u"]
+[gd_scene load_steps=24 format=3 uid="uid://e0wp0h0rrm1u"]
 
 [ext_resource type="Texture2D" uid="uid://c3ofn2sjkh5ed" path="res://Assets/EveningSkyHDRI035B_1K-HDR.exr" id="1_iectl"]
+[ext_resource type="Script" path="res://Code/MusicPlayer.cs" id="1_la7tl"]
 [ext_resource type="Script" path="res://Code/Map/MapObject.cs" id="1_ldni7"]
 [ext_resource type="PackedScene" uid="uid://c04p8dpts73sm" path="res://Scenes/Prefabs/tile.tscn" id="2_3i4cd"]
+[ext_resource type="AudioStream" uid="uid://dwd7uf6ujlmb7" path="res://Assets/Music/Main Music.wav" id="2_nuhlo"]
 [ext_resource type="AudioStream" uid="uid://0cniu1f8vgu6" path="res://Assets/SFX/wilhelm-1-86895.mp3" id="3_kqwb3"]
 [ext_resource type="PackedScene" uid="uid://cf7brgwaxlmud" path="res://Code/3d_rts_camera/rtscam.tscn" id="3_v4tk2"]
 [ext_resource type="PackedScene" uid="uid://xu8wg8g0j8iw" path="res://Scenes/Controllers/player_controller.tscn" id="4_777qx"]
@@ -15,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://dkb62k31g4xmu" path="res://Scenes/Prefabs/tower_proto.tscn" id="7_uk5tl"]
 [ext_resource type="PackedScene" uid="uid://jlaprs3jv5jr" path="res://Scenes/UI/game_over_window.tscn" id="8_abuua"]
 [ext_resource type="PackedScene" uid="uid://cjjt7i4h1hwmq" path="res://Scenes/Controllers/audio_manager.tscn" id="11_pu1pj"]
+[ext_resource type="AudioStream" uid="uid://dfggw8vi5t5og" path="res://Assets/SFX/medium-explosion-40472.mp3" id="11_tglvj"]
 [ext_resource type="PackedScene" uid="uid://ennxsvgdwbkv" path="res://Scenes/map_temp.tscn" id="15_rqva5"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_xnx4b"]
@@ -36,6 +39,8 @@ _data = {
 point_count = 3
 
 [node name="Main" type="Node3D"]
+script = ExtResource("1_la7tl")
+eMusicToPlay = ExtResource("2_nuhlo")
 
 [node name="RTScamera" parent="." instance=ExtResource("3_v4tk2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.50119, 3)
@@ -89,6 +94,7 @@ mGameController = NodePath("../../GameController")
 [node name="Shop" parent="UI" node_paths=PackedStringArray("eMap") instance=ExtResource("6_itkt7")]
 layout_mode = 1
 eMap = NodePath("../../Map")
+eDynamiteSound = ExtResource("11_tglvj")
 
 [node name="VictoryWindow" parent="UI" instance=ExtResource("7_88bla")]
 layout_mode = 1
