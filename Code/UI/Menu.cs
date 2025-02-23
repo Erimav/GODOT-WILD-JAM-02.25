@@ -7,23 +7,12 @@ public partial class Menu : Control
     [Export]
     private GameController eGameController;*/
 
-    //[Export]
-    private PackedScene eMainScene;
-    //[Export]
-    private PackedScene eMainMenuScene;
-
-    public override void _Ready()
-    {
-        eMainScene = ResourceLoader.Load<PackedScene>("Scenes/main.tscn");
-        eMainMenuScene = ResourceLoader.Load<PackedScene>("Scenes/main_menu.tscn");
-    }
-
     public void NewGame()
     {
         // Hardcoded condition because we can packed Scene 
         if (GetTree().Root.GetChild(0).Name != "Main")
         {
-            GetTree().ChangeSceneToPacked(eMainScene);
+            GetTree().ChangeSceneToFile("res://Scenes/main.tscn");
         }
         else
         {
@@ -35,7 +24,7 @@ public partial class Menu : Control
 
     public void MainMenu()
     {
-        GetTree().ChangeSceneToPacked(eMainMenuScene);
+        GetTree().ChangeSceneToFile("res://Scenes/main_menu.tscn");
     }
 
     public void Exit()
