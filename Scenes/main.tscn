@@ -44,7 +44,7 @@ eMusicToPlay = ExtResource("2_nuhlo")
 
 [node name="RTScamera" parent="." instance=ExtResource("3_v4tk2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.50119, 3)
-camera_zoom_max = 20.0
+camera_zoom_max = 25.0
 edge_scroll_margin = 0.0
 edge_scroll_speed = 0.0
 
@@ -68,7 +68,7 @@ eWidth = 18
 eHeight = 20
 eMimicNumber = 30
 eMapTile = ExtResource("2_3i4cd")
-eMapStartPosition = Vector3(-14, 0, -12)
+eMapStartPosition = Vector3(-14, 0, -11.5)
 eTileColMargin = 1.5
 eTileRowMargin = 1.5
 eBlockScale = Vector3(1.5, 1.5, 1.5)

@@ -26,12 +26,13 @@ var bounds: Vector3 = Vector3(8.0, 0.0, 8.0)
 @export var rotation_speed: float = 2.0
 
 # Current camera properties
-var current_height: float = 10.0
+var current_height: float = 25.0
 var orbit_center: Vector3 = Vector3.ZERO
 var orbit_radius: float = 10.0
 
 # Set initial position and rotation
 func _ready():
+	rotation_degrees.y = 90
 	_update_camera_position()
 	#rotation_degrees.x = -45
 
