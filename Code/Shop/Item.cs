@@ -21,7 +21,7 @@ public record Item(string Name, string Description, string IconName, int Price, 
 {
     public static IReadOnlyList<Item> List { get; } = new List<Item>()
     {
-        new("Magnifying glass", "Reveals a tile.", "magnifier.png", 50, new FieldItemUsage
+        new("Magnifying glass", "Reveals mimics in 3x3 area.", "magnifier.png", 50, new FieldItemUsage
             {
                 UseAction = FieldItemUsage.Action.Reveal,
             }),
