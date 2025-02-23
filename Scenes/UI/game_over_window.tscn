@@ -60,3 +60,7 @@ text = "Exit to Main Menu"
 [node name="ExitOS" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Stupid game (Exit to OS)"
+
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Again" to="." method="NewGame"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/ExtiMM" to="." method="MainMenu"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/ExitOS" to="." method="Exit"]

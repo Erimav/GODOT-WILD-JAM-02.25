@@ -87,3 +87,7 @@ step = 0.01
 value = 0.5
 script = ExtResource("5_tilux")
 eBusIndex = 2
+
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Again" to="." method="NewGame"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/ExtiMM" to="." method="MainMenu"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/ExitOS" to="." method="Exit"]
