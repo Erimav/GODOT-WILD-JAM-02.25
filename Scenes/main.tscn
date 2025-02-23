@@ -55,6 +55,9 @@ omni_range = 70.927
 
 [node name="RTScamera" parent="." instance=ExtResource("3_v4tk2")]
 transform = Transform3D(1, 0, 0, 0, 0.783542, 0.621339, 0, -0.621339, 0.783542, 0, 4.50119, 3)
+camera_zoom_speed = 40.0
+camera_zoom_min = 5.0
+camera_zoom_max = 10.0
 edge_scroll_margin = 0.0
 edge_scroll_speed = 0.0
 
