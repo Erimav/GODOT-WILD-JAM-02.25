@@ -15,7 +15,7 @@ public partial class PurchaseButton : Button
     private void OnBalanceChanged(int newBalance)
     {
         // More stupid null conditions
-        if (eItemsGrid is not null && eItemsGrid.SelectedItemSlot is not null && eItemsGrid.SelectedItemSlot.Item is not null)
+        if (IsInstanceValid(eItemsGrid) && IsInstanceValid(eItemsGrid.SelectedItemSlot) && eItemsGrid.SelectedItemSlot.Item is not null)
         {
             Disabled = eItemsGrid.SelectedItemSlot.Item.Price > newBalance;
         }

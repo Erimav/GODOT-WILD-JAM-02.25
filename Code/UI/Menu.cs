@@ -27,8 +27,9 @@ public partial class Menu : Control
         }
         else
         {
-            GameController controller = GetTree().Root.GetNode<GameController>("Main/GameController");
-            controller.StartGame();
+            GetTree().ReloadCurrentScene();
+            //GameController controller = GetTree().Root.GetNode<GameController>("Main/GameController");
+            //controller.StartGame();
         }
     }
 
