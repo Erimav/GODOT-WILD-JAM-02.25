@@ -20,6 +20,22 @@ background_mode = 2
 sky = SubResource("Sky_mppau")
 tonemap_mode = 2
 
+[sub_resource type="Animation" id="Animation_ml37x"]
+length = 5.0
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Javelin2:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(-0.266667, 4, 4.53333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, -1.31884, 0), Vector3(0, -1.31884, 0), Vector3(0, -0.725237, 0)]
+}
+
 [sub_resource type="Animation" id="Animation_rd18i"]
 resource_name = "main_menu_tower_anim"
 length = 10.0
@@ -35,22 +51,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Vector3(0, -1.31884, 0), Vector3(0, -1.31947, 0), Vector3(0, -0.710401, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_ml37x"]
-length = 5.0
-loop_mode = 2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Javelin2:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(-0.266667, 4, 4.53333),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector3(0, -1.31884, 0), Vector3(0, -1.31884, 0), Vector3(0, -0.725237, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0w8cd"]
@@ -83,7 +83,7 @@ transform = Transform3D(0.987688, -0.0327916, -0.152959, 0, 0.977783, -0.209619,
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.69523, 0, 1.11857)
 
 [node name="Javelin2" parent="Tower proto" instance=ExtResource("6_bgvyr")]
-transform = Transform3D(0.249298, 0, -0.968427, 0, 1, 0, 0.968427, 0, 0.249298, -0.00475788, 1.95119, -0.118565)
+transform = Transform3D(0.249299, 0, -0.968427, 0, 1, 0, 0.968427, 0, 0.249299, -0.00475788, 1.95119, -0.118565)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Tower proto"]
 libraries = {
