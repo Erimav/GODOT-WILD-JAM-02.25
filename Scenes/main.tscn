@@ -37,6 +37,12 @@ point_count = 3
 
 [node name="Main" type="Node3D"]
 
+[node name="RTScamera" parent="." instance=ExtResource("3_v4tk2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.50119, 3)
+camera_zoom_max = 20.0
+edge_scroll_margin = 0.0
+edge_scroll_speed = 0.0
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_20fmd")
 
@@ -64,12 +70,6 @@ eBlockScale = Vector3(1.5, 1.5, 1.5)
 eClearTilePrice = 25
 eGenerateMap = true
 eMarkStartAndEnd = true
-
-[node name="RTScamera" parent="." instance=ExtResource("3_v4tk2")]
-transform = Transform3D(1, 0, 0, 0, 0.783542, 0.621339, 0, -0.621339, 0.783542, 0, 4.50119, 3)
-camera_zoom_max = 20.0
-edge_scroll_margin = 0.0
-edge_scroll_speed = 0.0
 
 [node name="map_temp" parent="." instance=ExtResource("15_rqva5")]
 
