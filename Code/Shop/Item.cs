@@ -29,18 +29,18 @@ public record Item(string Name, string Description, string IconName, int Price, 
             {
                 UseAction = FieldItemUsage.Action.BlowUp,
             }),
-        new("Energy potion",    "An invigorating drink. One sip can make anyone run faster.", "potion.png", 75, new BuffItemUsage
+        new("Energy potion",    "An invigorating drink. One sip can make anyone run faster.", "potion.png", 150, new BuffItemUsage
         {
             UseAction = (mob) =>
             {
-                mob.CurrentHP *= 2;
+                mob.MoveSpeed *= 3;
             }
         }),
         new("Golden apple",     "Healthy food makes people(and goblins) more durable.", "apple.png", 100, new BuffItemUsage
         {
             UseAction = (mob) =>
             {
-                mob.MoveSpeed *= 1.5f;
+                mob.CurrentHP *= 2;
             }
         }),
         new("Shiny gem",        "No particular reason to buy it, but it's very beautiful.", "gem.png", 1000, new LuxuryItemUsage())
