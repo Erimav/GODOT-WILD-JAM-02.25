@@ -115,7 +115,7 @@ eMapObject = NodePath("../Map")
 eGameController = NodePath("../GameController")
 eTowersPrefabs = Array[PackedScene]([ExtResource("7_uk5tl")])
 eMimicAddByWave = 5
-eMimicScaleByWave = 3
+eMimicScaleByWave = 2
 
 [node name="GameController" parent="." node_paths=PackedStringArray("eMobController", "ePlayerController", "eEnemyController", "eMapObject") instance=ExtResource("5_8v0vu")]
 eMobController = NodePath("../MobController")
@@ -125,7 +125,7 @@ eMapObject = NodePath("../Map")
 eSpawnNumber = 8
 eMaxWave = 10
 eMobFinishedToWin = 50
-eStartBalance = 800
+eStartBalance = 700
 
 [node name="MobController" parent="." node_paths=PackedStringArray("eMapObject", "eEnemyController", "ePlayerController") instance=ExtResource("6_4odl5")]
 eMapObject = NodePath("../Map")
