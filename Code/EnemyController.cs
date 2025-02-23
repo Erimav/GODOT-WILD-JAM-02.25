@@ -114,6 +114,6 @@ public partial class EnemyController : Node
     // PRIVATE METHODS
     private float GetResourceForTheWave(int waveNumber)
     {
-        return waveNumber * 150.0f;
+        return waveNumber * 75.0f + 150.0f;
     }
 }

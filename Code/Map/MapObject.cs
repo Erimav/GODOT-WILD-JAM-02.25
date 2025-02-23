@@ -313,7 +313,7 @@ public partial class MapObject : Node
     {
         TilePosition tilePosition = new(colTile, rowTile);
         var tileFill = mMap.GetTileFill(tilePosition);
-        if (tileFill.isClear)
+        if (!tileFill.isTower && !tileFill.isMimic)
         {
             return;
         }
