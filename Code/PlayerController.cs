@@ -36,12 +36,13 @@ public partial class PlayerController : Node
     public void TilePressed(Tile tile, int xTile, int yTile)
     {
         GD.Print("PlayerController: Tile Pressed");
-        var state = GameManager.GetInstance().GetGameState();
-        if (state == GameManager.GameState.Prepare)
+        GameManager gameManager = GameManager.GetInstance();
+        var state = gameManager.GetGameState();
+        if (gameManager.ItemAtHand is not null)
         {
             EmitSignal(SignalName.TryEraseTile, xTile, yTile);
         }
-        else if (state == GameManager.GameState.UseFieldItem)
+        else if (state == GameManager.GameState.Prepare)
         {
             GD.Print("PlayerController: Try Use Item");
             EmitSignal(SignalName.UseItemOnTile, xTile, yTile);

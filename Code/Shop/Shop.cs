@@ -88,7 +88,7 @@ public partial class Shop : Control
         GD.Print("Shop - TryUseFieldItemAsync" + fieldUsage.ToString());
         //HideMainWindow();
         eUseItemConfirmationElement.Show();
-        GameManager.GetInstance().ChangeState(GameManager.GameState.UseFieldItem);
+        //GameManager.GetInstance().ChangeState(GameManager.GameState.UseFieldItem);
         GameManager.GetInstance().ItemAtHand = item;
         var signalToAwait = fieldUsage.UseAction switch
         {
@@ -107,8 +107,9 @@ public partial class Shop : Control
         {
             ItemUseCanceled();
         }
+        GameManager.GetInstance().ItemAtHand = null;
         GD.Print("Shop - TryUseFieldItemAsync End");
-        GameManager.GetInstance().ChangeState(GameManager.GameState.Prepare);
+        //GameManager.GetInstance().ChangeState(GameManager.GameState.Prepare);
 
         eUseItemConfirmationElement.Hide();
     }
@@ -155,23 +156,22 @@ public partial class Shop : Control
 
     public override void _Process(double delta)
     {
-        var state = GameManager.GetInstance().GetGameState();
-        if (state == GameManager.GameState.Prepare)
+        var gm = GameManager.GetInstance();
+
+        if (Input.IsActionJustPressed("shop"))
         {
-            if (Input.IsActionJustPressed("shop"))
+            if (IsOpen)
             {
-                if (IsOpen)
-                {
-                    HideMainWindow();
-                }
-                else
-                {
-                    ShowMainWindow();
-                }
+                HideMainWindow();
+            }
+            else
+            {
+                ShowMainWindow();
             }
         }
 
-        if (state == GameManager.GameState.UseFieldItem && Input.IsMouseButtonPressed(MouseButton.Right))
+
+        if (gm.ItemAtHand is not null && Input.IsMouseButtonPressed(MouseButton.Right))
         {
             EmitSignal(SignalName.CancelItemUsage);
         }
