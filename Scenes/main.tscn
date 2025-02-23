@@ -133,8 +133,8 @@ eEnemyController = NodePath("../EnemyController")
 ePlayerController = NodePath("../PlayerController")
 
 [node name="PlayerController" parent="." instance=ExtResource("4_777qx")]
-eMoneyEachTurn = 100
-eMoneyWaveBonus = 50
+eMoneyEachTurn = 200
+eMoneyWaveBonus = 100
 
 [node name="AudioManager" parent="." instance=ExtResource("11_pu1pj")]
 

@@ -78,6 +78,7 @@ public partial class Shop : Control
                 }
                 break;
             case LuxuryItemUsage:
+                ItemUseConfirmed(item);
                 GD.Print($"You actually bought the {item.Name} for {item.Price} coins...");
                 break;
         }

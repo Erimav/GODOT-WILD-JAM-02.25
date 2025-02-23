@@ -40,12 +40,12 @@ public partial class PlayerController : Node
         var state = gameManager.GetGameState();
         if (gameManager.ItemAtHand is not null)
         {
-            EmitSignal(SignalName.TryEraseTile, xTile, yTile);
+            GD.Print("PlayerController: Try Use Item");
+            EmitSignal(SignalName.UseItemOnTile, xTile, yTile);
         }
         else if (state == GameManager.GameState.Prepare)
         {
-            GD.Print("PlayerController: Try Use Item");
-            EmitSignal(SignalName.UseItemOnTile, xTile, yTile);
+            EmitSignal(SignalName.TryEraseTile, xTile, yTile);
         }
     }
 

@@ -12,7 +12,7 @@ eTarget = NodePath("Node")
 eAnimationController = NodePath("AnimationPlayer")
 eMaxHP = 10.0
 eMoveSpeed = 2.0
-eResourceValue = 20
+eResourceValue = 40
 mDyingSound = ExtResource("3_q3pcs")
 
 [node name="Skeleton3D" parent="Armature" index="0"]
