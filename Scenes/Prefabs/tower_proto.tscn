@@ -12,7 +12,7 @@
 script = ExtResource("2_tk8nr")
 eProjectileSpawnPoint = NodePath("JavelinSpawnPoint")
 eProjectilePrefab = ExtResource("3_5t8fq")
-eDistance = 10.0
+eDistance = 8.0
 ePrice = 50.0
 
 [node name="Cylinder" parent="." index="0"]
