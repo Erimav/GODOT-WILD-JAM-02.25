@@ -16,6 +16,8 @@ public partial class Shop : Control
     private ItemsGrid eItemsGrid;
     [Export]
     private Container eBuffsBar;
+    [Export]
+    private Button eOpenButton;
 
     [Export]
     private MapObject eMap;
@@ -180,5 +182,15 @@ public partial class Shop : Control
     public void OnMobSpawned(Mob mob)
     {
         mAppliedBuffItems.ForEach(buff => buff.UseAction(mob));
+    }
+
+    public void ShowOpenButton()
+    {
+        eOpenButton.Visible = true;
+    }
+
+    public void HideOpenButton()
+    {
+        eOpenButton.Visible = false;
     }
 }

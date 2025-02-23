@@ -10,6 +10,10 @@ public partial class Hud : Control
 	[ExportCategory("Nodes")]
 	[Export]
 	private Button mStartWaveButton;
+    [Export]
+    private Label mWaveNumber;
+    [Export]
+    private Label mNeedToReachFinish;
 
     // PUBLIC METHODS
     public override void _Ready()
@@ -21,6 +25,7 @@ public partial class Hud : Control
     public override void _Process(double delta)
     {
 		StartWaveButtonProcess();
+		SetTexts();
         base._Process(delta);
     }
 
@@ -43,4 +48,10 @@ public partial class Hud : Control
 		GD.Print("Start Wave Button Pressed");
 		mGameController.StartWave();
 	}
+
+    private void SetTexts()
+    {
+        mWaveNumber.Text = $"Waves remaining: {mGameController.MaxWave - mGameController.WaveNumber + 1} / {mGameController.MaxWave}";
+        mNeedToReachFinish.Text = "Minions left to Win: " + (mGameController.MobFinishedPathToWin - mGameController.MobFinishedPath);
+    }
 }

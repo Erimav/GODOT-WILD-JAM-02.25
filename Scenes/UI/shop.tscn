@@ -9,8 +9,8 @@
 [ext_resource type="Script" path="res://Code/Shop/ItemsGrid.cs" id="7_jm76s"]
 [ext_resource type="Script" path="res://Code/Shop/Shop.cs" id="7_km40n"]
 [ext_resource type="PackedScene" uid="uid://e16pxuvwuqnl" path="res://Scenes/UI/item_template.tscn" id="7_x3lj0"]
-[ext_resource type="AudioStream" uid="uid://c3smc5j78b1xn" path="res://Assets/SFX/coin-flip-37787.mp3" id="8_doxf4"]
 [ext_resource type="Texture2D" uid="uid://32r5bu1xbeyb" path="res://Assets/Sprites/UI Scaled/tile_0018.png" id="8_n3tdj"]
+[ext_resource type="AudioStream" uid="uid://c3smc5j78b1xn" path="res://Assets/SFX/coin-flip-37787.mp3" id="8_qcpao"]
 [ext_resource type="Texture2D" uid="uid://qrlqy1i06gfk" path="res://Assets/Sprites/UI Scaled/close_button.png" id="10_at43k"]
 [ext_resource type="Script" path="res://Code/Shop/ItemInfoDisplay.cs" id="10_d3ps0"]
 [ext_resource type="Script" path="res://Code/Shop/BalanceDisplay.cs" id="11_ooi1j"]
@@ -85,7 +85,7 @@ axis_stretch_vertical = 1
 [sub_resource type="Theme" id="Theme_rkbav"]
 PanelContainer/styles/panel = SubResource("StyleBoxTexture_1meey")
 
-[node name="Shop" type="Control" node_paths=PackedStringArray("eMainShopWindow", "eUseItemConfirmationElement", "eItemsGrid")]
+[node name="Shop" type="Control" node_paths=PackedStringArray("eMainShopWindow", "eUseItemConfirmationElement", "eItemsGrid", "eBuffsBar", "eOpenButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -99,8 +99,10 @@ script = ExtResource("7_km40n")
 eMainShopWindow = NodePath("MainWindow")
 eUseItemConfirmationElement = NodePath("FieldItemConfirmation")
 eItemsGrid = NodePath("MainWindow/VBoxContainer/PanelContainer/VBoxContainer/Items Container/Items grid")
+eBuffsBar = NodePath("BuffsMargin/BuffsBar")
+eOpenButton = NodePath("Button")
 eSlideTime = 0.595
-eCoinSound = ExtResource("8_doxf4")
+eCoinSound = ExtResource("8_qcpao")
 
 [node name="MainWindow" type="Control" parent="."]
 layout_mode = 1
@@ -176,23 +178,6 @@ autowrap_mode = 2
 [node name="Funds" type="HBoxContainer" parent="MainWindow/VBoxContainer"]
 layout_mode = 2
 
-[node name="Wallet" type="PanelContainer" parent="MainWindow/VBoxContainer/Funds"]
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="MainWindow/VBoxContainer/Funds/Wallet"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="MainWindow/VBoxContainer/Funds/Wallet/HBoxContainer"]
-layout_mode = 2
-text = "1000"
-horizontal_alignment = 2
-script = ExtResource("11_ooi1j")
-
-[node name="TextureRect" type="TextureRect" parent="MainWindow/VBoxContainer/Funds/Wallet/HBoxContainer"]
-layout_mode = 2
-texture = ExtResource("13_mmw43")
-stretch_mode = 4
-
 [node name="Space" type="Control" parent="MainWindow/VBoxContainer/Funds"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -219,10 +204,11 @@ stretch_mode = 4
 [node name="FieldItemConfirmation" type="CenterContainer" parent="."]
 visible = false
 layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
+anchors_preset = -1
+anchor_top = 0.85
 anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_bottom = 0.85
+offset_top = -188.0
 grow_horizontal = 2
 grow_vertical = 0
 mouse_filter = 2
@@ -258,6 +244,27 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 64
 text = "Cancel"
 
+[node name="Wallet" type="PanelContainer" parent="."]
+layout_mode = 1
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 144.0
+offset_bottom = 92.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Wallet"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Wallet/HBoxContainer"]
+layout_mode = 2
+text = "1000"
+horizontal_alignment = 2
+script = ExtResource("11_ooi1j")
+
+[node name="TextureRect" type="TextureRect" parent="Wallet/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("13_mmw43")
+stretch_mode = 4
+
 [node name="BuffsMargin" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 1
@@ -276,5 +283,18 @@ custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 theme_override_constants/separation = 16
 
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.85
+anchor_bottom = 0.85
+offset_left = 20.0
+offset_top = -78.0
+offset_right = 112.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 48
+text = "Shop"
+
 [connection signal="pressed" from="MainWindow/VBoxContainer/Funds/PurchaseButton" to="." method="TryUseItem"]
 [connection signal="pressed" from="MainWindow/CloseButton" to="." method="HideMainWindow"]
+[connection signal="pressed" from="Button" to="." method="ShowMainWindow"]
