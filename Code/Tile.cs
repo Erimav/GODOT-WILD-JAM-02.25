@@ -128,4 +128,64 @@ public partial class Tile : Node3D
 			RemoveRevealSphere();
 		})).SetDelay(time);
     }
+
+	public void OnMouseEntered()
+	{
+		foreach(var child in mTileContent.GetChildren(true))
+		{
+			if (child is MeshInstance3D meshInstance)
+			{
+				for (int i = 0; i < meshInstance.GetSurfaceOverrideMaterialCount(); ++i)
+				{
+                    ShaderMaterial shaderMaterial = null;
+
+					Material material = meshInstance.GetSurfaceOverrideMaterial(i);
+
+					if (material is not null)
+					{
+						if (material is ShaderMaterial shaderMat)
+						{
+							shaderMaterial = shaderMat;
+						}
+						else if (material.NextPass is ShaderMaterial shaderMat0)
+						{
+							shaderMaterial = shaderMat0;
+						}
+						if (shaderMaterial is not null) 
+							shaderMaterial.SetShaderParameter("isHovered", true);
+					}
+                }
+			}
+		}
+	}
+
+	public void OnMouseExited()
+	{
+        foreach (var child in mTileContent.GetChildren())
+        {
+            if (child is MeshInstance3D meshInstance)
+            {
+                for (int i = 0; i < meshInstance.GetSurfaceOverrideMaterialCount(); ++i)
+                {
+                    ShaderMaterial shaderMaterial = null;
+
+                    Material material = meshInstance.GetSurfaceOverrideMaterial(i);
+
+                    if (material is not null)
+                    {
+                        if (material is ShaderMaterial shaderMat)
+                        {
+                            shaderMaterial = shaderMat;
+                        }
+                        else if (material.NextPass is ShaderMaterial shaderMat0)
+                        {
+                            shaderMaterial = shaderMat0;
+                        }
+                        if (shaderMaterial is not null)
+                            shaderMaterial.SetShaderParameter("isHovered", false);
+                    }
+                }
+            }
+        }
+    }
 }

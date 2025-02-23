@@ -1,5 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://2x8ysx0eljlv"]
+[gd_scene load_steps=3 format=3 uid="uid://2x8ysx0eljlv"]
 
 [ext_resource type="PackedScene" uid="uid://1y55uihgs6nn" path="res://Assets/Models/Boulders/Boulders3.glb" id="1_w148i"]
+[ext_resource type="Material" uid="uid://dlhytbx623qm7" path="res://Assets/Material/stone.001.tres" id="2_5qupi"]
 
 [node name="Boulders3" instance=ExtResource("1_w148i")]
+
+[node name="stone_largeC" parent="." index="0"]
+surface_material_override/0 = ExtResource("2_5qupi")

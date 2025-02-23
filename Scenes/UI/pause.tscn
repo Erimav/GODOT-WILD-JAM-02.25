@@ -3,7 +3,7 @@
 [ext_resource type="Theme" uid="uid://bsip5y65j1e6v" path="res://ui_theme.tres" id="1_7qwbx"]
 [ext_resource type="Script" path="res://Code/UI/Menu.cs" id="2_isci0"]
 [ext_resource type="PackedScene" uid="uid://e0wp0h0rrm1u" path="res://Scenes/main.tscn" id="3_oe4vu"]
-[ext_resource type="PackedScene" uid="uid://d285jxfiansw5" path="res://Scenes/main_menu.tscn" id="4_2kpnd"]
+[ext_resource type="PackedScene" uid="uid://ddmevo7fqisfy" path="res://Scenes/main_menu.tscn" id="4_2kpnd"]
 [ext_resource type="Script" path="res://Code/UI/SoundVolumeSlider.cs" id="5_tilux"]
 
 [node name="PauseWindow" type="Control"]

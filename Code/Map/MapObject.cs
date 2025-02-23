@@ -27,6 +27,10 @@ public partial class MapObject : Node
     [Export]
     private Path3D ePath3D;
     [Export]
+    private Node3D eStartMobPoint;
+    [Export]
+    private Node3D eEndMobPoint;
+    [Export]
     private AudioStream eMimicFoundSFX;
 
     [ExportCategory("MapParameters")]
@@ -253,6 +257,8 @@ public partial class MapObject : Node
             {
                 EmitSignal("blockIsMimic");
                 mTiles[tilePosition.mRow, tilePosition.mCol].AddMimic();
+                tileFill.isMimic = false;
+                tileFill.isTower = true;
                 AudioManager.Instance.PlaySFX(eMimicFoundSFX);
                 return;
             }
@@ -382,11 +388,30 @@ public partial class MapObject : Node
     public void SetupPath(List<TilePosition> path)
     {
         ePath3D.Curve.ClearPoints();
-        foreach (TilePosition position in path)
+        Vector3 distanceBetweenPositions = Vector3.Zero;
+        if (path.Count > 1)
         {
-            Tile tile = mTiles[position.mRow, position.mCol];
-            ePath3D.Curve.AddPoint(tile.Position);
+            Tile tile0 = mTiles[path[0].mRow, path[0].mCol];
+            Tile tile1 = mTiles[path[1].mRow, path[1].mCol];
+            distanceBetweenPositions = tile0.GlobalPosition - tile1.GlobalPosition;
         }
+        ePath3D.Curve.AddPoint(eStartMobPoint.GlobalPosition);
+
+        for (int i = 0; i < path.Count; ++i)
+        {
+            TilePosition position = path[i];
+            Tile tile = mTiles[position.mRow, position.mCol];
+            if (i == 0)
+            {
+                ePath3D.Curve.AddPoint(tile.GlobalPosition + distanceBetweenPositions);
+            }
+            ePath3D.Curve.AddPoint(tile.Position);
+            if (i == path.Count-1)
+            {
+                ePath3D.Curve.AddPoint(tile.GlobalPosition - distanceBetweenPositions);
+            }
+        }
+        ePath3D.Curve.AddPoint(eEndMobPoint.GlobalPosition);
     }
     public Dictionary<int, List<TilePosition>> GetTileTowerPriorities(Tower tower)
     {

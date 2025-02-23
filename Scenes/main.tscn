@@ -32,11 +32,6 @@ sky = SubResource("Sky_mh1vs")
 tonemap_mode = 2
 
 [sub_resource type="Curve3D" id="Curve3D_y6g7l"]
-_data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0),
-"tilts": PackedFloat32Array(0, 0, 0)
-}
-point_count = 3
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_la7tl")
@@ -59,16 +54,24 @@ shadow_enabled = true
 [node name="Path3D" type="Path3D" parent="."]
 curve = SubResource("Curve3D_y6g7l")
 
-[node name="Map" type="Node3D" parent="." node_paths=PackedStringArray("ePath3D")]
+[node name="StartPoint" type="Node3D" parent="Path3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -14.724)
+
+[node name="EndPoint" type="Node3D" parent="Path3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 15)
+
+[node name="Map" type="Node3D" parent="." node_paths=PackedStringArray("ePath3D", "eStartMobPoint", "eEndMobPoint")]
 transform = Transform3D(1.00269, 0, 0, 0, 1.00269, 0, 0, 0, 1.00269, 0, 0, 0)
 script = ExtResource("1_ldni7")
 ePath3D = NodePath("../Path3D")
+eStartMobPoint = NodePath("../Path3D/StartPoint")
+eEndMobPoint = NodePath("../Path3D/EndPoint")
 eMimicFoundSFX = ExtResource("3_kqwb3")
 eWidth = 18
 eHeight = 20
 eMimicNumber = 30
 eMapTile = ExtResource("2_3i4cd")
-eMapStartPosition = Vector3(-14, 0, -11.5)
+eMapStartPosition = Vector3(-14, 0, -12.5)
 eTileColMargin = 1.5
 eTileRowMargin = 1.5
 eBlockScale = Vector3(1.5, 1.5, 1.5)

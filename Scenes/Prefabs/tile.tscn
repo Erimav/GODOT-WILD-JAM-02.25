@@ -1,9 +1,9 @@
 [gd_scene load_steps=9 format=3 uid="uid://c04p8dpts73sm"]
 
 [ext_resource type="Script" path="res://Code/Tile.cs" id="1_d3pn2"]
-[ext_resource type="PackedScene" uid="uid://cr052egwxwfn2" path="res://Assets/Models/Boulders/Boulders1.glb" id="2_n3jha"]
-[ext_resource type="PackedScene" uid="uid://ccoqhclktyu6r" path="res://Assets/Models/Boulders/Boulders2.glb" id="3_2jpkq"]
-[ext_resource type="PackedScene" uid="uid://1y55uihgs6nn" path="res://Assets/Models/Boulders/Boulders3.glb" id="4_qe41w"]
+[ext_resource type="PackedScene" uid="uid://bymkkpam6morm" path="res://Scenes/Prefabs/boulders/boulders_1.tscn" id="2_3wbu3"]
+[ext_resource type="PackedScene" uid="uid://b15oa2aaylqvh" path="res://Scenes/Prefabs/boulders/boulders_2.tscn" id="3_ylqqp"]
+[ext_resource type="PackedScene" uid="uid://2x8ysx0eljlv" path="res://Scenes/Prefabs/boulders/boulders_3.tscn" id="4_2w6rb"]
 [ext_resource type="PackedScene" uid="uid://45cwtkwvi30f" path="res://Scenes/Prefabs/boulders/ClearTile.tscn" id="5_2ej3d"]
 [ext_resource type="PackedScene" uid="uid://bx3nv0u2lf0y3" path="res://Scenes/Prefabs/mimic_tower.tscn" id="6_eodan"]
 [ext_resource type="PackedScene" uid="uid://beiqn7jfrmoh7" path="res://Scenes/Prefabs/vfx_poof.tscn" id="6_jpvpq"]
@@ -13,7 +13,7 @@
 [node name="Tile" type="Node3D"]
 transform = Transform3D(1.03969, 0, 0, 0, 1.03969, 0, 0, 0, 1.03969, 0, 0, 0)
 script = ExtResource("1_d3pn2")
-eBoulderMeshVariants = Array[PackedScene]([ExtResource("2_n3jha"), ExtResource("3_2jpkq"), ExtResource("4_qe41w")])
+eBoulderMeshVariants = Array[PackedScene]([ExtResource("2_3wbu3"), ExtResource("3_ylqqp"), ExtResource("4_2w6rb")])
 eClearTileMeshVariants = Array[PackedScene]([ExtResource("5_2ej3d")])
 eMimicVariants = Array[PackedScene]([ExtResource("6_eodan")])
 eClearEffect = ExtResource("6_jpvpq")
@@ -24,3 +24,5 @@ eClearEffect = ExtResource("6_jpvpq")
 shape = SubResource("BoxShape3D_u28fb")
 
 [connection signal="input_event" from="Area3D" to="." method="OnInputEvent"]
+[connection signal="mouse_entered" from="Area3D" to="." method="OnMouseEntered"]
+[connection signal="mouse_exited" from="Area3D" to="." method="OnMouseExited"]

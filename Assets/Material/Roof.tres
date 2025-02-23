@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://7assfjrm7vqj"]
+
+[ext_resource type="Material" uid="uid://0gre8wlmokhp" path="res://Assets/Shaders/OutlineMaterial.tres" id="1_fbhm7"]
+
+[resource]
+resource_local_to_scene = true
+resource_name = "Roof"
+next_pass = ExtResource("1_fbhm7")
+cull_mode = 2
+albedo_color = Color(0.926714, 0.187372, 0, 1)
+metallic = 1.0

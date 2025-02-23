@@ -11,6 +11,7 @@ albedo_color = Color(0.646635, 0.200656, 9.62615e-08, 1)
 [node name="map_temp" instance=ExtResource("1_fb3j5")]
 
 [node name="Cylinder" parent="." index="1"]
+transform = Transform3D(3.3125, 0, 0, 0, -1.18464e-06, -3.99174, 0, 3.3125, -1.42756e-06, 0, 0, -18.2886)
 material_override = SubResource("StandardMaterial3D_821t0")
 
 [node name="Cylinder_001" parent="." index="2"]

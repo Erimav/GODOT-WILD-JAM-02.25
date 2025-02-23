@@ -1,5 +1,30 @@
-[gd_scene load_steps=2 format=3 uid="uid://bymkkpam6morm"]
+[gd_scene load_steps=3 format=3 uid="uid://bymkkpam6morm"]
 
 [ext_resource type="PackedScene" uid="uid://cr052egwxwfn2" path="res://Assets/Models/Boulders/Boulders1.glb" id="1_n345n"]
+[ext_resource type="Material" uid="uid://dlhytbx623qm7" path="res://Assets/Material/stone.001.tres" id="2_04408"]
 
 [node name="Boulders1" instance=ExtResource("1_n345n")]
+
+[node name="group1988159041" parent="." index="0"]
+surface_material_override/0 = ExtResource("2_04408")
+
+[node name="group337471551" parent="." index="1"]
+surface_material_override/0 = ExtResource("2_04408")
+
+[node name="group765248285" parent="." index="2"]
+surface_material_override/0 = ExtResource("2_04408")
+
+[node name="group697255115" parent="." index="3"]
+surface_material_override/0 = ExtResource("2_04408")
+
+[node name="group821822121" parent="." index="4"]
+surface_material_override/0 = ExtResource("2_04408")
+
+[node name="group1383753236" parent="." index="5"]
+surface_material_override/0 = ExtResource("2_04408")
+
+[node name="group1230782801" parent="." index="6"]
+surface_material_override/0 = ExtResource("2_04408")
+
+[node name="group295268605" parent="." index="7"]
+surface_material_override/0 = ExtResource("2_04408")
